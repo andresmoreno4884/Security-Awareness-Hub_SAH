@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Cursos | Security Awareness Hub
+    </title>
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         ENCABEZADO
+    ====================================================== -->
+
+    <section class="dashboard-heading">
+
+        <div class="heading-content">
+
+            <span class="section-label">
+                CAPACITACIÓN
+            </span>
+
+            <h2>
+                Gestión de
+                <span>
+                    cursos
+                </span>
+            </h2>
+
+            <p>
+                Administra los cursos de capacitación
+                disponibles en Security Awareness Hub.
+            </p>
+
+        </div>
+
+
+        <div class="heading-date">
+
+            <span>
+                CURSOS
+            </span>
+
+            <strong>
+                ADMINISTRACIÓN
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ACCIONES
+    ====================================================== -->
+
+    <section class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="section-label">
+                    ADMINISTRACIÓN
+                </span>
+
+                <h3>
+                    Cursos disponibles
+                </h3>
+
+            </div>
+
+
+            <button type="button" class="admin-primary-button" id="newCourseButton">
+
+                + Nuevo curso
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             FILTROS
+        ================================================== -->
+
+        <div class="course-filters">
+
+            <div class="filter-group">
+
+                <label for="courseSearch">
+                    Buscar
+                </label>
+
+                <input type="search" id="courseSearch" placeholder="Buscar curso...">
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label for="courseStatus">
+                    Estado
+                </label>
+
+                <select id="courseStatus">
+
+                    <option value="todos">
+                        Todos
+                    </option>
+
+                    <option value="activo">
+                        Activos
+                    </option>
+
+                    <option value="inactivo">
+                        Inactivos
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             LISTA DE CURSOS
+        ================================================== -->
+
+        <div class="admin-course-list" id="courseList">
+
+
+            <!-- CURSO 1 -->
+
+            <article class="admin-course-item" data-status="activo" data-name="Fundamentos de Ciberseguridad">
+
+                <div class="admin-course-number">
+                    01
+                </div>
+
+
+                <div class="admin-course-info">
+
+                    <span class="course-status active">
+                        ACTIVO
+                    </span>
+
+                    <h4>
+                        Fundamentos de Ciberseguridad
+                    </h4>
+
+                    <p>
+                        Introducción a los conceptos
+                        fundamentales de seguridad digital.
+                    </p>
+
+                    <span class="course-meta">
+                        12 módulos · 128 usuarios asignados
+                    </span>
+
+                </div>
+
+
+                <div class="admin-course-actions">
+
+                    <button type="button" class="course-action edit-course">
+
+                        Editar
+
+                    </button>
+
+
+                    <button type="button" class="course-action toggle-course">
+
+                        Desactivar
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- CURSO 2 -->
+
+            <article class="admin-course-item" data-status="activo" data-name="Phishing y correos fraudulentos">
+
+                <div class="admin-course-number">
+                    02
+                </div>
+
+
+                <div class="admin-course-info">
+
+                    <span class="course-status active">
+                        ACTIVO
+                    </span>
+
+                    <h4>
+                        Phishing y correos fraudulentos
+                    </h4>
+
+                    <p>
+                        Identificación y prevención de ataques
+                        mediante correos electrónicos fraudulentos.
+                    </p>
+
+                    <span class="course-meta">
+                        8 módulos · 96 usuarios asignados
+                    </span>
+
+                </div>
+
+
+                <div class="admin-course-actions">
+
+                    <button type="button" class="course-action edit-course">
+
+                        Editar
+
+                    </button>
+
+
+                    <button type="button" class="course-action toggle-course">
+
+                        Desactivar
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- CURSO 3 -->
+
+            <article class="admin-course-item" data-status="activo" data-name="Contraseñas seguras">
+
+                <div class="admin-course-number">
+                    03
+                </div>
+
+
+                <div class="admin-course-info">
+
+                    <span class="course-status active">
+                        ACTIVO
+                    </span>
+
+                    <h4>
+                        Contraseñas seguras
+                    </h4>
+
+                    <p>
+                        Buenas prácticas para crear y proteger
+                        contraseñas seguras.
+                    </p>
+
+                    <span class="course-meta">
+                        6 módulos · 84 usuarios asignados
+                    </span>
+
+                </div>
+
+
+                <div class="admin-course-actions">
+
+                    <button type="button" class="course-action edit-course">
+
+                        Editar
+
+                    </button>
+
+
+                    <button type="button" class="course-action toggle-course">
+
+                        Desactivar
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- CURSO 4 -->
+
+            <article class="admin-course-item" data-status="activo" data-name="Ingeniería social">
+
+                <div class="admin-course-number">
+                    04
+                </div>
+
+
+                <div class="admin-course-info">
+
+                    <span class="course-status active">
+                        ACTIVO
+                    </span>
+
+                    <h4>
+                        Ingeniería social
+                    </h4>
+
+                    <p>
+                        Reconocimiento de técnicas utilizadas
+                        para manipular a los usuarios.
+                    </p>
+
+                    <span class="course-meta">
+                        7 módulos · 71 usuarios asignados
+                    </span>
+
+                </div>
+
+
+                <div class="admin-course-actions">
+
+                    <button type="button" class="course-action edit-course">
+
+                        Editar
+
+                    </button>
+
+
+                    <button type="button" class="course-action toggle-course">
+
+                        Desactivar
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+
+        <!-- =================================================
+             SIN RESULTADOS
+        ================================================== -->
+
+        <div class="admin-empty-state" id="courseEmpty" style="display: none;">
+
+            <div class="admin-empty-icon">
+                ▣
+            </div>
+
+            <h3>
+                No se encontraron cursos
+            </h3>
+
+            <p>
+                No existen cursos que coincidan
+                con los filtros seleccionados.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MODAL NUEVO CURSO
+    ====================================================== -->
+
+    <div class="admin-modal" id="courseModal" aria-hidden="true">
+
+        <div class="admin-modal-overlay"></div>
+
+
+        <div class="admin-modal-content" role="dialog" aria-modal="true" aria-labelledby="courseModalTitle">
+
+
+            <div class="admin-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        CAPACITACIÓN
+                    </span>
+
+                    <h3 id="courseModalTitle">
+                        Nuevo curso
+                    </h3>
+
+                </div>
+
+
+                <button type="button" class="modal-close" id="closeCourseModal" aria-label="Cerrar">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <!-- FORMULARIO -->
+
+            <form id="courseForm">
+
+
+                <div class="form-group">
+
+                    <label for="courseName">
+                        Nombre del curso
+                    </label>
+
+                    <input type="text" id="courseName" name="courseName" placeholder="Ej. Seguridad en dispositivos"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="courseDescription">
+                        Descripción
+                    </label>
+
+                    <textarea id="courseDescription" name="courseDescription" rows="4"
+                        placeholder="Descripción del curso..." required></textarea>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="courseModules">
+                            Número de módulos
+                        </label>
+
+                        <input type="number" id="courseModules" name="courseModules" min="1" value="1" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="courseState">
+                            Estado
+                        </label>
+
+                        <select id="courseState" name="courseState">
+
+                            <option value="activo">
+                                Activo
+                            </option>
+
+                            <option value="inactivo">
+                                Inactivo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="course-form-message" id="courseFormMessage">
+                </div>
+
+
+                <div class="admin-modal-actions">
+
+                    <button type="button" class="admin-secondary-button" id="cancelCourseButton">
+
+                        Cancelar
+
+                    </button>
+
+
+                    <button type="submit" class="admin-primary-button">
+
+                        Guardar curso
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const searchInput =
+                document.getElementById("courseSearch");
+
+            const statusSelect =
+                document.getElementById("courseStatus");
+
+            const courseList =
+                document.getElementById("courseList");
+
+            const emptyState =
+                document.getElementById("courseEmpty");
+
+            const newCourseButton =
+                document.getElementById("newCourseButton");
+
+            const modal =
+                document.getElementById("courseModal");
+
+            const closeModalButton =
+                document.getElementById("closeCourseModal");
+
+            const cancelButton =
+                document.getElementById("cancelCourseButton");
+
+            const courseForm =
+                document.getElementById("courseForm");
+
+            const courseMessage =
+                document.getElementById("courseFormMessage");
+
+
+            /* =================================================
+               FILTRAR CURSOS
+            ================================================== */
+
+            function filterCourses() {
+
+                const search =
+                    searchInput.value
+                        .trim()
+                        .toLowerCase();
+
+                const status =
+                    statusSelect.value;
+
+
+                const courses =
+                    courseList.querySelectorAll(
+                        ".admin-course-item"
+                    );
+
+
+                let visibleCourses = 0;
+
+
+                courses.forEach(course => {
+
+                    const name =
+                        course.dataset.name
+                            .toLowerCase();
+
+                    const courseStatus =
+                        course.dataset.status;
+
+
+                    const matchesSearch =
+                        name.includes(search);
+
+
+                    const matchesStatus =
+                        status === "todos" ||
+                        courseStatus === status;
+
+
+                    if (
+                        matchesSearch &&
+                        matchesStatus
+                    ) {
+
+                        course.style.display =
+                            "flex";
+
+                        visibleCourses++;
+
+                    } else {
+
+                        course.style.display =
+                            "none";
+
+                    }
+
+                });
+
+
+                if (visibleCourses === 0) {
+
+                    emptyState.style.display =
+                        "block";
+
+                } else {
+
+                    emptyState.style.display =
+                        "none";
+
+                }
+
+            }
+
+
+            /* =================================================
+               ABRIR MODAL
+            ================================================== */
+
+            function openModal() {
+
+                modal.classList.add("active");
+
+                modal.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                document
+                    .getElementById("courseName")
+                    .focus();
+
+            }
+
+
+            /* =================================================
+               CERRAR MODAL
+            ================================================== */
+
+            function closeModal() {
+
+                modal.classList.remove("active");
+
+                modal.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+                courseForm.reset();
+
+                courseMessage.textContent = "";
+
+            }
+
+
+            /* =================================================
+               EVENTOS FILTROS
+            ================================================== */
+
+            searchInput.addEventListener(
+                "input",
+                filterCourses
+            );
+
+
+            statusSelect.addEventListener(
+                "change",
+                filterCourses
+            );
+
+
+            /* =================================================
+               EVENTOS MODAL
+            ================================================== */
+
+            newCourseButton.addEventListener(
+                "click",
+                openModal
+            );
+
+
+            closeModalButton.addEventListener(
+                "click",
+                closeModal
+            );
+
+
+            cancelButton.addEventListener(
+                "click",
+                closeModal
+            );
+
+
+            document
+                .querySelector(".admin-modal-overlay")
+                .addEventListener(
+                    "click",
+                    closeModal
+                );
+
+
+            /* =================================================
+               FORMULARIO
+            ================================================== */
+
+            courseForm.addEventListener(
+                "submit",
+                event => {
+
+                    event.preventDefault();
+
+
+                    const name =
+                        document
+                            .getElementById("courseName")
+                            .value
+                            .trim();
+
+
+                    if (!name) {
+
+                        courseMessage.textContent =
+                            "Ingresa el nombre del curso.";
+
+                        return;
+
+                    }
+
+
+                    courseMessage.textContent =
+                        "Curso preparado correctamente.";
+
+                    courseMessage.className =
+                        "course-form-message success";
+
+
+                    /*
+                     * IMPORTANTE:
+                     *
+                     * Por ahora NO se envía información
+                     * a MySQL.
+                     *
+                     * La conexión se realizará después
+                     * mediante PHP + API REST.
+                     */
+
+
+                    setTimeout(() => {
+
+                        closeModal();
+
+                    }, 1000);
+
+                }
+            );
+
+
+            /* =================================================
+               BOTONES EDITAR
+            ================================================== */
+
+            document
+                .querySelectorAll(".edit-course")
+                .forEach(button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            alert(
+                                "La edición de cursos se conectará posteriormente con la API."
+                            );
+
+                        }
+                    );
+
+                });
+
+
+            /* =================================================
+               BOTONES ACTIVAR / DESACTIVAR
+            ================================================== */
+
+            document
+                .querySelectorAll(".toggle-course")
+                .forEach(button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const course =
+                                button.closest(
+                                    ".admin-course-item"
+                                );
+
+
+                            const status =
+                                course.querySelector(
+                                    ".course-status"
+                                );
+
+
+                            const isActive =
+                                course.dataset.status ===
+                                "activo";
+
+
+                            if (isActive) {
+
+                                course.dataset.status =
+                                    "inactivo";
+
+                                status.textContent =
+                                    "INACTIVO";
+
+                                status.classList.remove(
+                                    "active"
+                                );
+
+                                button.textContent =
+                                    "Activar";
+
+                            } else {
+
+                                course.dataset.status =
+                                    "activo";
+
+                                status.textContent =
+                                    "ACTIVO";
+
+                                status.classList.add(
+                                    "active"
+                                );
+
+                                button.textContent =
+                                    "Desactivar";
+
+                            }
+
+                        }
+                    );
+
+                });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

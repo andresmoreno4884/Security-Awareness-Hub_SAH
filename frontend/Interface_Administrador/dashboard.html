@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Security Awareness Hub - Administrador</title>
+
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         CONTENEDOR PRINCIPAL
+         ===================================================== -->
+
+    <div class="admin-layout">
+
+
+        <!-- =================================================
+             SIDEBAR
+             ================================================= -->
+
+        <aside class="admin-sidebar">
+
+            <!-- LOGO -->
+
+            <div class="admin-logo">
+
+                <span>SECURITY</span>
+
+                <strong>AWARENESS</strong>
+
+            </div>
+
+
+            <!-- =================================================
+                 NAVEGACIÓN
+                 ================================================= -->
+
+            <nav class="admin-navigation">
+
+
+                <!-- PRINCIPAL -->
+
+                <div class="nav-section">
+
+                    <span class="nav-title">
+                        PRINCIPAL
+                    </span>
+
+
+                    <a href="#" class="nav-item active" data-view="dashboard">
+
+                        <span class="nav-icon">▣</span>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- GESTIÓN -->
+
+                <div class="nav-section">
+
+                    <span class="nav-title">
+                        GESTIÓN
+                    </span>
+
+
+                    <a href="#" class="nav-item" data-view="usuarios">
+
+                        <span class="nav-icon">♙</span>
+
+                        <span>
+                            Usuarios
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="nav-item" data-view="empresas">
+
+                        <span class="nav-icon">▤</span>
+
+                        <span>
+                            Empresas
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- CAPACITACIÓN -->
+
+                <div class="nav-section">
+
+                    <span class="nav-title">
+                        CAPACITACIÓN
+                    </span>
+
+
+                    <a href="#" class="nav-item" data-view="courses_admin">
+
+                        <span class="nav-icon">▣</span>
+
+                        <span>
+                            Cursos
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="nav-item" data-view="asignaciones">
+
+                        <span class="nav-icon">⇄</span>
+
+                        <span>
+                            Asignaciones
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- EVALUACIONES -->
+
+                <div class="nav-section">
+
+                    <span class="nav-title">
+                        EVALUACIONES
+                    </span>
+
+
+                    <a href="#" class="nav-item" data-view="evaluaciones">
+
+                        <span class="nav-icon">✓</span>
+
+                        <span>
+                            Evaluaciones
+                        </span>
+
+                    </a>
+
+
+                    <a href="#" class="nav-item" data-view="resultados">
+
+                        <span class="nav-icon">≋</span>
+
+                        <span>
+                            Resultados
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- ANALÍTICA -->
+
+                <div class="nav-section">
+
+                    <span class="nav-title">
+                        ANALÍTICA
+                    </span>
+
+
+                    <a href="#" class="nav-item" data-view="reportes">
+
+                        <span class="nav-icon">▥</span>
+
+                        <span>
+                            Reportes
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <!-- =================================================
+                 PARTE INFERIOR
+                 ================================================= -->
+
+            <div class="sidebar-bottom">
+
+
+                <a href="#" class="nav-item" data-view="configuracion">
+
+                    <span class="nav-icon">⚙</span>
+
+                    <span>
+                        Configuración
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="nav-item" id="logoutButton">
+
+                    <span class="nav-icon">↪</span>
+
+                    <span>
+                        Cerrar sesión
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =================================================
+             CONTENIDO PRINCIPAL
+             ================================================= -->
+
+        <main class="admin-main">
+
+
+            <!-- =================================================
+                 HEADER
+                 ================================================= -->
+
+            <header class="admin-header">
+
+                <div>
+
+                    <span class="section-label">
+                        PANEL ADMINISTRATIVO
+                    </span>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Gestiona y supervisa Security Awareness Hub.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-user">
+
+                    <div class="admin-avatar">
+                        A
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Administrador
+                        </strong>
+
+                        <span>
+                            admin@sah.com
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =================================================
+                 CONTENIDO DEL DASHBOARD
+                 ================================================= -->
+
+            <section id="admin-content" class="admin-content">
+
+
+                <!-- BIENVENIDA -->
+
+                <div class="dashboard-heading">
+
+                    <span class="section-label">
+                        RESUMEN
+                    </span>
+
+                    <h2>
+                        Bienvenido al panel administrativo
+                    </h2>
+
+                    <p>
+                        Desde aquí puedes administrar los usuarios,
+                        empresas y contenidos de capacitación.
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     INDICADORES
+                     ================================================= -->
+
+                <div class="dashboard-cards">
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            ♙
+                        </div>
+
+                        <div>
+
+                            <span>
+                                USUARIOS
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                            <small>
+                                Usuarios registrados
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            ▣
+                        </div>
+
+                        <div>
+
+                            <span>
+                                CURSOS
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                            <small>
+                                Cursos disponibles
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            ▤
+                        </div>
+
+                        <div>
+
+                            <span>
+                                EMPRESAS
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                            <small>
+                                Empresas registradas
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <span>
+                                EVALUACIONES
+                            </span>
+
+                            <strong>
+                                0
+                            </strong>
+
+                            <small>
+                                Evaluaciones realizadas
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ACTIVIDAD
+                     ================================================= -->
+
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="section-label">
+                                ACTIVIDAD
+                            </span>
+
+                            <h3>
+                                Actividad reciente
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ◌
+                        </div>
+
+                        <h3>
+                            No hay actividad reciente
+                        </h3>
+
+                        <p>
+                            Cuando los usuarios interactúen con la
+                            plataforma, sus actividades aparecerán aquí.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
