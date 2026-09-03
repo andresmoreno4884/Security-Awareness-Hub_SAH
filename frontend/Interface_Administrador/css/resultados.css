@@ -1,0 +1,598 @@
+/* =========================================================
+   SECURITY AWARENESS HUB
+   RESULTADOS - INTERFAZ ADMINISTRADOR
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+   :root {
+    --sah-bg: #000806;
+    --sah-bg-soft: #03110c;
+    --sah-panel: #03150f;
+    --sah-panel-hover: #061c14;
+
+    --sah-green: #00ff88;
+    --sah-green-bright: #00ff95;
+    --sah-green-soft: rgba(0, 255, 136, 0.10);
+    --sah-green-border: rgba(0, 255, 136, 0.45);
+
+    --sah-text: #f4fff9;
+    --sah-text-soft: #a7bdb4;
+    --sah-text-muted: #668078;
+
+    --sah-border: rgba(0, 255, 136, 0.22);
+
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 8px;
+
+    --shadow-green:
+        0 0 25px rgba(0, 255, 136, 0.04);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(0, 255, 136, 0.035),
+            transparent 38%
+        ),
+        var(--sah-bg);
+
+    color: var(--sah-text);
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   VISTA ADMINISTRADOR
+   ========================================================= */
+
+.admin-view {
+    width: min(100% - 48px, 900px);
+    margin: 0 auto;
+    padding: 42px 0 70px;
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.dashboard-heading {
+    margin-bottom: 28px;
+}
+
+.section-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--sah-green);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.dashboard-heading h2 {
+    margin-bottom: 5px;
+
+    color: var(--sah-text);
+
+    font-size: 38px;
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.dashboard-heading p {
+    max-width: 720px;
+
+    color: var(--sah-text-soft);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PANELES GENERALES
+   ========================================================= */
+
+.dashboard-panel {
+    overflow: hidden;
+
+    margin-bottom: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(4, 23, 16, 0.94),
+            rgba(1, 12, 8, 0.96)
+        );
+
+    border: 1px solid var(--sah-green-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-green);
+}
+
+
+/* =========================================================
+   HEADER DE PANEL
+   ========================================================= */
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 76px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid var(--sah-border);
+}
+
+.panel-header h3 {
+    color: var(--sah-text);
+
+    font-size: 15px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+.dashboard-panel:has(.report-filters) {
+    margin-bottom: 20px;
+}
+
+.report-filters {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(0, 1fr)
+        auto;
+
+    align-items: end;
+    gap: 14px;
+
+    padding: 20px 22px 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.form-group label {
+    color: var(--sah-text-soft);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.form-group select {
+    width: 100%;
+    height: 43px;
+
+    padding: 0 38px 0 13px;
+
+    color: var(--sah-text);
+
+    background-color: #04150e;
+
+    border: 1px solid var(--sah-border);
+    border-radius: var(--radius-sm);
+
+    outline: none;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.form-group select:hover {
+    background-color: #061b13;
+    border-color: rgba(0, 255, 136, 0.42);
+}
+
+.form-group select:focus {
+    border-color: var(--sah-green);
+
+    box-shadow:
+        0 0 0 3px rgba(0, 255, 136, 0.08);
+}
+
+.form-group select option {
+    color: #ffffff;
+    background: #03110c;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.admin-button {
+    height: 43px;
+
+    padding: 0 20px;
+
+    color: #001108;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00ff88,
+            #11df83
+        );
+
+    border: 0;
+    border-radius: 9px;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+.admin-button:hover {
+    transform: translateY(-1px);
+
+    filter: brightness(1.05);
+
+    box-shadow:
+        0 8px 25px rgba(0, 255, 136, 0.16);
+}
+
+.admin-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   TARJETAS DE INDICADORES
+   ========================================================= */
+
+.dashboard-cards {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.dashboard-card {
+    display: flex;
+    align-items: center;
+
+    min-height: 87px;
+
+    padding: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(3, 21, 15, 0.96),
+            rgba(2, 14, 10, 0.96)
+        );
+
+    border: 1px solid var(--sah-green-border);
+    border-radius: 12px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+
+    background: var(--sah-panel-hover);
+
+    border-color: rgba(0, 255, 136, 0.65);
+}
+
+.card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 37px;
+    height: 37px;
+
+    margin-right: 12px;
+
+    color: var(--sah-green);
+
+    background: rgba(0, 255, 136, 0.035);
+
+    border: 1px solid rgba(0, 255, 136, 0.55);
+    border-radius: 9px;
+
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.dashboard-card span {
+    display: block;
+
+    margin-bottom: 1px;
+
+    color: #6f9185;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 1.7px;
+}
+
+.dashboard-card strong {
+    display: block;
+
+    color: var(--sah-text);
+
+    font-size: 21px;
+    font-weight: 800;
+
+    line-height: 1.1;
+}
+
+.dashboard-card small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--sah-text-muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   PANEL DE RESULTADOS
+   ========================================================= */
+
+.dashboard-panel:last-child {
+    min-height: 390px;
+}
+
+.dashboard-panel:last-child .panel-header {
+    min-height: 76px;
+}
+
+
+/* =========================================================
+   ESTADO VACÍO
+   ========================================================= */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 270px;
+
+    padding: 45px 25px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    margin-bottom: 15px;
+
+    color: var(--sah-green);
+
+    background: rgba(0, 255, 136, 0.035);
+
+    border: 1px solid rgba(0, 255, 136, 0.55);
+    border-radius: 10px;
+
+    font-size: 18px;
+}
+
+.empty-state h3 {
+    margin-bottom: 7px;
+
+    color: var(--sah-text);
+
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.empty-state p {
+    max-width: 420px;
+
+    color: var(--sah-text-muted);
+
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #010806;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 136, 0.22);
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 136, 0.4);
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .admin-view {
+        width: min(100% - 32px, 900px);
+        padding-top: 32px;
+    }
+
+    .dashboard-heading h2 {
+        font-size: 32px;
+    }
+
+    .report-filters {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .report-filters .admin-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MÓVIL
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .admin-view {
+        width: calc(100% - 24px);
+
+        padding-top: 25px;
+        padding-bottom: 45px;
+    }
+
+    .dashboard-heading h2 {
+        font-size: 29px;
+    }
+
+    .dashboard-heading p {
+        font-size: 12px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        min-height: 80px;
+    }
+
+    .report-filters {
+        grid-template-columns: 1fr;
+
+        padding: 17px;
+    }
+
+    .report-filters .admin-button {
+        grid-column: auto;
+    }
+
+    .panel-header {
+        padding: 16px 17px;
+    }
+
+    .empty-state {
+        min-height: 240px;
+        padding: 35px 18px;
+    }
+}
+
+
+/* =========================================================
+   ANIMACIÓN SUAVE
+   ========================================================= */
+
+.dashboard-panel,
+.dashboard-card {
+    animation: sahFadeIn 0.35s ease both;
+}
+
+@keyframes sahFadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
