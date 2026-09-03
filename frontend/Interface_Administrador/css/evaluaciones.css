@@ -130,6 +130,16 @@ body {
     letter-spacing: -1.5px;
 }
 
+.dashboard-heading h2 {
+    margin-bottom: 8px;
+
+    color: var(--text-main);
+
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.05;
+}
+
 .dashboard-heading p {
     max-width: 680px;
 
@@ -312,7 +322,8 @@ body {
    FILTROS
    ============================================================ */
 
-.filters-section {
+.filters-section,
+.users-toolbar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 145px 145px;
     gap: 9px;
@@ -344,7 +355,8 @@ body {
 }
 
 .search-box input,
-.filter-box select {
+.filter-box select,
+.users-filter {
     width: 100%;
     height: 40px;
 
@@ -373,15 +385,19 @@ body {
 }
 
 .search-box input:focus,
-.filter-box select:focus {
+.filter-box select:focus,
+.users-filter:focus {
     border-color: var(--green);
 
     box-shadow:
         0 0 0 3px rgba(0, 255, 136, 0.07);
 }
 
-.filter-box select {
+.filter-box select,
+.users-filter {
     padding: 0 32px 0 12px;
+
+    -webkit-appearance: none;
 
     appearance: none;
 
@@ -402,7 +418,8 @@ body {
     background-repeat: no-repeat;
 }
 
-.filter-box select option {
+.filter-box select option,
+.users-filter option {
     background: #06130e;
     color: var(--text-main);
 }
@@ -481,12 +498,14 @@ body {
    TABLA
    ============================================================ */
 
-.table-container {
+.table-container,
+.table-wrapper {
     width: 100%;
     overflow-x: auto;
 }
 
-.evaluaciones-table {
+.evaluaciones-table,
+.users-table {
     width: 100%;
 
     border-collapse: collapse;
@@ -494,7 +513,8 @@ body {
     table-layout: fixed;
 }
 
-.evaluaciones-table th {
+.evaluaciones-table th,
+.users-table th {
     height: 42px;
 
     padding: 0 12px;
@@ -511,7 +531,8 @@ body {
     text-align: left;
 }
 
-.evaluaciones-table td {
+.evaluaciones-table td,
+.users-table td {
     height: 58px;
 
     padding: 10px 12px;
@@ -523,11 +544,13 @@ body {
     font-size: 10px;
 }
 
-.evaluaciones-table tbody tr {
+.evaluaciones-table tbody tr,
+.users-table tbody tr {
     transition: background 0.2s ease;
 }
 
-.evaluaciones-table tbody tr:hover {
+.evaluaciones-table tbody tr:hover,
+.users-table tbody tr:hover {
     background: rgba(0, 255, 136, 0.025);
 }
 
@@ -571,7 +594,8 @@ body {
    ESTADO DE CARGA
    ============================================================ */
 
-.loading-row td {
+.loading-row td,
+.loading-users {
     height: 210px;
 
     border-bottom: 0;
@@ -945,4 +969,215 @@ body {
     .pagination {
         align-self: flex-end;
     }
+}
+
+.users-table-card {
+    display: block;
+
+    overflow: hidden;
+
+    padding: 0;
+}
+
+.users-filter {
+    display: block;
+
+    border: 1px solid var(--border);
+
+    background-color: var(--bg-input);
+}
+
+.table-footer {
+    min-height: 57px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 10px 20px;
+
+    border-top: 1px solid var(--border);
+}
+
+.card-header {
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+    padding: 18px 20px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.card-header h3 {
+    margin-top: 4px;
+
+    color: var(--text-main);
+    font-size: 17px;
+}
+
+.card-period {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 25px;
+    padding: 0 12px;
+
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 20px;
+
+    color: var(--green);
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.user-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.user-modal[hidden] {
+    display: none;
+}
+
+.user-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.78);
+}
+
+.user-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: min(600px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 28px;
+
+    border: 1px solid var(--green-border);
+    border-radius: var(--radius-lg);
+
+    background: var(--bg-panel);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.user-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+    margin-bottom: 23px;
+}
+
+.user-modal-header h3 {
+    color: var(--text-main);
+    font-size: 21px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    background: var(--bg-input);
+    color: var(--text-main);
+    outline: none;
+    font: inherit;
+    font-size: 12px;
+}
+
+.user-form-message {
+    min-height: 18px;
+    color: var(--green);
+    font-size: 10px;
+}
+
+.user-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.dashboard-card.users-table-card {
+    display: block !important;
+    width: 100%;
+}
+
+.dashboard-card.users-table-card > .card-header,
+.dashboard-card.users-table-card > .table-wrapper,
+.dashboard-card.users-table-card > .table-footer {
+    width: 100%;
+}
+
+.users-toolbar .users-filter {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+.modal-close,
+.modal-button {
+    min-height: 36px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.modal-close {
+    width: 36px;
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.modal-button {
+    min-width: 100px;
+    padding: 0 15px;
+}
+
+.modal-button.secondary {
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.modal-button.primary {
+    border: 1px solid var(--green);
+    background: var(--green-bright);
+    color: #00150c;
 }

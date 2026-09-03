@@ -5,19 +5,33 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Reportes | Security Awareness Hub</title>
+    <title>
+        Reportes | Security Awareness Hub
+    </title>
+
+    <!-- CSS específico de reportes -->
+    <link
+        rel="stylesheet"
+        href="css/reportes.css">
 
 </head>
 
 <body>
 
+    <!-- =====================================================
+         REPORTES
+         SECURITY AWARENESS HUB
+    ====================================================== -->
+
     <section class="admin-view">
 
-        <!-- =====================================================
+        <!-- =================================================
              ENCABEZADO
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-heading">
 
@@ -37,9 +51,9 @@
         </div>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              FILTROS
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-panel">
 
@@ -62,13 +76,17 @@
 
             <div class="report-filters">
 
+                <!-- TIPO DE REPORTE -->
+
                 <div class="form-group">
 
                     <label for="reportType">
                         Tipo de reporte
                     </label>
 
-                    <select id="reportType">
+                    <select
+                        id="reportType"
+                        name="reportType">
 
                         <option value="">
                             Selecciona un reporte
@@ -99,13 +117,17 @@
                 </div>
 
 
+                <!-- PERIODO -->
+
                 <div class="form-group">
 
                     <label for="reportPeriod">
                         Periodo
                     </label>
 
-                    <select id="reportPeriod">
+                    <select
+                        id="reportPeriod"
+                        name="reportPeriod">
 
                         <option value="all">
                             Todo el periodo
@@ -128,7 +150,12 @@
                 </div>
 
 
-                <button type="button" class="admin-button">
+                <!-- BOTÓN -->
+
+                <button
+                    type="button"
+                    class="admin-button"
+                    id="btnGenerarReporte">
 
                     Generar reporte
 
@@ -139,11 +166,14 @@
         </div>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              INDICADORES
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-cards">
+
+
+            <!-- USUARIOS -->
 
             <div class="dashboard-card">
 
@@ -157,7 +187,7 @@
                         USUARIOS
                     </span>
 
-                    <strong>
+                    <strong id="reporteTotalUsuarios">
                         0
                     </strong>
 
@@ -169,6 +199,8 @@
 
             </div>
 
+
+            <!-- CURSOS -->
 
             <div class="dashboard-card">
 
@@ -182,7 +214,7 @@
                         CURSOS
                     </span>
 
-                    <strong>
+                    <strong id="reporteTotalCursos">
                         0
                     </strong>
 
@@ -194,6 +226,8 @@
 
             </div>
 
+
+            <!-- PROMEDIO -->
 
             <div class="dashboard-card">
 
@@ -207,7 +241,7 @@
                         PROMEDIO
                     </span>
 
-                    <strong>
+                    <strong id="reportePromedio">
                         0%
                     </strong>
 
@@ -222,9 +256,9 @@
         </div>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              RESULTADO DEL REPORTE
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-panel">
 
@@ -245,7 +279,13 @@
             </div>
 
 
-            <div class="empty-state">
+            <!-- =================================================
+                 ESTADO INICIAL
+            ================================================== -->
+
+            <div
+                class="empty-state"
+                id="reportEmptyState">
 
                 <div class="empty-icon">
                     ▥
@@ -259,6 +299,32 @@
                     Selecciona el tipo de reporte y genera la
                     información correspondiente.
                 </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULTADOS
+            ================================================== -->
+
+            <div
+                class="report-results"
+                id="reportResults"
+                hidden>
+
+                <div class="table-wrapper">
+
+                    <table class="users-table reports-table">
+
+                        <thead id="reportTableHead">
+                        </thead>
+
+                        <tbody id="reportTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 

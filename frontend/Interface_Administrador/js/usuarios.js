@@ -12,33 +12,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const API_URL = "../../backend/Api/usuarios.php";
 
+
     /* ========================================================
        ELEMENTOS DEL DOM
     ======================================================== */
 
-    const tablaBody = document.getElementById("usuariosTableBody");
-    const contadorUsuarios = document.getElementById("contadorUsuarios");
-    const usuariosMostrados = document.getElementById("usuariosMostrados");
+    const tablaBody =
+        document.getElementById("usuariosTableBody");
 
-    const buscarUsuario = document.getElementById("buscarUsuario");
-    const filtroEstado = document.getElementById("filtroEstado");
-    const filtroRol = document.getElementById("filtroRol");
+    const contadorUsuarios =
+        document.getElementById("contadorUsuarios");
 
-    const btnNuevoUsuario = document.getElementById("btnNuevoUsuario");
+    const usuariosMostrados =
+        document.getElementById("usuariosMostrados");
 
-    const usuarioModal = document.getElementById("usuarioModal");
-    const cerrarUsuarioModal = document.getElementById("cerrarUsuarioModal");
-    const cancelarUsuario = document.getElementById("cancelarUsuario");
+    const buscarUsuario =
+        document.getElementById("buscarUsuario");
 
-    const formUsuario = document.getElementById("formUsuario");
+    const filtroEstado =
+        document.getElementById("filtroEstado");
 
-    const usuarioId = document.getElementById("usuarioId");
-    const usuarioNombres = document.getElementById("usuarioNombres");
-    const usuarioApellidos = document.getElementById("usuarioApellidos");
-    const usuarioCorreo = document.getElementById("usuarioCorreo");
-    const usuarioPassword = document.getElementById("usuarioPassword");
-    const usuarioRol = document.getElementById("usuarioRol");
-    const usuarioEstado = document.getElementById("usuarioEstado");
+    const filtroRol =
+        document.getElementById("filtroRol");
+
+    const btnNuevoUsuario =
+        document.getElementById("btnNuevoUsuario");
+
+    const usuarioModal =
+        document.getElementById("usuarioModal");
+
+    const cerrarUsuarioModal =
+        document.getElementById("cerrarUsuarioModal");
+
+    const cancelarUsuario =
+        document.getElementById("cancelarUsuario");
+
+    const formUsuario =
+        document.getElementById("formUsuario");
+
+    const usuarioId =
+        document.getElementById("usuarioId");
+
+    const usuarioNombres =
+        document.getElementById("usuarioNombres");
+
+    const usuarioApellidos =
+        document.getElementById("usuarioApellidos");
+
+    const usuarioCorreo =
+        document.getElementById("usuarioCorreo");
+
+    const usuarioPassword =
+        document.getElementById("usuarioPassword");
+
+    const usuarioRol =
+        document.getElementById("usuarioRol");
+
+    const usuarioEstado =
+        document.getElementById("usuarioEstado");
 
     const usuarioFormMessage =
         document.getElementById("usuarioFormMessage");
@@ -60,6 +91,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
+       VALIDAR ELEMENTOS
+    ======================================================== */
+
+    if (
+        !tablaBody ||
+        !contadorUsuarios ||
+        !usuariosMostrados ||
+        !buscarUsuario ||
+        !filtroEstado ||
+        !filtroRol ||
+        !btnNuevoUsuario ||
+        !usuarioModal ||
+        !formUsuario
+    ) {
+        console.error(
+            "usuarios.js: No se encontraron todos los elementos necesarios."
+        );
+
+        return;
+    }
+
+
+    /* ========================================================
        ESTADO
     ======================================================== */
 
@@ -73,85 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
-       CARGAR USUARIOS
-    ======================================================== */
-
-    async function cargarUsuarios() {
-
-        mostrarCargando();
-
-        try {
-
-            const params = new URLSearchParams();
-
-            const search = buscarUsuario.value.trim();
-            const estado = filtroEstado.value;
-            const rol = filtroRol.value;
-
-            if (search !== "") {
-                params.append("search", search);
-            }
-
-            if (estado !== "todos") {
-                params.append("estado", estado);
-            }
-
-            if (rol !== "todos") {
-                params.append("rol", rol);
-            }
-
-            const url = params.toString()
-                ? `${API_URL}?${params.toString()}`
-                : API_URL;
-
-            const response = await fetch(url, {
-                method: "GET",
-                credentials: "same-origin",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
-
-            const data = await obtenerRespuestaJSON(response);
-
-            if (!response.ok || !data.success) {
-
-                throw new Error(
-                    data.message ||
-                    "No fue posible cargar los usuarios."
-                );
-            }
-
-            usuarios = Array.isArray(data.usuarios)
-                ? data.usuarios
-                : [];
-
-            pagina = 1;
-
-            aplicarPaginacion();
-
-        } catch (error) {
-
-            console.error("Error al cargar usuarios:", error);
-
-            tablaBody.innerHTML = `
-                <tr>
-                    <td colspan="5" class="users-error">
-                        ${escapeHTML(error.message)}
-                    </td>
-                </tr>
-            `;
-
-            contadorUsuarios.textContent = "Error";
-            usuariosMostrados.textContent = "No se pudieron cargar los usuarios.";
-
-        }
-
-    }
-
-
-    /* ========================================================
-       RESPUESTA JSON
+       OBTENER JSON
     ======================================================== */
 
     async function obtenerRespuestaJSON(response) {
@@ -164,13 +140,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
 
-            console.error("Respuesta recibida por el servidor:", texto);
+            console.error(
+                "Respuesta del servidor:",
+                texto
+            );
 
             throw new Error(
                 "El servidor no devolvió una respuesta JSON válida."
             );
         }
+    }
 
+
+    /* ========================================================
+       ESCAPAR HTML
+       Evita insertar contenido inseguro
+    ======================================================== */
+
+    function escapeHTML(valor) {
+
+        if (valor === null || valor === undefined) {
+            return "";
+        }
+
+        return String(valor)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
 
@@ -188,9 +186,141 @@ document.addEventListener("DOMContentLoaded", () => {
             </tr>
         `;
 
-        contadorUsuarios.textContent = "Cargando...";
-        usuariosMostrados.textContent = "Cargando usuarios...";
+        contadorUsuarios.textContent =
+            "Cargando...";
 
+        usuariosMostrados.textContent =
+            "Cargando usuarios...";
+    }
+
+
+    /* ========================================================
+       CARGAR USUARIOS DESDE PHP
+    ======================================================== */
+
+    async function cargarUsuarios() {
+
+        mostrarCargando();
+
+        try {
+
+            const params =
+                new URLSearchParams();
+
+            const search =
+                buscarUsuario.value.trim();
+
+            const estado =
+                filtroEstado.value;
+
+            const rol =
+                filtroRol.value;
+
+
+            if (search !== "") {
+
+                params.append(
+                    "search",
+                    search
+                );
+            }
+
+
+            if (estado !== "todos") {
+
+                params.append(
+                    "estado",
+                    estado
+                );
+            }
+
+
+            if (rol !== "todos") {
+
+                params.append(
+                    "rol",
+                    rol
+                );
+            }
+
+
+            const url =
+                params.toString()
+                    ? `${API_URL}?${params.toString()}`
+                    : API_URL;
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        method: "GET",
+
+                        credentials: "same-origin",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            const data =
+                await obtenerRespuestaJSON(
+                    response
+                );
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "No fue posible cargar los usuarios."
+                );
+            }
+
+
+            usuarios =
+                Array.isArray(data.usuarios)
+                    ? data.usuarios
+                    : [];
+
+
+            pagina = 1;
+
+            aplicarPaginacion();
+
+
+        } catch (error) {
+
+            console.error(
+                "Error al cargar usuarios:",
+                error
+            );
+
+
+            tablaBody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="5"
+                        class="users-error">
+                        ${escapeHTML(error.message)}
+                    </td>
+                </tr>
+            `;
+
+
+            contadorUsuarios.textContent =
+                "Error";
+
+
+            usuariosMostrados.textContent =
+                "No se pudieron cargar los usuarios.";
+        }
     }
 
 
@@ -200,29 +330,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function aplicarPaginacion() {
 
-        usuariosFiltrados = usuarios;
+        usuariosFiltrados =
+            [...usuarios];
 
-        const totalUsuarios = usuariosFiltrados.length;
 
-        const totalPaginas = Math.max(
-            1,
-            Math.ceil(totalUsuarios / usuariosPorPagina)
-        );
+        const totalUsuarios =
+            usuariosFiltrados.length;
+
+
+        const totalPaginas =
+            Math.max(
+                1,
+                Math.ceil(
+                    totalUsuarios /
+                    usuariosPorPagina
+                )
+            );
+
 
         if (pagina > totalPaginas) {
+
             pagina = totalPaginas;
         }
 
+
         const inicio =
-            (pagina - 1) * usuariosPorPagina;
+            (pagina - 1) *
+            usuariosPorPagina;
+
 
         const fin =
-            inicio + usuariosPorPagina;
+            inicio +
+            usuariosPorPagina;
+
 
         const usuariosPagina =
-            usuariosFiltrados.slice(inicio, fin);
+            usuariosFiltrados.slice(
+                inicio,
+                fin
+            );
 
-        renderizarUsuarios(usuariosPagina);
+
+        renderizarUsuarios(
+            usuariosPagina
+        );
+
 
         actualizarContadores(
             totalUsuarios,
@@ -230,13 +382,15 @@ document.addEventListener("DOMContentLoaded", () => {
             inicio
         );
 
-        actualizarBotonesPaginacion(totalPaginas);
 
+        actualizarBotonesPaginacion(
+            totalPaginas
+        );
     }
 
 
     /* ========================================================
-       RENDERIZAR USUARIOS
+       RENDERIZAR TABLA
     ======================================================== */
 
     function renderizarUsuarios(lista) {
@@ -245,8 +399,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             tablaBody.innerHTML = `
                 <tr>
-                    <td colspan="5" class="empty-users">
-                        No se encontraron usuarios.
+                    <td
+                        colspan="5"
+                        class="empty-users">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                ◉
+                            </div>
+
+                            <h3>
+                                No hay usuarios registrados
+                            </h3>
+
+                            <p>
+                                No existen usuarios que coincidan
+                                con los filtros seleccionados.
+                            </p>
+                        </div>
                     </td>
                 </tr>
             `;
@@ -255,151 +424,217 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        tablaBody.innerHTML = lista.map(usuario => {
+        tablaBody.innerHTML =
+            lista.map(usuario => {
 
-            const nombreCompleto =
-                `${usuario.nombres || ""} ${usuario.apellidos || ""}`
-                    .trim();
-
-            const iniciales =
-                obtenerIniciales(
-                    usuario.nombres,
-                    usuario.apellidos
-                );
-
-            const rolTexto =
-                usuario.rol === "admin"
-                    ? "Administrador"
-                    : "Usuario";
-
-            const estadoTexto =
-                usuario.estado === "activo"
-                    ? "Activo"
-                    : "Inactivo";
-
-            const claseEstado =
-                usuario.estado === "activo"
-                    ? "status-active"
-                    : "status-inactive";
-
-            const claseRol =
-                usuario.rol === "admin"
-                    ? "role-admin"
-                    : "role-user";
-
-            const fecha =
-                formatearFecha(usuario.fecha_registro);
-
-            const esUsuarioActual =
-                Number(usuario.id) === obtenerIdUsuarioActual();
+                const nombre =
+                    `${usuario.nombres || ""} ${usuario.apellidos || ""}`
+                        .trim();
 
 
-            return `
-                <tr>
+                const rol =
+                    usuario.rol || "Usuario";
 
-                    <td>
 
-                        <div class="user-info">
+                const estado =
+                    usuario.estado || "activo";
 
-                            <div class="user-avatar">
-                                ${escapeHTML(iniciales)}
-                            </div>
 
-                            <div class="user-data">
+                const estadoTexto =
+                    estado === "activo"
+                        ? "Activo"
+                        : "Inactivo";
 
-                                <strong>
-                                    ${escapeHTML(nombreCompleto)}
-                                </strong>
 
-                                <span>
-                                    ${escapeHTML(usuario.correo || "")}
-                                </span>
+                return `
+                    <tr>
+
+                        <td>
+
+                            <div class="user-cell">
+
+                                <div class="user-avatar">
+                                    ${escapeHTML(
+                                        obtenerIniciales(
+                                            usuario.nombres,
+                                            usuario.apellidos
+                                        )
+                                    )}
+                                </div>
+
+                                <div class="user-info">
+
+                                    <strong>
+                                        ${escapeHTML(nombre)}
+                                    </strong>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            usuario.correo || ""
+                                        )}
+                                    </span>
+
+                                </div>
 
                             </div>
 
-                        </div>
-
-                    </td>
+                        </td>
 
 
-                    <td>
+                        <td>
 
-                        <span class="user-role ${claseRol}">
-                            ${escapeHTML(rolTexto)}
-                        </span>
+                            <span class="role-badge">
+                                ${escapeHTML(rol)}
+                            </span>
 
-                    </td>
-
-
-                    <td>
-
-                        <span class="user-status ${claseEstado}">
-
-                            <span class="status-dot"></span>
-
-                            ${escapeHTML(estadoTexto)}
-
-                        </span>
-
-                    </td>
+                        </td>
 
 
-                    <td>
+                        <td>
 
-                        <span class="registration-date">
-                            ${escapeHTML(fecha)}
-                        </span>
+                            <span
+                                class="status-badge ${
+                                    estado === "activo"
+                                        ? "active"
+                                        : "inactive"
+                                }">
 
-                    </td>
+                                ${escapeHTML(
+                                    estadoTexto
+                                )}
 
+                            </span>
 
-                    <td>
-
-                        <div class="user-actions">
-
-                            <button
-                                type="button"
-                                class="table-action edit"
-                                data-action="editar"
-                                data-id="${usuario.id}">
-                                Editar
-                            </button>
+                        </td>
 
 
-                            <button
-                                type="button"
-                                class="table-action toggle"
-                                data-action="estado"
-                                data-id="${usuario.id}"
-                                ${esUsuarioActual ? "disabled" : ""}>
+                        <td>
 
-                                ${
-                                    usuario.estado === "activo"
-                                        ? "Desactivar"
-                                        : "Activar"
-                                }
+                            ${escapeHTML(
+                                formatearFecha(
+                                    usuario.fecha_registro
+                                )
+                            )}
 
-                            </button>
+                        </td>
 
 
-                            <button
-                                type="button"
-                                class="table-action delete"
-                                data-action="eliminar"
-                                data-id="${usuario.id}"
-                                ${esUsuarioActual ? "disabled" : ""}>
-                                Eliminar
-                            </button>
+                        <td>
 
-                        </div>
+                            <div class="table-actions">
 
-                    </td>
+                                <button
+                                    type="button"
+                                    class="table-action edit"
+                                    data-action="editar"
+                                    data-id="${Number(usuario.id)}">
 
-                </tr>
-            `;
+                                    Editar
 
-        }).join("");
+                                </button>
 
+
+                                <button
+                                    type="button"
+                                    class="table-action toggle"
+                                    data-action="estado"
+                                    data-id="${Number(usuario.id)}">
+
+                                    ${
+                                        estado === "activo"
+                                            ? "Desactivar"
+                                            : "Activar"
+                                    }
+
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="table-action delete"
+                                    data-action="eliminar"
+                                    data-id="${Number(usuario.id)}">
+
+                                    Eliminar
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+    }
+
+
+    /* ========================================================
+       INICIALES
+    ======================================================== */
+
+    function obtenerIniciales(
+        nombres = "",
+        apellidos = ""
+    ) {
+
+        const primera =
+            nombres
+                .trim()
+                .charAt(0);
+
+
+        const segunda =
+            apellidos
+                .trim()
+                .charAt(0);
+
+
+        return (
+            primera +
+            segunda
+        ).toUpperCase() || "U";
+    }
+
+
+    /* ========================================================
+       FORMATEAR FECHA
+    ======================================================== */
+
+    function formatearFecha(fecha) {
+
+        if (!fecha) {
+
+            return "Sin fecha";
+        }
+
+
+        const fechaObj =
+            new Date(
+                String(fecha)
+                    .replace(" ", "T")
+            );
+
+
+        if (
+            Number.isNaN(
+                fechaObj.getTime()
+            )
+        ) {
+
+            return fecha;
+        }
+
+
+        return fechaObj.toLocaleDateString(
+            "es-CO",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }
+        );
     }
 
 
@@ -418,22 +653,33 @@ document.addEventListener("DOMContentLoaded", () => {
             contadorUsuarios.textContent =
                 "0 usuarios";
 
+
             usuariosMostrados.textContent =
                 "No hay usuarios para mostrar.";
 
             return;
         }
 
+
         contadorUsuarios.textContent =
-            `${total} ${total === 1 ? "usuario" : "usuarios"}`;
+            `${total} ${
+                total === 1
+                    ? "usuario"
+                    : "usuarios"
+            }`;
 
-        const desde = inicio + 1;
 
-        const hasta = inicio + cantidadPagina;
+        const desde =
+            inicio + 1;
+
+
+        const hasta =
+            inicio +
+            cantidadPagina;
+
 
         usuariosMostrados.textContent =
             `Mostrando ${desde}-${hasta} de ${total} usuarios`;
-
     }
 
 
@@ -441,104 +687,140 @@ document.addEventListener("DOMContentLoaded", () => {
        BOTONES PAGINACIÓN
     ======================================================== */
 
-    function actualizarBotonesPaginacion(totalPaginas) {
+    function actualizarBotonesPaginacion(
+        totalPaginas
+    ) {
 
-        paginaActual.textContent = pagina;
+        paginaActual.textContent =
+            pagina;
+
 
         paginaAnterior.disabled =
             pagina <= 1;
 
+
         paginaSiguiente.disabled =
             pagina >= totalPaginas;
-
     }
 
 
     /* ========================================================
-       NUEVO USUARIO
+       ABRIR MODAL NUEVO
     ======================================================== */
-
-    btnNuevoUsuario.addEventListener("click", () => {
-
-        abrirModalNuevoUsuario();
-
-    });
-
 
     function abrirModalNuevoUsuario() {
 
         formUsuario.reset();
 
+
         usuarioId.value = "";
 
-        usuarioRol.value = "usuario";
 
-        usuarioEstado.value = "activo";
+        usuarioRol.value =
+            "usuario";
 
-        usuarioPassword.required = true;
+
+        usuarioEstado.value =
+            "activo";
+
+
+        usuarioPassword.required =
+            true;
+
 
         modalUsuarioTitulo.textContent =
             "Nuevo usuario";
 
+
         guardarUsuario.textContent =
             "Crear usuario";
 
+
         limpiarMensajeFormulario();
 
-        usuarioModal.hidden = false;
 
-        document.body.classList.add("modal-open");
+        usuarioModal.hidden =
+            false;
+
+
+        document.body.classList.add(
+            "modal-open"
+        );
+
 
         setTimeout(() => {
-            usuarioNombres.focus();
-        }, 100);
 
+            usuarioNombres.focus();
+
+        }, 100);
     }
 
 
     /* ========================================================
-       EDITAR USUARIO
+       ABRIR MODAL EDITAR
     ======================================================== */
 
-    function abrirModalEditarUsuario(usuario) {
+    function abrirModalEditarUsuario(
+        usuario
+    ) {
 
-        usuarioId.value = usuario.id;
+        usuarioId.value =
+            usuario.id;
+
 
         usuarioNombres.value =
             usuario.nombres || "";
 
+
         usuarioApellidos.value =
             usuario.apellidos || "";
+
 
         usuarioCorreo.value =
             usuario.correo || "";
 
-        usuarioPassword.value = "";
+
+        usuarioPassword.value =
+            "";
+
 
         usuarioRol.value =
             usuario.rol || "usuario";
 
+
         usuarioEstado.value =
             usuario.estado || "activo";
 
-        usuarioPassword.required = false;
+
+        usuarioPassword.required =
+            false;
+
 
         modalUsuarioTitulo.textContent =
             "Editar usuario";
 
+
         guardarUsuario.textContent =
             "Guardar cambios";
 
+
         limpiarMensajeFormulario();
 
-        usuarioModal.hidden = false;
 
-        document.body.classList.add("modal-open");
+        usuarioModal.hidden =
+            false;
+
+
+        document.body.classList.add(
+            "modal-open"
+        );
+
 
         setTimeout(() => {
-            usuarioNombres.focus();
-        }, 100);
 
+            usuarioNombres.focus();
+
+        }, 100);
     }
 
 
@@ -546,114 +828,78 @@ document.addEventListener("DOMContentLoaded", () => {
        CERRAR MODAL
     ======================================================== */
 
-    cerrarUsuarioModal.addEventListener(
-        "click",
-        cerrarModalUsuario
-    );
-
-    cancelarUsuario.addEventListener(
-        "click",
-        cerrarModalUsuario
-    );
-
-
-    const overlay =
-        usuarioModal.querySelector(".user-modal-overlay");
-
-    if (overlay) {
-
-        overlay.addEventListener(
-            "click",
-            cerrarModalUsuario
-        );
-
-    }
-
-
     function cerrarModalUsuario() {
 
-        usuarioModal.hidden = true;
+        usuarioModal.hidden =
+            true;
 
-        document.body.classList.remove("modal-open");
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
 
         limpiarMensajeFormulario();
-
-        formUsuario.reset();
-
-        usuarioId.value = "";
-
     }
 
 
     /* ========================================================
-       GUARDAR USUARIO
+       MENSAJE DEL FORMULARIO
     ======================================================== */
 
-    formUsuario.addEventListener("submit", async (event) => {
+    function mostrarMensajeFormulario(
+        mensaje,
+        tipo
+    ) {
 
-        event.preventDefault();
-
-        limpiarMensajeFormulario();
-
-        const id =
-            Number(usuarioId.value);
-
-        const datos = {
-
-            nombres:
-                usuarioNombres.value.trim(),
-
-            apellidos:
-                usuarioApellidos.value.trim(),
-
-            correo:
-                usuarioCorreo.value.trim(),
-
-            rol:
-                usuarioRol.value,
-
-            estado:
-                usuarioEstado.value
-
-        };
+        usuarioFormMessage.textContent =
+            mensaje;
 
 
-        /* ====================================================
-           CREAR
-        ==================================================== */
+        usuarioFormMessage.className =
+            `user-form-message ${tipo}`;
+    }
 
-        if (!id) {
 
-            const password =
-                usuarioPassword.value;
+    function limpiarMensajeFormulario() {
 
-            if (!password || password.length < 6) {
+        usuarioFormMessage.textContent =
+            "";
 
-                mostrarMensajeFormulario(
-                    "La contraseña debe tener mínimo 6 caracteres.",
-                    "error"
-                );
 
-                usuarioPassword.focus();
+        usuarioFormMessage.className =
+            "user-form-message";
+    }
 
-                return;
-            }
 
-            datos.password = password;
+    /* ========================================================
+       BLOQUEAR FORMULARIO
+    ======================================================== */
 
-            await crearUsuario(datos);
+    function bloquearFormulario(
+        bloquear
+    ) {
 
-            return;
+        const controles =
+            formUsuario.querySelectorAll(
+                "input, select, button"
+            );
+
+
+        controles.forEach(control => {
+
+            control.disabled =
+                bloquear;
+
+        });
+
+
+        if (!bloquear) {
+
+            guardarUsuario.disabled =
+                false;
         }
-
-
-        /* ====================================================
-           EDITAR
-        ==================================================== */
-
-        await editarUsuario(id, datos);
-
-    });
+    }
 
 
     /* ========================================================
@@ -664,35 +910,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
         bloquearFormulario(true);
 
+
         try {
 
-            const response = await fetch(API_URL, {
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "POST",
 
-                method: "POST",
+                        credentials:
+                            "same-origin",
 
-                credentials: "same-origin",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
+                            "Accept":
+                                "application/json"
+                        },
 
-                body: JSON.stringify(datos)
-
-            });
+                        body:
+                            JSON.stringify(datos)
+                    }
+                );
 
 
             const data =
-                await obtenerRespuestaJSON(response);
+                await obtenerRespuestaJSON(
+                    response
+                );
 
 
-            if (!response.ok || !data.success) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
                 throw new Error(
                     data.message ||
                     "No fue posible crear el usuario."
                 );
-
             }
 
 
@@ -720,60 +978,75 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
+
             mostrarMensajeFormulario(
                 error.message,
                 "error"
             );
 
+
         } finally {
 
             bloquearFormulario(false);
-
         }
-
     }
 
 
     /* ========================================================
-       EDITAR USUARIO
+       ACTUALIZAR USUARIO
     ======================================================== */
 
-    async function editarUsuario(id, datos) {
+    async function editarUsuario(
+        id,
+        datos
+    ) {
 
         bloquearFormulario(true);
 
+
         try {
 
-            const response = await fetch(API_URL, {
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "PUT",
 
-                method: "PUT",
+                        credentials:
+                            "same-origin",
 
-                credentials: "same-origin",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
+                            "Accept":
+                                "application/json"
+                        },
 
-                body: JSON.stringify({
-                    id,
-                    ...datos
-                })
-
-            });
+                        body:
+                            JSON.stringify({
+                                id,
+                                ...datos
+                            })
+                    }
+                );
 
 
             const data =
-                await obtenerRespuestaJSON(response);
+                await obtenerRespuestaJSON(
+                    response
+                );
 
 
-            if (!response.ok || !data.success) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
                 throw new Error(
                     data.message ||
                     "No fue posible actualizar el usuario."
                 );
-
             }
 
 
@@ -801,17 +1074,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
+
             mostrarMensajeFormulario(
                 error.message,
                 "error"
             );
 
+
         } finally {
 
             bloquearFormulario(false);
-
         }
-
     }
 
 
@@ -819,7 +1092,9 @@ document.addEventListener("DOMContentLoaded", () => {
        CAMBIAR ESTADO
     ======================================================== */
 
-    async function cambiarEstado(usuario) {
+    async function cambiarEstado(
+        usuario
+    ) {
 
         const nuevoEstado =
             usuario.estado === "activo"
@@ -840,45 +1115,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (!confirmado) {
+
             return;
         }
 
 
         try {
 
-            const response = await fetch(API_URL, {
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "PATCH",
 
-                method: "PATCH",
+                        credentials:
+                            "same-origin",
 
-                credentials: "same-origin",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
+                            "Accept":
+                                "application/json"
+                        },
 
-                body: JSON.stringify({
+                        body:
+                            JSON.stringify({
+                                id:
+                                    Number(
+                                        usuario.id
+                                    ),
 
-                    id: Number(usuario.id),
-
-                    estado: nuevoEstado
-
-                })
-
-            });
+                                estado:
+                                    nuevoEstado
+                            })
+                    }
+                );
 
 
             const data =
-                await obtenerRespuestaJSON(response);
+                await obtenerRespuestaJSON(
+                    response
+                );
 
 
-            if (!response.ok || !data.success) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
                 throw new Error(
                     data.message ||
                     "No fue posible cambiar el estado."
                 );
-
             }
 
 
@@ -892,10 +1181,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
-            alert(error.message);
 
+            alert(
+                error.message
+            );
         }
-
     }
 
 
@@ -903,10 +1193,13 @@ document.addEventListener("DOMContentLoaded", () => {
        ELIMINAR USUARIO
     ======================================================== */
 
-    async function eliminarUsuario(usuario) {
+    async function eliminarUsuario(
+        usuario
+    ) {
 
         const nombre =
-            `${usuario.nombres} ${usuario.apellidos}`.trim();
+            `${usuario.nombres} ${usuario.apellidos}`
+                .trim();
 
 
         const confirmado =
@@ -916,43 +1209,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (!confirmado) {
+
             return;
         }
 
 
         try {
 
-            const response = await fetch(API_URL, {
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "DELETE",
 
-                method: "DELETE",
+                        credentials:
+                            "same-origin",
 
-                credentials: "same-origin",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
+                            "Accept":
+                                "application/json"
+                        },
 
-                body: JSON.stringify({
-
-                    id: Number(usuario.id)
-
-                })
-
-            });
+                        body:
+                            JSON.stringify({
+                                id:
+                                    Number(
+                                        usuario.id
+                                    )
+                            })
+                    }
+                );
 
 
             const data =
-                await obtenerRespuestaJSON(response);
+                await obtenerRespuestaJSON(
+                    response
+                );
 
 
-            if (!response.ok || !data.success) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
                 throw new Error(
                     data.message ||
                     "No fue posible eliminar el usuario."
                 );
-
             }
 
 
@@ -966,73 +1272,227 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
-            alert(error.message);
 
+            alert(
+                error.message
+            );
         }
-
     }
 
 
     /* ========================================================
-       EVENTOS DE LA TABLA
+       EVENTOS DE TABLA
     ======================================================== */
 
-    tablaBody.addEventListener("click", (event) => {
+    tablaBody.addEventListener(
+        "click",
+        event => {
 
-        const button =
-            event.target.closest("button[data-action]");
+            const button =
+                event.target.closest(
+                    "button[data-action]"
+                );
 
-        if (!button) {
-            return;
+
+            if (!button) {
+
+                return;
+            }
+
+
+            const id =
+                Number(
+                    button.dataset.id
+                );
+
+
+            const usuario =
+                usuarios.find(
+                    item =>
+                        Number(item.id) === id
+                );
+
+
+            if (!usuario) {
+
+                return;
+            }
+
+
+            const action =
+                button.dataset.action;
+
+
+            if (
+                action === "editar"
+            ) {
+
+                abrirModalEditarUsuario(
+                    usuario
+                );
+            }
+
+
+            if (
+                action === "estado"
+            ) {
+
+                cambiarEstado(
+                    usuario
+                );
+            }
+
+
+            if (
+                action === "eliminar"
+            ) {
+
+                eliminarUsuario(
+                    usuario
+                );
+            }
         }
+    );
 
 
-        const id =
-            Number(button.dataset.id);
+    /* ========================================================
+       NUEVO USUARIO
+    ======================================================== */
 
-        const usuario =
-            usuarios.find(
-                item => Number(item.id) === id
-            );
+    btnNuevoUsuario.addEventListener(
+        "click",
+        () => {
 
-
-        if (!usuario) {
-            return;
-        }
-
-
-        const action =
-            button.dataset.action;
-
-
-        if (action === "editar") {
-
-            abrirModalEditarUsuario(usuario);
+            abrirModalNuevoUsuario();
 
         }
+    );
 
 
-        if (action === "estado") {
+    /* ========================================================
+       CERRAR MODAL
+    ======================================================== */
 
-            cambiarEstado(usuario);
+    cerrarUsuarioModal.addEventListener(
+        "click",
+        cerrarModalUsuario
+    );
+
+
+    cancelarUsuario.addEventListener(
+        "click",
+        cerrarModalUsuario
+    );
+
+
+    usuarioModal
+        .querySelector(
+            ".user-modal-overlay"
+        )
+        .addEventListener(
+            "click",
+            cerrarModalUsuario
+        );
+
+
+    /* ========================================================
+       FORMULARIO
+    ======================================================== */
+
+    formUsuario.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            limpiarMensajeFormulario();
+
+
+            const id =
+                usuarioId.value.trim();
+
+
+            const datos = {
+
+                nombres:
+                    usuarioNombres.value.trim(),
+
+                apellidos:
+                    usuarioApellidos.value.trim(),
+
+                correo:
+                    usuarioCorreo.value.trim(),
+
+                rol:
+                    usuarioRol.value,
+
+                estado:
+                    usuarioEstado.value
+            };
+
+
+            const password =
+                usuarioPassword.value;
+
+
+            if (
+                !datos.nombres ||
+                !datos.apellidos ||
+                !datos.correo
+            ) {
+
+                mostrarMensajeFormulario(
+                    "Completa todos los campos obligatorios.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!id && !password) {
+
+                mostrarMensajeFormulario(
+                    "La contraseña es obligatoria para crear un usuario.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password) {
+
+                datos.password =
+                    password;
+            }
+
+
+            if (id) {
+
+                await editarUsuario(
+                    Number(id),
+                    datos
+                );
+
+            } else {
+
+                await crearUsuario(
+                    datos
+                );
+            }
 
         }
-
-
-        if (action === "eliminar") {
-
-            eliminarUsuario(usuario);
-
-        }
-
-    });
+    );
 
 
     /* ========================================================
        BUSCADOR
     ======================================================== */
 
-    let temporizadorBusqueda = null;
+    let temporizadorBusqueda =
+        null;
 
 
     buscarUsuario.addEventListener(
@@ -1045,12 +1505,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             temporizadorBusqueda =
-                setTimeout(() => {
+                setTimeout(
+                    () => {
 
-                    cargarUsuarios();
+                        cargarUsuarios();
 
-                }, 350);
-
+                    },
+                    350
+                );
         }
     );
 
@@ -1084,7 +1546,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
-       PAGINA ANTERIOR
+       PÁGINA ANTERIOR
     ======================================================== */
 
     paginaAnterior.addEventListener(
@@ -1096,15 +1558,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pagina--;
 
                 aplicarPaginacion();
-
             }
-
         }
     );
 
 
     /* ========================================================
-       PAGINA SIGUIENTE
+       PÁGINA SIGUIENTE
     ======================================================== */
 
     paginaSiguiente.addEventListener(
@@ -1121,25 +1581,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-            if (pagina < totalPaginas) {
+            if (
+                pagina <
+                totalPaginas
+            ) {
 
                 pagina++;
 
                 aplicarPaginacion();
-
             }
-
         }
     );
 
 
     /* ========================================================
-       ESCAPE PARA CERRAR MODAL
+       ESCAPE
     ======================================================== */
 
     document.addEventListener(
         "keydown",
-        (event) => {
+        event => {
 
             if (
                 event.key === "Escape" &&
@@ -1147,217 +1608,13 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
 
                 cerrarModalUsuario();
-
             }
-
         }
     );
 
 
     /* ========================================================
-       BLOQUEAR / DESBLOQUEAR FORMULARIO
-    ======================================================== */
-
-    function bloquearFormulario(bloquear) {
-
-        const controles =
-            formUsuario.querySelectorAll(
-                "input, select, button"
-            );
-
-
-        controles.forEach(control => {
-
-            control.disabled = bloquear;
-
-        });
-
-
-        if (!bloquear) {
-
-            guardarUsuario.disabled = false;
-
-        }
-
-    }
-
-
-    /* ========================================================
-       MENSAJE DEL FORMULARIO
-    ======================================================== */
-
-    function mostrarMensajeFormulario(
-        mensaje,
-        tipo
-    ) {
-
-        usuarioFormMessage.textContent =
-            mensaje;
-
-        usuarioFormMessage.className =
-            `user-form-message ${tipo}`;
-
-    }
-
-
-    function limpiarMensajeFormulario() {
-
-        usuarioFormMessage.textContent = "";
-
-        usuarioFormMessage.className =
-            "user-form-message";
-
-    }
-
-
-    /* ========================================================
-       INICIALES
-    ======================================================== */
-
-    function obtenerIniciales(
-        nombres = "",
-        apellidos = ""
-    ) {
-
-        const primera =
-            nombres.trim().charAt(0);
-
-        const segunda =
-            apellidos.trim().charAt(0);
-
-
-        return (
-            primera +
-            segunda
-        ).toUpperCase() || "U";
-
-    }
-
-
-    /* ========================================================
-       FORMATEAR FECHA
-    ======================================================== */
-
-    function formatearFecha(fecha) {
-
-        if (!fecha) {
-            return "Sin fecha";
-        }
-
-
-        const fechaObj =
-            new Date(
-                fecha.replace(" ", "T")
-            );
-
-
-        if (Number.isNaN(
-            fechaObj.getTime()
-        )) {
-
-            return fecha;
-
-        }
-
-
-        return fechaObj.toLocaleDateString(
-            "es-CO",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric"
-            }
-        );
-
-    }
-
-
-    /* ========================================================
-       OBTENER ID DEL ADMINISTRADOR ACTUAL
-       Si no existe en localStorage devuelve 0.
-    ======================================================== */
-
-    function obtenerIdUsuarioActual() {
-
-        try {
-
-            const posiblesClaves = [
-                "sah_session",
-                "session",
-                "usuario",
-                "user"
-            ];
-
-
-            for (
-                const clave of posiblesClaves
-            ) {
-
-                const valor =
-                    localStorage.getItem(clave);
-
-
-                if (!valor) {
-                    continue;
-                }
-
-
-                const datos =
-                    JSON.parse(valor);
-
-
-                if (datos && datos.id) {
-
-                    return Number(datos.id);
-
-                }
-
-
-                if (
-                    datos &&
-                    datos.user_id
-                ) {
-
-                    return Number(
-                        datos.user_id
-                    );
-
-                }
-
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "No se pudo obtener el usuario actual."
-            );
-
-        }
-
-
-        return 0;
-
-    }
-
-
-    /* ========================================================
-       SEGURIDAD HTML
-    ======================================================== */
-
-    function escapeHTML(valor) {
-
-        return String(valor ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* ========================================================
-       INICIAR
+       INICIALIZAR
     ======================================================== */
 
     cargarUsuarios();

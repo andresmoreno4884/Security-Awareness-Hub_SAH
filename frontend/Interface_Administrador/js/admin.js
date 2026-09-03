@@ -1,33 +1,144 @@
+/* ============================================================
+   SECURITY AWARENESS HUB
+   PANEL ADMINISTRADOR
+   admin.js
+   ============================================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    const content = document.getElementById("admin-content");
+    /* ========================================================
+       ELEMENTOS PRINCIPALES
+    ======================================================== */
 
-    const navItems = document.querySelectorAll(
-        ".nav-item[data-view]"
-    );
+    const content =
+        document.getElementById("admin-content");
+
+    const navItems =
+        document.querySelectorAll(
+            ".nav-item[data-view]"
+        );
 
 
-    // =====================================================
-    // CARGAR UNA VISTA
-    // =====================================================
+    /* ========================================================
+       VISTAS QUE NECESITAN JAVASCRIPT
+       
+       IMPORTANTE:
+       Como las vistas se cargan mediante innerHTML,
+       sus <script> no se ejecutan automáticamente.
+    ======================================================== */
 
-    async function loadView(view, activeItem = null) {
+    const viewScripts = {
 
-        if (!content || !view) {
+        usuarios:
+            "js/usuarios.js"
+
+    };
+
+
+    /* ========================================================
+       EVITAR CARGAR EL MISMO JS VARIAS VECES
+    ======================================================== */
+
+    const loadedScripts =
+        new Set();
+
+
+    /* ========================================================
+       CARGAR JAVASCRIPT DE UNA VISTA
+    ======================================================== */
+
+    function loadViewScript(view) {
+
+        const scriptPath =
+            viewScripts[view];
+
+
+        // Esta vista no necesita JS
+        if (!scriptPath) {
+
             return;
         }
 
 
-        // =================================================
-        // DASHBOARD
-        // =================================================
-        // El dashboard ya está cargado.
-        // NO debemos hacer fetch de dashboard.html
-        // dentro de dashboard.html.
+        // Evitar cargar el mismo archivo nuevamente
+        if (
+            loadedScripts.has(
+                scriptPath
+            )
+        ) {
 
-        if (view === "dashboard") {
+            return;
+        }
 
-            window.location.hash = "dashboard";
+
+        const script =
+            document.createElement(
+                "script"
+            );
+
+
+        script.src =
+            scriptPath;
+
+
+        script.async =
+            false;
+
+
+        script.onload = () => {
+
+            console.log(
+                `JavaScript de ${view} cargado correctamente.`
+            );
+
+            loadedScripts.add(
+                scriptPath
+            );
+        };
+
+
+        script.onerror = () => {
+
+            console.error(
+                `No se pudo cargar ${scriptPath}`
+            );
+        };
+
+
+        document.body.appendChild(
+            script
+        );
+    }
+
+
+    /* ========================================================
+       CARGAR UNA VISTA
+    ======================================================== */
+
+    async function loadView(
+        view,
+        activeItem = null
+    ) {
+
+        if (
+            !content ||
+            !view
+        ) {
+
+            return;
+        }
+
+
+        /* ====================================================
+           DASHBOARD
+        ==================================================== */
+
+        if (
+            view === "dashboard"
+        ) {
+
+            window.location.hash =
+                "dashboard";
 
             return;
         }
@@ -40,57 +151,86 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-            const response = await fetch(
-                `${view}.html`
-            );
+            /* ================================================
+               SOLICITAR HTML
+            ================================================ */
+
+            const response =
+                await fetch(
+                    `${view}.html`
+                );
 
 
-            if (!response.ok) {
+            if (
+                !response.ok
+            ) {
 
                 throw new Error(
                     `No se pudo cargar ${view}.html`
                 );
-
             }
 
 
-            const html = await response.text();
+            const html =
+                await response.text();
 
 
-            content.innerHTML = html;
+            /* ================================================
+               INSERTAR HTML
+            ================================================ */
+
+            content.innerHTML =
+                html;
 
 
-            // =============================================
-            // QUITAR ACTIVE
-            // =============================================
+            /* ================================================
+               QUITAR ACTIVE
+            ================================================ */
 
-            navItems.forEach(item => {
+            navItems.forEach(
+                item => {
 
-                item.classList.remove("active");
+                    item.classList.remove(
+                        "active"
+                    );
 
-            });
+                }
+            );
 
 
-            // =============================================
-            // ACTIVAR ELEMENTO
-            // =============================================
+            /* ================================================
+               ACTIVAR ELEMENTO
+            ================================================ */
 
-            if (activeItem) {
+            if (
+                activeItem
+            ) {
 
-                activeItem.classList.add("active");
-
+                activeItem.classList.add(
+                    "active"
+                );
             }
 
 
-            // =============================================
-            // CAMBIAR HASH
-            // =============================================
+            /* ================================================
+               CAMBIAR HASH
+            ================================================ */
 
-            window.location.hash = view;
+            window.location.hash =
+                view;
+
+
+            /* ================================================
+               CARGAR JAVASCRIPT
+            ================================================ */
+
+            loadViewScript(
+                view
+            );
 
 
             console.log(
-                `Vista ${view}.html cargada correctamente`
+                `Vista ${view}.html cargada correctamente.`
             );
 
 
@@ -116,62 +256,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <p>
                         No existe el archivo
-                        <strong>${view}.html</strong>
+                        <strong>
+                            ${view}.html
+                        </strong>
                         en Interface_Administrador.
                     </p>
 
                     <p>
-                        Verifica que el archivo tenga exactamente
-                        ese nombre.
+                        Verifica que el archivo tenga
+                        exactamente ese nombre.
                     </p>
 
                 </div>
 
             `;
-
         }
-
     }
 
 
+    /* ========================================================
+       NAVEGACIÓN
+    ======================================================== */
 
-    // =====================================================
-    // NAVEGACIÓN
-    // =====================================================
+    navItems.forEach(
+        item => {
 
-    navItems.forEach(item => {
+            item.addEventListener(
+                "click",
+                async event => {
 
-        item.addEventListener(
-            "click",
-            async event => {
-
-                event.preventDefault();
-
-
-                const view =
-                    item.dataset.view;
+                    event.preventDefault();
 
 
-                if (!view) {
-                    return;
+                    const view =
+                        item.dataset.view;
+
+
+                    if (!view) {
+
+                        return;
+                    }
+
+
+                    await loadView(
+                        view,
+                        item
+                    );
+
                 }
+            );
+
+        }
+    );
 
 
-                await loadView(
-                    view,
-                    item
-                );
-
-            }
-        );
-
-    });
-
-
-
-    // =====================================================
-    // CERRAR SESIÓN
-    // =====================================================
+    /* ========================================================
+       CERRAR SESIÓN
+    ======================================================== */
 
     const logoutButton =
         document.getElementById(
@@ -179,7 +320,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    if (logoutButton) {
+    if (
+        logoutButton
+    ) {
 
         logoutButton.addEventListener(
             "click",
@@ -188,32 +331,68 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
 
-                // Eliminar sesión guardada
+                /* ============================================
+                   ELIMINAR SESIÓN
+                ============================================ */
 
                 localStorage.removeItem(
                     "sah_user"
                 );
+
 
                 sessionStorage.removeItem(
                     "sah_user"
                 );
 
 
-                // Volver al login
+                /* ============================================
+                   VOLVER AL LOGIN
+                ============================================ */
 
                 window.location.href =
                     "../authentication/login.html";
 
             }
         );
+    }
+
+
+    /* ========================================================
+       CARGAR VISTA SEGÚN HASH
+    ======================================================== */
+
+    const hash =
+        window.location.hash
+            .replace("#", "")
+            .trim();
+
+
+    if (
+        hash &&
+        hash !== "dashboard"
+    ) {
+
+        const item =
+            document.querySelector(
+                `.nav-item[data-view="${hash}"]`
+            );
+
+
+        if (item) {
+
+            loadView(
+                hash,
+                item
+            );
+
+        }
 
     }
 
 
-
-    // =====================================================
-    // VISTA INICIAL
-    // =====================================================
+    /* ========================================================
+       MENSAJE DE INICIO
+    ======================================================== */
 
     console.log(
         "Panel administrativo iniciado correctamente."

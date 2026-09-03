@@ -1,513 +1,657 @@
-<!-- =====================================================
-     EMPRESAS
-====================================================== -->
+<!DOCTYPE html>
+<html lang="es">
 
-<section class="empresas-panel">
+<head>
 
+    <meta charset="UTF-8">
 
-    <!-- =================================================
-         ENCABEZADO
-    ================================================== -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <div class="dashboard-heading">
+    <title>
+        Empresas | Security Awareness Hub
+    </title>
 
+    <!-- CSS específico de empresas -->
+    <link
+        rel="stylesheet"
+        href="css/empresas.css">
 
-        <div>
+</head>
 
-            <span class="section-label">
-                GESTIÓN DE EMPRESAS
-            </span>
+<body>
 
-            <h2>
-                Empresas
-            </h2>
+    <!-- =====================================================
+         EMPRESAS
+         SECURITY AWARENESS HUB
+    ====================================================== -->
 
-            <p>
-                Administra las organizaciones vinculadas
-                a la plataforma y consulta su actividad.
-            </p>
-
-        </div>
-
-
-        <button class="admin-button">
-            + Nueva empresa
-        </button>
-
-    </div>
+    <section class="companies-panel">
 
 
-    <!-- =================================================
-         ESTADÍSTICAS
-    ================================================== -->
+        <!-- =================================================
+             ENCABEZADO
+        ================================================== -->
 
-    <div class="stats-grid">
-
-
-        <!-- EMPRESAS -->
-
-        <article class="stat-card">
-
-            <span class="stat-label">
-                EMPRESAS
-            </span>
-
-            <strong class="stat-value">
-                8
-            </strong>
-
-            <span class="stat-description">
-                Empresas registradas
-            </span>
-
-        </article>
-
-
-        <!-- ACTIVAS -->
-
-        <article class="stat-card">
-
-            <span class="stat-label">
-                ACTIVAS
-            </span>
-
-            <strong class="stat-value">
-                7
-            </strong>
-
-            <span class="stat-description">
-                Organizaciones activas
-            </span>
-
-        </article>
-
-
-        <!-- USUARIOS -->
-
-        <article class="stat-card">
-
-            <span class="stat-label">
-                USUARIOS
-            </span>
-
-            <strong class="stat-value">
-                126
-            </strong>
-
-            <span class="stat-description">
-                Usuarios asociados
-            </span>
-
-        </article>
-
-
-        <!-- PROGRESO -->
-
-        <article class="stat-card">
-
-            <span class="stat-label">
-                PROGRESO PROMEDIO
-            </span>
-
-            <strong class="stat-value">
-                74%
-            </strong>
-
-            <span class="stat-description">
-                Progreso general
-            </span>
-
-        </article>
-
-    </div>
-
-
-    <!-- =================================================
-         DIRECTORIO
-    ================================================== -->
-
-    <div class="dashboard-card">
-
-
-        <!-- HEADER -->
-
-        <div class="card-header">
-
+        <div class="dashboard-heading">
 
             <div>
 
                 <span class="section-label">
-                    DIRECTORIO
+                    GESTIÓN DE EMPRESAS
                 </span>
 
-                <h3>
-                    Empresas registradas
-                </h3>
+                <h2>
+                    Empresas
+                </h2>
+
+                <p>
+                    Administra las empresas registradas y consulta
+                    la información relacionada con la plataforma.
+                </p>
 
             </div>
 
 
-            <span class="card-period">
-                8 empresas
-            </span>
+            <button
+                type="button"
+                class="admin-button"
+                id="btnNuevaEmpresa">
+
+                + Nueva empresa
+
+            </button>
 
         </div>
 
 
         <!-- =================================================
-             TABLA
+             INDICADORES
         ================================================== -->
 
-        <div class="table-wrapper">
-
-            <table class="companies-table">
+        <div class="dashboard-cards">
 
 
-                <thead>
+            <!-- TOTAL EMPRESAS -->
 
-                    <tr>
+            <div class="dashboard-card">
 
-                        <th>
-                            EMPRESA
-                        </th>
+                <div class="card-icon">
+                    ▣
+                </div>
 
-                        <th>
-                            USUARIOS
-                        </th>
+                <div>
 
-                        <th>
-                            PROGRESO
-                        </th>
+                    <span>
+                        EMPRESAS
+                    </span>
 
-                        <th>
-                            ESTADO
-                        </th>
+                    <strong id="totalEmpresas">
+                        0
+                    </strong>
 
-                        <th>
-                            ÚLTIMA ACTIVIDAD
-                        </th>
+                    <small>
+                        Empresas registradas
+                    </small>
 
-                        <th>
-                            ACCIONES
-                        </th>
+                </div>
 
-                    </tr>
-
-                </thead>
+            </div>
 
 
-                <tbody>
+            <!-- EMPRESAS ACTIVAS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        ACTIVAS
+                    </span>
+
+                    <strong id="empresasActivas">
+                        0
+                    </strong>
+
+                    <small>
+                        Empresas activas
+                    </small>
+
+                </div>
+
+            </div>
 
 
-                    <!-- EMPRESA 1 -->
+            <!-- EMPRESAS INACTIVAS -->
 
-                    <tr>
+            <div class="dashboard-card">
 
-                        <td>
+                <div class="card-icon">
+                    ◉
+                </div>
 
-                            <strong>
-                                Security Analytics
-                            </strong>
+                <div>
 
-                            <span class="table-secondary">
-                                securityanalytics.com
-                            </span>
+                    <span>
+                        INACTIVAS
+                    </span>
 
-                        </td>
+                    <strong id="empresasInactivas">
+                        0
+                    </strong>
 
+                    <small>
+                        Empresas inactivas
+                    </small>
 
-                        <td>
-                            32
-                        </td>
+                </div>
 
+            </div>
 
-                        <td>
-
-                            <div class="progress-container">
-
-                                <div class="progress-bar">
-
-                                    <span style="width: 82%"></span>
-
-                                </div>
-
-                                <span>
-                                    82%
-                                </span>
-
-                            </div>
-
-                        </td>
+        </div>
 
 
-                        <td>
+        <!-- =================================================
+             FILTROS
+        ================================================== -->
 
-                            <span class="status-badge active">
+        <div class="users-toolbar">
+
+
+            <!-- BUSCADOR -->
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="search"
+                    id="buscarEmpresa"
+                    placeholder="Buscar por nombre, NIT o correo..."
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <select
+                class="users-filter"
+                id="filtroEstadoEmpresa"
+                title="Filtrar empresas por estado">
+
+                <option value="todos">
+                    Todos los estados
+                </option>
+
+                <option value="activo">
+                    Activas
+                </option>
+
+                <option value="inactivo">
+                    Inactivas
+                </option>
+
+            </select>
+
+
+            <!-- TIPO -->
+
+            <select
+                class="users-filter"
+                id="filtroTipoEmpresa"
+                title="Filtrar empresas por tipo">
+
+                <option value="todos">
+                    Todos los tipos
+                </option>
+
+                <option value="privada">
+                    Privada
+                </option>
+
+                <option value="publica">
+                    Pública
+                </option>
+
+                <option value="mixta">
+                    Mixta
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             DIRECTORIO
+        ================================================== -->
+
+        <div class="dashboard-card users-table-card">
+
+
+            <!-- HEADER -->
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="section-label">
+                        DIRECTORIO
+                    </span>
+
+                    <h3>
+                        Empresas registradas
+                    </h3>
+
+                </div>
+
+
+                <span
+                    class="card-period"
+                    id="contadorEmpresas">
+
+                    Cargando...
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLA
+            ================================================== -->
+
+            <div class="table-wrapper">
+
+                <table class="users-table companies-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EMPRESA
+                            </th>
+
+                            <th>
+                                NIT
+                            </th>
+
+                            <th>
+                                CORREO
+                            </th>
+
+                            <th>
+                                TELÉFONO
+                            </th>
+
+                            <th>
+                                ESTADO
+                            </th>
+
+                            <th>
+                                FECHA DE REGISTRO
+                            </th>
+
+                            <th>
+                                ACCIONES
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!--
+                        IMPORTANTE:
+
+                        Este tbody comienza vacío.
+
+                        Las empresas serán cargadas posteriormente
+                        desde MySQL mediante PHP + JSON.
+                    -->
+
+                    <tbody id="empresasTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="loading-users">
+
+                                Cargando empresas...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="table-footer">
+
+                <span id="empresasMostradas">
+                    Cargando empresas...
+                </span>
+
+
+                <div class="pagination">
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaAnteriorEmpresa"
+                        disabled>
+
+                        ←
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button active"
+                        id="paginaActualEmpresa">
+
+                        1
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaSiguienteEmpresa"
+                        disabled>
+
+                        →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MODAL NUEVA / EDITAR EMPRESA
+        ================================================== -->
+
+        <div
+            class="user-modal"
+            id="empresaModal"
+            hidden>
+
+            <div class="user-modal-overlay"></div>
+
+
+            <div
+                class="user-modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalEmpresaTitulo">
+
+
+                <!-- =================================================
+                     HEADER MODAL
+                ================================================== -->
+
+                <div class="user-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <h3 id="modalEmpresaTitulo">
+                            Nueva empresa
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="cerrarEmpresaModal"
+                        aria-label="Cerrar">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORMULARIO
+                ================================================== -->
+
+                <form id="formEmpresa">
+
+
+                    <!-- ID OCULTO -->
+
+                    <input
+                        type="hidden"
+                        id="empresaId">
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="form-group">
+
+                        <label for="empresaNombre">
+                            Nombre de la empresa
+                        </label>
+
+                        <input
+                            type="text"
+                            id="empresaNombre"
+                            name="nombre"
+                            placeholder="Ingrese el nombre de la empresa"
+                            maxlength="150"
+                            required>
+
+                    </div>
+
+
+                    <!-- NIT -->
+
+                    <div class="form-group">
+
+                        <label for="empresaNit">
+                            NIT
+                        </label>
+
+                        <input
+                            type="text"
+                            id="empresaNit"
+                            name="nit"
+                            placeholder="Ingrese el NIT"
+                            maxlength="30"
+                            required>
+
+                    </div>
+
+
+                    <!-- CORREO -->
+
+                    <div class="form-group">
+
+                        <label for="empresaCorreo">
+                            Correo electrónico
+                        </label>
+
+                        <input
+                            type="email"
+                            id="empresaCorreo"
+                            name="correo"
+                            placeholder="empresa@correo.com"
+                            maxlength="150"
+                            required>
+
+                    </div>
+
+
+                    <!-- TELÉFONO -->
+
+                    <div class="form-group">
+
+                        <label for="empresaTelefono">
+                            Teléfono
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="empresaTelefono"
+                            name="telefono"
+                            placeholder="Ingrese el número de teléfono"
+                            maxlength="30">
+
+                    </div>
+
+
+                    <!-- DIRECCIÓN -->
+
+                    <div class="form-group">
+
+                        <label for="empresaDireccion">
+                            Dirección
+                        </label>
+
+                        <input
+                            type="text"
+                            id="empresaDireccion"
+                            name="direccion"
+                            placeholder="Ingrese la dirección"
+                            maxlength="200">
+
+                    </div>
+
+
+                    <!-- TIPO DE EMPRESA -->
+
+                    <div class="form-group">
+
+                        <label for="empresaTipo">
+                            Tipo de empresa
+                        </label>
+
+                        <select
+                            id="empresaTipo"
+                            name="tipo"
+                            title="Seleccionar tipo de empresa"
+                            required>
+
+                            <option value="privada">
+                                Privada
+                            </option>
+
+                            <option value="publica">
+                                Pública
+                            </option>
+
+                            <option value="mixta">
+                                Mixta
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+
+                    <div class="form-group">
+
+                        <label for="empresaEstado">
+                            Estado
+                        </label>
+
+                        <select
+                            id="empresaEstado"
+                            name="estado"
+                            title="Seleccionar estado de la empresa"
+                            required>
+
+                            <option value="activo">
                                 Activa
-                            </span>
+                            </option>
 
-                        </td>
-
-
-                        <td>
-                            Hoy, 10:42 AM
-                        </td>
-
-
-                        <td>
-
-                            <button class="table-action">
-                                Ver
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-
-                    <!-- EMPRESA 2 -->
-
-                    <tr>
-
-                        <td>
-
-                            <strong>
-                                TechCorp
-                            </strong>
-
-                            <span class="table-secondary">
-                                techcorp.com
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            24
-                        </td>
-
-
-                        <td>
-
-                            <div class="progress-container">
-
-                                <div class="progress-bar">
-
-                                    <span style="width: 68%"></span>
-
-                                </div>
-
-                                <span>
-                                    68%
-                                </span>
-
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="status-badge active">
-                                Activa
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            Ayer, 04:18 PM
-                        </td>
-
-
-                        <td>
-
-                            <button class="table-action">
-                                Ver
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-
-                    <!-- EMPRESA 3 -->
-
-                    <tr>
-
-                        <td>
-
-                            <strong>
-                                Innovate Solutions
-                            </strong>
-
-                            <span class="table-secondary">
-                                innovate.com
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            41
-                        </td>
-
-
-                        <td>
-
-                            <div class="progress-container">
-
-                                <div class="progress-bar">
-
-                                    <span style="width: 91%"></span>
-
-                                </div>
-
-                                <span>
-                                    91%
-                                </span>
-
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="status-badge active">
-                                Activa
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            Hoy, 08:20 AM
-                        </td>
-
-
-                        <td>
-
-                            <button class="table-action">
-                                Ver
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-
-                    <!-- EMPRESA 4 -->
-
-                    <tr>
-
-                        <td>
-
-                            <strong>
-                                Digital Systems
-                            </strong>
-
-                            <span class="table-secondary">
-                                digitalsystems.com
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            29
-                        </td>
-
-
-                        <td>
-
-                            <div class="progress-container">
-
-                                <div class="progress-bar">
-
-                                    <span style="width: 54%"></span>
-
-                                </div>
-
-                                <span>
-                                    54%
-                                </span>
-
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="status-badge inactive">
+                            <option value="inactivo">
                                 Inactiva
-                            </span>
+                            </option>
 
-                        </td>
+                        </select>
 
-
-                        <td>
-                            12 Ago 2026
-                        </td>
+                    </div>
 
 
-                        <td>
+                    <!-- MENSAJE -->
 
-                            <button class="table-action">
-                                Ver
-                            </button>
-
-                        </td>
-
-                    </tr>
+                    <div
+                        id="empresaFormMessage"
+                        class="user-form-message"
+                        aria-live="polite">
+                    </div>
 
 
-                </tbody>
+                    <!-- =================================================
+                         BOTONES
+                    ================================================== -->
 
-            </table>
+                    <div class="user-modal-actions">
 
-        </div>
+                        <button
+                            type="button"
+                            class="modal-button secondary"
+                            id="cancelarEmpresa">
 
+                            Cancelar
 
-        <!-- =================================================
-             FOOTER
-        ================================================== -->
-
-        <div class="table-footer">
-
-
-            <span>
-                Mostrando 4 de 8 empresas
-            </span>
+                        </button>
 
 
-            <div class="pagination">
+                        <button
+                            type="submit"
+                            class="modal-button primary"
+                            id="guardarEmpresa">
 
+                            Crear empresa
 
-                <button class="pagination-button" disabled>
-                    ←
-                </button>
+                        </button>
 
+                    </div>
 
-                <button class="pagination-button active">
-                    1
-                </button>
-
-
-                <button class="pagination-button">
-                    2
-                </button>
-
-
-                <button class="pagination-button">
-                    →
-                </button>
+                </form>
 
             </div>
 
         </div>
 
-    </div>
 
-</section>
+    </section>
+
+</body>
+
+</html>

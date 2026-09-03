@@ -174,7 +174,7 @@ registerForm.addEventListener("submit", async function (event) {
         ============================================= */
 
         const response = await fetch(
-            "http://localhost/Security-Awareness-Hub_SAH/backend/Api/register.php",
+            "../../backend/Api/register.php",
             {
                 method: "POST",
 

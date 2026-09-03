@@ -5,56 +5,75 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Evaluaciones | Security Awareness Hub</title>
+    <title>
+        Evaluaciones | Security Awareness Hub
+    </title>
+
+    <!-- CSS específico de evaluaciones -->
+    <link
+        rel="stylesheet"
+        href="css/evaluaciones.css?v=2">
 
 </head>
 
 <body>
 
+    <!-- =====================================================
+         EVALUACIONES
+         SECURITY AWARENESS HUB
+    ====================================================== -->
+
     <section class="admin-view">
 
-        <!-- =====================================================
+
+        <!-- =================================================
              ENCABEZADO
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-heading">
 
-            <span class="section-label">
-                EVALUACIONES
-            </span>
+            <div>
 
-            <h2>
-                Evaluaciones
-            </h2>
+                <span class="section-label">
+                    EVALUACIONES
+                </span>
 
-            <p>
-                Gestiona las evaluaciones asociadas a los cursos
-                de seguridad digital.
-            </p>
+                <h2>
+                    Evaluaciones
+                </h2>
 
-        </div>
+                <p>
+                    Gestiona las evaluaciones asociadas a los
+                    cursos de seguridad digital.
+                </p>
+
+            </div>
 
 
-        <!-- =====================================================
-             ACCIÓN
-             ===================================================== -->
+            <button
+                type="button"
+                class="admin-button"
+                id="btnNuevaEvaluacion">
 
-        <div class="admin-actions">
-
-            <button type="button" class="admin-button">
                 + Crear evaluación
+
             </button>
 
         </div>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              INDICADORES
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-cards">
+
+
+            <!-- TOTAL EVALUACIONES -->
 
             <div class="dashboard-card">
 
@@ -68,7 +87,7 @@
                         EVALUACIONES
                     </span>
 
-                    <strong>
+                    <strong id="totalEvaluaciones">
                         0
                     </strong>
 
@@ -80,6 +99,8 @@
 
             </div>
 
+
+            <!-- TOTAL PREGUNTAS -->
 
             <div class="dashboard-card">
 
@@ -93,7 +114,7 @@
                         PREGUNTAS
                     </span>
 
-                    <strong>
+                    <strong id="totalPreguntas">
                         0
                     </strong>
 
@@ -105,6 +126,8 @@
 
             </div>
 
+
+            <!-- EVALUACIONES ACTIVAS -->
 
             <div class="dashboard-card">
 
@@ -118,7 +141,7 @@
                         ACTIVAS
                     </span>
 
-                    <strong>
+                    <strong id="evaluacionesActivas">
                         0
                     </strong>
 
@@ -133,18 +156,83 @@
         </div>
 
 
-        <!-- =====================================================
-             CONTENIDO
-             ===================================================== -->
+        <!-- =================================================
+             FILTROS
+        ================================================== -->
 
-        <div class="dashboard-panel">
+        <div class="users-toolbar">
 
-            <div class="panel-header">
+
+            <!-- BUSCADOR -->
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="search"
+                    id="buscarEvaluacion"
+                    placeholder="Buscar evaluación..."
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <select
+                class="users-filter"
+                id="filtroEstadoEvaluacion"
+                title="Filtrar evaluaciones por estado">
+
+                <option value="todos">
+                    Todos los estados
+                </option>
+
+                <option value="activo">
+                    Activas
+                </option>
+
+                <option value="inactivo">
+                    Inactivas
+                </option>
+
+            </select>
+
+
+            <!-- CURSO -->
+
+            <select
+                class="users-filter"
+                id="filtroCursoEvaluacion"
+                title="Filtrar evaluaciones por curso">
+
+                <option value="todos">
+                    Todos los cursos
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             DIRECTORIO DE EVALUACIONES
+        ================================================== -->
+
+        <div class="dashboard-card users-table-card">
+
+
+            <!-- HEADER -->
+
+            <div class="card-header">
 
                 <div>
 
                     <span class="section-label">
-                        EVALUACIONES
+                        DIRECTORIO
                     </span>
 
                     <h3>
@@ -153,8 +241,148 @@
 
                 </div>
 
+
+                <span
+                    class="card-period"
+                    id="contadorEvaluaciones">
+
+                    Cargando...
+
+                </span>
+
             </div>
 
+
+            <!-- =================================================
+                 TABLA
+            ================================================== -->
+
+            <div class="table-wrapper">
+
+                <table class="users-table evaluations-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EVALUACIÓN
+                            </th>
+
+                            <th>
+                                CURSO
+                            </th>
+
+                            <th>
+                                PREGUNTAS
+                            </th>
+
+                            <th>
+                                ESTADO
+                            </th>
+
+                            <th>
+                                FECHA DE REGISTRO
+                            </th>
+
+                            <th>
+                                ACCIONES
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!--
+                        IMPORTANTE:
+
+                        Este tbody comienza vacío.
+
+                        Las evaluaciones serán cargadas posteriormente
+                        desde MySQL mediante PHP + JSON.
+                    -->
+
+                    <tbody id="evaluacionesTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="loading-users">
+
+                                Cargando evaluaciones...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER DE TABLA
+            ================================================== -->
+
+            <div class="table-footer">
+
+                <span id="evaluacionesMostradas">
+                    Cargando evaluaciones...
+                </span>
+
+
+                <div class="pagination">
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaAnteriorEvaluacion"
+                        disabled>
+
+                        ←
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button active"
+                        id="paginaActualEvaluacion">
+
+                        1
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaSiguienteEvaluacion"
+                        disabled>
+
+                        →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ESTADO VACÍO
+        ================================================== -->
+
+        <div
+            class="dashboard-panel"
+            id="evaluacionesEmptyState"
+            hidden>
 
             <div class="empty-state">
 
@@ -174,6 +402,221 @@
             </div>
 
         </div>
+
+
+        <!-- =================================================
+             MODAL NUEVA / EDITAR EVALUACIÓN
+        ================================================== -->
+
+        <div
+            class="user-modal"
+            id="evaluacionModal"
+            hidden>
+
+            <div class="user-modal-overlay"></div>
+
+
+            <div
+                class="user-modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalEvaluacionTitulo">
+
+
+                <!-- =================================================
+                     HEADER MODAL
+                ================================================== -->
+
+                <div class="user-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <h3 id="modalEvaluacionTitulo">
+                            Nueva evaluación
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="cerrarEvaluacionModal"
+                        aria-label="Cerrar">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORMULARIO
+                ================================================== -->
+
+                <form id="formEvaluacion">
+
+
+                    <!-- ID OCULTO -->
+
+                    <input
+                        type="hidden"
+                        id="evaluacionId">
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionNombre">
+                            Nombre de la evaluación
+                        </label>
+
+                        <input
+                            type="text"
+                            id="evaluacionNombre"
+                            name="nombre"
+                            placeholder="Ingrese el nombre de la evaluación"
+                            maxlength="150"
+                            required>
+
+                    </div>
+
+
+                    <!-- CURSO -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionCurso">
+                            Curso asociado
+                        </label>
+
+                        <select
+                            id="evaluacionCurso"
+                            name="curso"
+                            title="Seleccionar curso"
+                            required>
+
+                            <option value="">
+                                Seleccione un curso
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESCRIPCIÓN -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionDescripcion">
+                            Descripción
+                        </label>
+
+                        <textarea
+                            id="evaluacionDescripcion"
+                            name="descripcion"
+                            placeholder="Ingrese una descripción"
+                            maxlength="500"
+                            rows="4"></textarea>
+
+                    </div>
+
+
+                    <!-- NÚMERO DE PREGUNTAS -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionPreguntas">
+                            Número de preguntas
+                        </label>
+
+                        <input
+                            type="number"
+                            id="evaluacionPreguntas"
+                            name="preguntas"
+                            placeholder="Ingrese el número de preguntas"
+                            min="1"
+                            required>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionEstado">
+                            Estado
+                        </label>
+
+                        <select
+                            id="evaluacionEstado"
+                            name="estado"
+                            title="Seleccionar estado"
+                            required>
+
+                            <option value="activo">
+                                Activa
+                            </option>
+
+                            <option value="inactivo">
+                                Inactiva
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MENSAJE -->
+
+                    <div
+                        id="evaluacionFormMessage"
+                        class="user-form-message"
+                        aria-live="polite">
+                    </div>
+
+
+                    <!-- =================================================
+                         BOTONES
+                    ================================================== -->
+
+                    <div class="user-modal-actions">
+
+                        <button
+                            type="button"
+                            class="modal-button secondary"
+                            id="cancelarEvaluacion">
+
+                            Cancelar
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="modal-button primary"
+                            id="guardarEvaluacion">
+
+                            Crear evaluación
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
 
     </section>
 

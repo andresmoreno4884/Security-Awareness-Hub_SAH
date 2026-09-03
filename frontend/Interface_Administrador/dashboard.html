@@ -2,481 +2,549 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Security Awareness Hub - Administrador</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/admin.css">
+    <title>
+        Dashboard | Security Awareness Hub
+    </title>
+
+    <!-- CSS del dashboard -->
+    <link
+        rel="stylesheet"
+        href="css/admin.css">
+
 </head>
 
 <body>
 
     <!-- =====================================================
-         CONTENEDOR PRINCIPAL
-         ===================================================== -->
+         DASHBOARD ADMINISTRATIVO
+         SECURITY AWARENESS HUB
+    ====================================================== -->
 
-    <div class="admin-layout">
+    <section class="admin-view">
 
 
         <!-- =================================================
-             SIDEBAR
-             ================================================= -->
+             ENCABEZADO
+        ================================================== -->
 
-        <aside class="admin-sidebar">
+        <div class="dashboard-heading">
 
-            <!-- LOGO -->
+            <div>
 
-            <div class="admin-logo">
+                <span class="section-label">
+                    PANEL ADMINISTRATIVO
+                </span>
 
-                <span>SECURITY</span>
+                <h2>
+                    Dashboard
+                </h2>
 
-                <strong>AWARENESS</strong>
+                <p>
+                    Consulta y administra la información general
+                    de Security Awareness Hub.
+                </p>
 
             </div>
 
-
-            <!-- =================================================
-                 NAVEGACIÓN
-                 ================================================= -->
-
-            <nav class="admin-navigation">
-
-
-                <!-- PRINCIPAL -->
-
-                <div class="nav-section">
-
-                    <span class="nav-title">
-                        PRINCIPAL
-                    </span>
-
-
-                    <a href="#" class="nav-item active" data-view="dashboard">
-
-                        <span class="nav-icon">▣</span>
-
-                        <span>
-                            Dashboard
-                        </span>
-
-                    </a>
-
-                </div>
-
-
-
-                <!-- GESTIÓN -->
-
-                <div class="nav-section">
-
-                    <span class="nav-title">
-                        GESTIÓN
-                    </span>
-
-
-                    <a href="#" class="nav-item" data-view="usuarios">
-
-                        <span class="nav-icon">♙</span>
-
-                        <span>
-                            Usuarios
-                        </span>
-
-                    </a>
-
-
-                    <a href="#" class="nav-item" data-view="empresas">
-
-                        <span class="nav-icon">▤</span>
-
-                        <span>
-                            Empresas
-                        </span>
-
-                    </a>
-
-                </div>
-
-
-
-                <!-- CAPACITACIÓN -->
-
-                <div class="nav-section">
-
-                    <span class="nav-title">
-                        CAPACITACIÓN
-                    </span>
-
-
-                    <a href="#" class="nav-item" data-view="courses_admin">
-
-                        <span class="nav-icon">▣</span>
-
-                        <span>
-                            Cursos
-                        </span>
-
-                    </a>
-
-
-                    <a href="#" class="nav-item" data-view="asignaciones">
-
-                        <span class="nav-icon">⇄</span>
-
-                        <span>
-                            Asignaciones
-                        </span>
-
-                    </a>
-
-                </div>
-
-
-
-                <!-- EVALUACIONES -->
-
-                <div class="nav-section">
-
-                    <span class="nav-title">
-                        EVALUACIONES
-                    </span>
-
-
-                    <a href="#" class="nav-item" data-view="evaluaciones">
-
-                        <span class="nav-icon">✓</span>
-
-                        <span>
-                            Evaluaciones
-                        </span>
-
-                    </a>
-
-
-                    <a href="#" class="nav-item" data-view="resultados">
-
-                        <span class="nav-icon">≋</span>
-
-                        <span>
-                            Resultados
-                        </span>
-
-                    </a>
-
-                </div>
-
-
-
-                <!-- ANALÍTICA -->
-
-                <div class="nav-section">
-
-                    <span class="nav-title">
-                        ANALÍTICA
-                    </span>
-
-
-                    <a href="#" class="nav-item" data-view="reportes">
-
-                        <span class="nav-icon">▥</span>
-
-                        <span>
-                            Reportes
-                        </span>
-
-                    </a>
-
-                </div>
-
-            </nav>
-
-
-            <!-- =================================================
-                 PARTE INFERIOR
-                 ================================================= -->
-
-            <div class="sidebar-bottom">
-
-
-                <a href="#" class="nav-item" data-view="configuracion">
-
-                    <span class="nav-icon">⚙</span>
-
-                    <span>
-                        Configuración
-                    </span>
-
-                </a>
-
-
-                <a href="#" class="nav-item" id="logoutButton">
-
-                    <span class="nav-icon">↪</span>
-
-                    <span>
-                        Cerrar sesión
-                    </span>
-
-                </a>
-
-
-            </div>
-
-        </aside>
-
+        </div>
 
 
         <!-- =================================================
-             CONTENIDO PRINCIPAL
-             ================================================= -->
+             INDICADORES PRINCIPALES
+        ================================================== -->
 
-        <main class="admin-main">
+        <div class="dashboard-cards">
 
 
-            <!-- =================================================
-                 HEADER
-                 ================================================= -->
+            <!-- USUARIOS -->
 
-            <header class="admin-header">
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ♙
+                </div>
 
                 <div>
 
-                    <span class="section-label">
-                        PANEL ADMINISTRATIVO
+                    <span>
+                        USUARIOS
                     </span>
 
-                    <h1>
-                        Dashboard
-                    </h1>
+                    <strong id="dashboardTotalUsuarios">
+                        0
+                    </strong>
 
-                    <p>
-                        Gestiona y supervisa Security Awareness Hub.
-                    </p>
-
-                </div>
-
-
-                <div class="admin-user">
-
-                    <div class="admin-avatar">
-                        A
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Administrador
-                        </strong>
-
-                        <span>
-                            admin@sah.com
-                        </span>
-
-                    </div>
+                    <small>
+                        Usuarios registrados
+                    </small>
 
                 </div>
 
-            </header>
+            </div>
 
+
+            <!-- CURSOS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <span>
+                        CURSOS
+                    </span>
+
+                    <strong id="dashboardTotalCursos">
+                        0
+                    </strong>
+
+                    <small>
+                        Cursos disponibles
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVALUACIONES -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        EVALUACIONES
+                    </span>
+
+                    <strong id="dashboardTotalEvaluaciones">
+                        0
+                    </strong>
+
+                    <small>
+                        Evaluaciones creadas
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTADOS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    %
+                </div>
+
+                <div>
+
+                    <span>
+                        RESULTADOS
+                    </span>
+
+                    <strong id="dashboardTotalResultados">
+                        0
+                    </strong>
+
+                    <small>
+                        Resultados registrados
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RESUMEN GENERAL
+        ================================================== -->
+
+        <div class="dashboard-grid">
 
 
             <!-- =================================================
-                 CONTENIDO DEL DASHBOARD
-                 ================================================= -->
+                 ACTIVIDAD GENERAL
+            ================================================== -->
 
-            <section id="admin-content" class="admin-content">
+            <div class="dashboard-panel">
 
+                <div class="panel-header">
 
-                <!-- BIENVENIDA -->
+                    <div>
 
-                <div class="dashboard-heading">
+                        <span class="section-label">
+                            RESUMEN
+                        </span>
 
-                    <span class="section-label">
-                        RESUMEN
+                        <h3>
+                            Actividad general
+                        </h3>
+
+                    </div>
+
+                    <span class="card-period">
+                        Actual
                     </span>
-
-                    <h2>
-                        Bienvenido al panel administrativo
-                    </h2>
-
-                    <p>
-                        Desde aquí puedes administrar los usuarios,
-                        empresas y contenidos de capacitación.
-                    </p>
 
                 </div>
 
 
-
-                <!-- =================================================
-                     INDICADORES
-                     ================================================= -->
-
-                <div class="dashboard-cards">
+                <div class="dashboard-summary">
 
 
-                    <div class="dashboard-card">
+                    <!-- USUARIOS ACTIVOS -->
 
-                        <div class="card-icon">
-                            ♙
-                        </div>
+                    <div class="summary-item">
 
-                        <div>
-
-                            <span>
-                                USUARIOS
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                            <small>
-                                Usuarios registrados
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="dashboard-card">
-
-                        <div class="card-icon">
-                            ▣
-                        </div>
-
-                        <div>
-
-                            <span>
-                                CURSOS
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                            <small>
-                                Cursos disponibles
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="dashboard-card">
-
-                        <div class="card-icon">
-                            ▤
-                        </div>
-
-                        <div>
-
-                            <span>
-                                EMPRESAS
-                            </span>
-
-                            <strong>
-                                0
-                            </strong>
-
-                            <small>
-                                Empresas registradas
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="dashboard-card">
-
-                        <div class="card-icon">
+                        <div class="summary-icon">
                             ✓
                         </div>
 
                         <div>
 
                             <span>
-                                EVALUACIONES
+                                Usuarios activos
                             </span>
 
-                            <strong>
+                            <strong id="dashboardUsuariosActivos">
                                 0
                             </strong>
 
-                            <small>
-                                Evaluaciones realizadas
-                            </small>
-
                         </div>
 
                     </div>
 
-                </div>
 
+                    <!-- CURSOS ACTIVOS -->
 
+                    <div class="summary-item">
 
-                <!-- =================================================
-                     ACTIVIDAD
-                     ================================================= -->
-
-                <div class="dashboard-panel">
-
-                    <div class="panel-header">
+                        <div class="summary-icon">
+                            ▣
+                        </div>
 
                         <div>
 
-                            <span class="section-label">
-                                ACTIVIDAD
+                            <span>
+                                Cursos activos
                             </span>
 
-                            <h3>
-                                Actividad reciente
-                            </h3>
+                            <strong id="dashboardCursosActivos">
+                                0
+                            </strong>
 
                         </div>
 
                     </div>
 
 
-                    <div class="empty-state">
+                    <!-- EVALUACIONES ACTIVAS -->
 
-                        <div class="empty-icon">
-                            ◌
+                    <div class="summary-item">
+
+                        <div class="summary-icon">
+                            ◉
                         </div>
 
-                        <h3>
-                            No hay actividad reciente
-                        </h3>
+                        <div>
 
-                        <p>
-                            Cuando los usuarios interactúen con la
-                            plataforma, sus actividades aparecerán aquí.
-                        </p>
+                            <span>
+                                Evaluaciones activas
+                            </span>
+
+                            <strong id="dashboardEvaluacionesActivas">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PROMEDIO GENERAL -->
+
+                    <div class="summary-item">
+
+                        <div class="summary-icon">
+                            %
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Promedio general
+                            </span>
+
+                            <strong id="dashboardPromedio">
+                                0%
+                            </strong>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </section>
-
-        </main>
-
-    </div>
+            </div>
 
 
+            <!-- =================================================
+                 ACCIONES RÁPIDAS
+            ================================================== -->
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
+            <div class="dashboard-panel">
 
-    <script src="js/admin.js"></script>
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <h3>
+                            Acciones rápidas
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <!-- USUARIOS -->
+
+                    <button
+                        type="button"
+                        class="quick-action"
+                        data-view="usuarios">
+
+                        <span class="quick-action-icon">
+                            ♙
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Gestionar usuarios
+                            </strong>
+
+                            <small>
+                                Administrar usuarios registrados
+                            </small>
+
+                        </span>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- CURSOS -->
+
+                    <button
+                        type="button"
+                        class="quick-action"
+                        data-view="courses_admin">
+
+                        <span class="quick-action-icon">
+                            ▣
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Gestionar cursos
+                            </strong>
+
+                            <small>
+                                Administrar cursos disponibles
+                            </small>
+
+                        </span>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- EVALUACIONES -->
+
+                    <button
+                        type="button"
+                        class="quick-action"
+                        data-view="evaluaciones">
+
+                        <span class="quick-action-icon">
+                            ✓
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Gestionar evaluaciones
+                            </strong>
+
+                            <small>
+                                Administrar evaluaciones
+                            </small>
+
+                        </span>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- RESULTADOS -->
+
+                    <button
+                        type="button"
+                        class="quick-action"
+                        data-view="resultados">
+
+                        <span class="quick-action-icon">
+                            %
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Ver resultados
+                            </strong>
+
+                            <small>
+                                Consultar resultados de evaluaciones
+                            </small>
+
+                        </span>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INFORMACIÓN DEL SISTEMA
+        ================================================== -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="section-label">
+                        SISTEMA
+                    </span>
+
+                    <h3>
+                        Información general
+                    </h3>
+
+                </div>
+
+                <span class="card-period">
+                    Security Awareness Hub
+                </span>
+
+            </div>
+
+
+            <div class="system-info">
+
+
+                <div class="system-info-item">
+
+                    <span>
+                        Plataforma
+                    </span>
+
+                    <strong>
+                        Security Awareness Hub
+                    </strong>
+
+                </div>
+
+
+                <div class="system-info-item">
+
+                    <span>
+                        Módulo
+                    </span>
+
+                    <strong>
+                        Administración
+                    </strong>
+
+                </div>
+
+
+                <div class="system-info-item">
+
+                    <span>
+                        Gestión
+                    </span>
+
+                    <strong>
+                        Usuarios, cursos y evaluaciones
+                    </strong>
+
+                </div>
+
+
+                <div class="system-info-item">
+
+                    <span>
+                        Base de datos
+                    </span>
+
+                    <strong>
+                        MySQL
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
 
 </body>
 

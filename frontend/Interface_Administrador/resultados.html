@@ -5,43 +5,65 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Resultados | Security Awareness Hub</title>
+    <title>
+        Resultados | Security Awareness Hub
+    </title>
+
+    <!-- CSS específico de resultados -->
+    <link
+        rel="stylesheet"
+        href="css/resultados.css">
 
 </head>
 
 <body>
 
+    <!-- =====================================================
+         RESULTADOS
+         SECURITY AWARENESS HUB
+    ====================================================== -->
+
     <section class="admin-view">
 
-        <!-- =====================================================
+
+        <!-- =================================================
              ENCABEZADO
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-heading">
 
-            <span class="section-label">
-                EVALUACIONES
-            </span>
+            <div>
 
-            <h2>
-                Resultados
-            </h2>
+                <span class="section-label">
+                    RESULTADOS
+                </span>
 
-            <p>
-                Consulta y analiza los resultados obtenidos por
-                los usuarios en las evaluaciones.
-            </p>
+                <h2>
+                    Resultados
+                </h2>
+
+                <p>
+                    Consulta y analiza los resultados obtenidos
+                    por los usuarios en las evaluaciones.
+                </p>
+
+            </div>
 
         </div>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              INDICADORES
-             ===================================================== -->
+        ================================================== -->
 
         <div class="dashboard-cards">
+
+
+            <!-- EVALUACIONES REALIZADAS -->
 
             <div class="dashboard-card">
 
@@ -55,7 +77,7 @@
                         EVALUACIONES
                     </span>
 
-                    <strong>
+                    <strong id="totalEvaluacionesRealizadas">
                         0
                     </strong>
 
@@ -67,6 +89,8 @@
 
             </div>
 
+
+            <!-- PROMEDIO GENERAL -->
 
             <div class="dashboard-card">
 
@@ -80,7 +104,7 @@
                         PROMEDIO
                     </span>
 
-                    <strong>
+                    <strong id="promedioGeneral">
                         0%
                     </strong>
 
@@ -93,10 +117,12 @@
             </div>
 
 
+            <!-- APROBADOS -->
+
             <div class="dashboard-card">
 
                 <div class="card-icon">
-                    ★
+                    ↑
                 </div>
 
                 <div>
@@ -105,7 +131,7 @@
                         APROBADOS
                     </span>
 
-                    <strong>
+                    <strong id="totalAprobados">
                         0
                     </strong>
 
@@ -120,9 +146,9 @@
         </div>
 
 
-        <!-- =====================================================
-             RESULTADOS
-             ===================================================== -->
+        <!-- =================================================
+             FILTROS
+        ================================================== -->
 
         <div class="dashboard-panel">
 
@@ -131,17 +157,298 @@
                 <div>
 
                     <span class="section-label">
-                        RESULTADOS
+                        FILTROS
                     </span>
 
                     <h3>
-                        Resultados de los usuarios
+                        Consultar resultados
                     </h3>
 
                 </div>
 
             </div>
 
+
+            <div class="report-filters">
+
+
+                <!-- BUSCADOR -->
+
+                <div class="form-group">
+
+                    <label for="buscarResultado">
+                        Buscar usuario
+                    </label>
+
+                    <input
+                        type="search"
+                        id="buscarResultado"
+                        name="buscarResultado"
+                        placeholder="Nombre, apellido o correo..."
+                        autocomplete="off">
+
+                </div>
+
+
+                <!-- CURSO -->
+
+                <div class="form-group">
+
+                    <label for="filtroCursoResultado">
+                        Curso
+                    </label>
+
+                    <select
+                        id="filtroCursoResultado"
+                        name="curso"
+                        title="Filtrar por curso">
+
+                        <option value="todos">
+                            Todos los cursos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- EVALUACIÓN -->
+
+                <div class="form-group">
+
+                    <label for="filtroEvaluacionResultado">
+                        Evaluación
+                    </label>
+
+                    <select
+                        id="filtroEvaluacionResultado"
+                        name="evaluacion"
+                        title="Filtrar por evaluación">
+
+                        <option value="todas">
+                            Todas las evaluaciones
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ESTADO -->
+
+                <div class="form-group">
+
+                    <label for="filtroEstadoResultado">
+                        Resultado
+                    </label>
+
+                    <select
+                        id="filtroEstadoResultado"
+                        name="estado"
+                        title="Filtrar por resultado">
+
+                        <option value="todos">
+                            Todos
+                        </option>
+
+                        <option value="aprobado">
+                            Aprobados
+                        </option>
+
+                        <option value="reprobado">
+                            Reprobados
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BOTÓN -->
+
+                <button
+                    type="button"
+                    class="admin-button"
+                    id="btnFiltrarResultados">
+
+                    Consultar resultados
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TABLA DE RESULTADOS
+        ================================================== -->
+
+        <div class="dashboard-card users-table-card">
+
+
+            <!-- HEADER -->
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="section-label">
+                        REGISTROS
+                    </span>
+
+                    <h3>
+                        Resultados de evaluaciones
+                    </h3>
+
+                </div>
+
+
+                <span
+                    class="card-period"
+                    id="contadorResultados">
+
+                    Cargando...
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLA
+            ================================================== -->
+
+            <div class="table-wrapper">
+
+                <table class="users-table results-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                USUARIO
+                            </th>
+
+                            <th>
+                                CURSO
+                            </th>
+
+                            <th>
+                                EVALUACIÓN
+                            </th>
+
+                            <th>
+                                CALIFICACIÓN
+                            </th>
+
+                            <th>
+                                RESULTADO
+                            </th>
+
+                            <th>
+                                FECHA
+                            </th>
+
+                            <th>
+                                ACCIONES
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!--
+                        IMPORTANTE:
+
+                        Este tbody comienza vacío.
+
+                        Los resultados serán cargados posteriormente
+                        desde MySQL mediante PHP + JSON.
+                    -->
+
+                    <tbody id="resultadosTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="loading-users">
+
+                                Cargando resultados...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER DE TABLA
+            ================================================== -->
+
+            <div class="table-footer">
+
+                <span id="resultadosMostrados">
+                    Cargando resultados...
+                </span>
+
+
+                <div class="pagination">
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaAnteriorResultado"
+                        disabled>
+
+                        ←
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button active"
+                        id="paginaActualResultado">
+
+                        1
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaSiguienteResultado"
+                        disabled>
+
+                        →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ESTADO VACÍO
+        ================================================== -->
+
+        <div
+            class="dashboard-panel"
+            id="resultadosEmptyState"
+            hidden>
 
             <div class="empty-state">
 
@@ -154,13 +461,168 @@
                 </h3>
 
                 <p>
-                    Los resultados aparecerán cuando los usuarios
-                    completen las evaluaciones.
+                    Los resultados de las evaluaciones realizadas
+                    aparecerán en esta sección.
                 </p>
 
             </div>
 
         </div>
+
+
+        <!-- =================================================
+             DETALLE DEL RESULTADO
+        ================================================== -->
+
+        <div
+            class="user-modal"
+            id="resultadoModal"
+            hidden>
+
+            <div class="user-modal-overlay"></div>
+
+
+            <div
+                class="user-modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalResultadoTitulo">
+
+
+                <!-- HEADER -->
+
+                <div class="user-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            RESULTADO
+                        </span>
+
+                        <h3 id="modalResultadoTitulo">
+                            Detalle de evaluación
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="cerrarResultadoModal"
+                        aria-label="Cerrar">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <!-- INFORMACIÓN -->
+
+                <div class="result-detail">
+
+
+                    <div class="result-detail-item">
+
+                        <span>
+                            Usuario
+                        </span>
+
+                        <strong id="detalleUsuario">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-detail-item">
+
+                        <span>
+                            Curso
+                        </span>
+
+                        <strong id="detalleCurso">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-detail-item">
+
+                        <span>
+                            Evaluación
+                        </span>
+
+                        <strong id="detalleEvaluacion">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-detail-item">
+
+                        <span>
+                            Calificación
+                        </span>
+
+                        <strong id="detalleCalificacion">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-detail-item">
+
+                        <span>
+                            Resultado
+                        </span>
+
+                        <strong id="detalleResultado">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-detail-item">
+
+                        <span>
+                            Fecha
+                        </span>
+
+                        <strong id="detalleFecha">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTÓN CERRAR -->
+
+                <div class="user-modal-actions">
+
+                    <button
+                        type="button"
+                        class="modal-button secondary"
+                        id="cerrarDetalleResultado">
+
+                        Cerrar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     </section>
 

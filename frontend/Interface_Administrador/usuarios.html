@@ -1,406 +1,534 @@
-<!-- =====================================================
-     USUARIOS
-     SECURITY AWARENESS HUB
-====================================================== -->
+<!DOCTYPE html>
+<html lang="es">
 
-<section class="users-panel">
+<head>
 
-    <!-- =================================================
-         ENCABEZADO
-    ================================================== -->
+    <meta charset="UTF-8">
 
-    <div class="dashboard-heading">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-        <div>
+    <title>
+        Usuarios | Security Awareness Hub
+    </title>
 
-            <span class="section-label">
-                GESTIÓN DE USUARIOS
-            </span>
+    <!-- CSS específico de usuarios -->
+    <link
+        rel="stylesheet"
+        href="css/usuarios.css?v=2">
 
-            <h2>
-                Usuarios
-            </h2>
+</head>
 
-            <p>
-                Administra los usuarios y consulta
-                su información dentro de la plataforma.
-            </p>
+<body>
 
-        </div>
+    <!-- =====================================================
+         USUARIOS
+         SECURITY AWARENESS HUB
+    ====================================================== -->
 
-        <button type="button" class="admin-button" id="btnNuevoUsuario">
-            + Nuevo usuario
-        </button>
-
-    </div>
+    <section class="users-panel">
 
 
-    <!-- =================================================
-         FILTROS
-    ================================================== -->
+        <!-- =================================================
+             ENCABEZADO
+        ================================================== -->
 
-    <div class="users-toolbar">
-
-        <!-- BUSCADOR -->
-
-        <div class="search-box">
-
-            <span class="search-icon">
-                ⌕
-            </span>
-
-            <input type="search" id="buscarUsuario" placeholder="Buscar por nombre, apellido o correo..."
-                autocomplete="off">
-
-        </div>
-
-
-        <!-- ESTADO -->
-
-        <select class="users-filter" id="filtroEstado">
-
-            <option value="todos">
-                Todos los estados
-            </option>
-
-            <option value="activo">
-                Activos
-            </option>
-
-            <option value="inactivo">
-                Inactivos
-            </option>
-
-        </select>
-
-
-        <!-- ROL -->
-
-        <select class="users-filter" id="filtroRol">
-
-            <option value="todos">
-                Todos los roles
-            </option>
-
-            <option value="usuario">
-                Usuarios
-            </option>
-
-            <option value="admin">
-                Administradores
-            </option>
-
-        </select>
-
-    </div>
-
-
-    <!-- =================================================
-         DIRECTORIO
-    ================================================== -->
-
-    <div class="dashboard-card users-table-card">
-
-
-        <!-- HEADER -->
-
-        <div class="card-header">
+        <div class="dashboard-heading">
 
             <div>
 
                 <span class="section-label">
-                    DIRECTORIO
+                    GESTIÓN DE USUARIOS
                 </span>
 
-                <h3>
-                    Usuarios registrados
-                </h3>
+                <h2>
+                    Usuarios
+                </h2>
+
+                <p>
+                    Administra los usuarios y consulta
+                    su información dentro de la plataforma.
+                </p>
 
             </div>
 
 
-            <span class="card-period" id="contadorUsuarios">
-                Cargando...
-            </span>
+            <button
+                type="button"
+                class="admin-button"
+                id="btnNuevoUsuario">
+
+                + Nuevo usuario
+
+            </button>
 
         </div>
 
 
         <!-- =================================================
-             TABLA
+             FILTROS
         ================================================== -->
 
-        <div class="table-wrapper">
-
-            <table class="users-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            USUARIO
-                        </th>
-
-                        <th>
-                            ROL
-                        </th>
-
-                        <th>
-                            ESTADO
-                        </th>
-
-                        <th>
-                            FECHA DE REGISTRO
-                        </th>
-
-                        <th>
-                            ACCIONES
-                        </th>
-
-                    </tr>
-
-                </thead>
+        <div class="users-toolbar">
 
 
-                <!--
+            <!-- BUSCADOR -->
 
-                    IMPORTANTE:
+            <div class="search-box">
 
-                    Este tbody comienza vacío.
+                <span class="search-icon">
+                    ⌕
+                </span>
 
-                    Los usuarios serán cargados
-                    desde MySQL mediante PHP + JSON.
+                <input
+                    type="search"
+                    id="buscarUsuario"
+                    placeholder="Buscar por nombre, apellido o correo..."
+                    autocomplete="off">
 
-                -->
+            </div>
 
-                <tbody id="usuariosTableBody">
 
-                    <tr>
+            <!-- ESTADO -->
 
-                        <td colspan="5" class="loading-users">
+            <select
+                class="users-filter"
+                id="filtroEstado"
+                title="Filtrar por estado">
 
-                            Cargando usuarios...
+                <option value="todos">
+                    Todos los estados
+                </option>
 
-                        </td>
+                <option value="activo">
+                    Activos
+                </option>
 
-                    </tr>
+                <option value="inactivo">
+                    Inactivos
+                </option>
 
-                </tbody>
+            </select>
 
-            </table>
+
+            <!-- ROL -->
+
+            <select
+                class="users-filter"
+                id="filtroRol"
+                title="Filtrar por rol">
+
+                <option value="todos">
+                    Todos los roles
+                </option>
+
+                <option value="usuario">
+                    Usuarios
+                </option>
+
+            </select>
 
         </div>
 
 
         <!-- =================================================
-             FOOTER TABLA
+             DIRECTORIO
         ================================================== -->
 
-        <div class="table-footer">
-
-            <span id="usuariosMostrados">
-                Cargando usuarios...
-            </span>
+        <div class="dashboard-card users-table-card">
 
 
-            <div class="pagination">
+            <!-- HEADER -->
 
-                <button type="button" class="pagination-button" id="paginaAnterior" disabled>
-                    ←
-                </button>
-
-
-                <button type="button" class="pagination-button active" id="paginaActual">
-                    1
-                </button>
-
-
-                <button type="button" class="pagination-button" id="paginaSiguiente" disabled>
-                    →
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         MODAL NUEVO USUARIO
-         ================================================= -->
-
-    <div class="user-modal" id="usuarioModal" hidden>
-
-        <div class="user-modal-overlay"></div>
-
-
-        <div class="user-modal-content" role="dialog" aria-modal="true" aria-labelledby="modalUsuarioTitulo">
-
-            <!-- HEADER MODAL -->
-
-            <div class="user-modal-header">
+            <div class="card-header">
 
                 <div>
 
                     <span class="section-label">
-                        ADMINISTRACIÓN
+                        DIRECTORIO
                     </span>
 
-                    <h3 id="modalUsuarioTitulo">
-                        Nuevo usuario
+                    <h3>
+                        Usuarios registrados
                     </h3>
 
                 </div>
 
 
-                <button type="button" class="modal-close" id="cerrarUsuarioModal" aria-label="Cerrar">
-                    ×
-                </button>
+                <span
+                    class="card-period"
+                    id="contadorUsuarios">
+
+                    Cargando...
+
+                </span>
 
             </div>
 
 
-            <!-- FORMULARIO -->
+            <!-- =================================================
+                 TABLA
+            ================================================== -->
 
-            <form id="formUsuario">
+            <div class="table-wrapper">
 
-                <!-- ID OCULTO -->
+                <table class="users-table">
 
-                <input type="hidden" id="usuarioId">
+                    <thead>
 
+                        <tr>
 
-                <!-- NOMBRES -->
+                            <th>
+                                USUARIO
+                            </th>
 
-                <div class="form-group">
+                            <th>
+                                ROL
+                            </th>
 
-                    <label for="usuarioNombres">
-                        Nombres
-                    </label>
+                            <th>
+                                ESTADO
+                            </th>
 
-                    <input type="text" id="usuarioNombres" name="nombres" placeholder="Ingrese los nombres"
-                        maxlength="100" required>
+                            <th>
+                                FECHA DE REGISTRO
+                            </th>
 
-                </div>
+                            <th>
+                                ACCIONES
+                            </th>
 
+                        </tr>
 
-                <!-- APELLIDOS -->
-
-                <div class="form-group">
-
-                    <label for="usuarioApellidos">
-                        Apellidos
-                    </label>
-
-                    <input type="text" id="usuarioApellidos" name="apellidos" placeholder="Ingrese los apellidos"
-                        maxlength="100" required>
-
-                </div>
-
-
-                <!-- CORREO -->
-
-                <div class="form-group">
-
-                    <label for="usuarioCorreo">
-                        Correo electrónico
-                    </label>
-
-                    <input type="email" id="usuarioCorreo" name="correo" placeholder="usuario@empresa.com"
-                        maxlength="150" required>
-
-                </div>
+                    </thead>
 
 
-                <!-- CONTRASEÑA -->
+                    <!--
+                        IMPORTANTE:
 
-                <div class="form-group">
+                        Este tbody comienza vacío.
 
-                    <label for="usuarioPassword">
-                        Contraseña
-                    </label>
+                        Los usuarios serán cargados posteriormente
+                        desde MySQL mediante PHP + JSON.
+                    -->
 
-                    <input type="password" id="usuarioPassword" name="password" placeholder="Ingrese una contraseña"
-                        minlength="6" required>
+                    <tbody id="usuariosTableBody">
 
-                    <small>
-                        La contraseña será almacenada de forma segura.
-                    </small>
+                        <tr>
 
-                </div>
+                            <td
+                                colspan="5"
+                                class="loading-users">
 
+                                Cargando usuarios...
 
-                <!-- ROL -->
+                            </td>
 
-                <div class="form-group">
+                        </tr>
 
-                    <label for="usuarioRol">
-                        Rol
-                    </label>
+                    </tbody>
 
-                    <select id="usuarioRol" name="rol" required>
+                </table>
 
-                        <option value="usuario">
-                            Usuario
-                        </option>
-
-                        <option value="admin">
-                            Administrador
-                        </option>
-
-                    </select>
-
-                </div>
+            </div>
 
 
-                <!-- ESTADO -->
+            <!-- =================================================
+                 FOOTER TABLA
+            ================================================== -->
 
-                <div class="form-group">
+            <div class="table-footer">
 
-                    <label for="usuarioEstado">
-                        Estado
-                    </label>
-
-                    <select id="usuarioEstado" name="estado" required>
-
-                        <option value="activo">
-                            Activo
-                        </option>
-
-                        <option value="inactivo">
-                            Inactivo
-                        </option>
-
-                    </select>
-
-                </div>
+                <span id="usuariosMostrados">
+                    Cargando usuarios...
+                </span>
 
 
-                <!-- MENSAJE -->
+                <div class="pagination">
 
-                <div id="usuarioFormMessage" class="user-form-message" aria-live="polite"></div>
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaAnterior"
+                        disabled>
 
+                        ←
 
-                <!-- BOTONES -->
-
-                <div class="user-modal-actions">
-
-                    <button type="button" class="modal-button secondary" id="cancelarUsuario">
-                        Cancelar
                     </button>
 
 
-                    <button type="submit" class="modal-button primary" id="guardarUsuario">
-                        Crear usuario
+                    <button
+                        type="button"
+                        class="pagination-button active"
+                        id="paginaActual">
+
+                        1
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaSiguiente"
+                        disabled>
+
+                        →
+
                     </button>
 
                 </div>
 
-            </form>
+            </div>
 
         </div>
 
-    </div>
 
-</section>
+        <!-- =================================================
+             MODAL NUEVO / EDITAR USUARIO
+        ================================================== -->
+
+        <div
+            class="user-modal"
+            id="usuarioModal"
+            hidden>
+
+            <div class="user-modal-overlay"></div>
+
+
+            <div
+                class="user-modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalUsuarioTitulo">
+
+
+                <!-- HEADER MODAL -->
+
+                <div class="user-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <h3 id="modalUsuarioTitulo">
+                            Nuevo usuario
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="cerrarUsuarioModal"
+                        aria-label="Cerrar">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORMULARIO
+                ================================================== -->
+
+                <form id="formUsuario">
+
+
+                    <!-- ID OCULTO -->
+
+                    <input
+                        type="hidden"
+                        id="usuarioId">
+
+
+                    <!-- NOMBRES -->
+
+                    <div class="form-group">
+
+                        <label for="usuarioNombres">
+                            Nombres
+                        </label>
+
+                        <input
+                            type="text"
+                            id="usuarioNombres"
+                            name="nombres"
+                            placeholder="Ingrese los nombres"
+                            maxlength="100"
+                            required>
+
+                    </div>
+
+
+                    <!-- APELLIDOS -->
+
+                    <div class="form-group">
+
+                        <label for="usuarioApellidos">
+                            Apellidos
+                        </label>
+
+                        <input
+                            type="text"
+                            id="usuarioApellidos"
+                            name="apellidos"
+                            placeholder="Ingrese los apellidos"
+                            maxlength="100"
+                            required>
+
+                    </div>
+
+
+                    <!-- CORREO -->
+
+                    <div class="form-group">
+
+                        <label for="usuarioCorreo">
+                            Correo electrónico
+                        </label>
+
+                        <input
+                            type="email"
+                            id="usuarioCorreo"
+                            name="correo"
+                            placeholder="usuario@empresa.com"
+                            maxlength="150"
+                            required>
+
+                    </div>
+
+
+                    <!-- CONTRASEÑA -->
+
+                    <div class="form-group">
+
+                        <label for="usuarioPassword">
+                            Contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="usuarioPassword"
+                            name="password"
+                            placeholder="Ingrese una contraseña"
+                            minlength="6"
+                            required>
+
+                        <small>
+                            La contraseña será almacenada de forma segura.
+                        </small>
+
+                    </div>
+
+
+                    <!-- ROL -->
+
+                    <div class="form-group">
+
+                        <label for="usuarioRol">
+                            Rol
+                        </label>
+
+                        <select
+                            id="usuarioRol"
+                            name="rol"
+                            title="Seleccionar rol"
+                            required>
+
+                            <option value="usuario">
+                                Usuario
+                            </option>
+
+                            <option value="admin">
+                                Administrador
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+
+                    <div class="form-group">
+
+                        <label for="usuarioEstado">
+                            Estado
+                        </label>
+
+                        <select
+                            id="usuarioEstado"
+                            name="estado"
+                            title="Seleccionar estado"
+                            required>
+
+                            <option value="activo">
+                                Activo
+                            </option>
+
+                            <option value="inactivo">
+                                Inactivo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MENSAJE -->
+
+                    <div
+                        id="usuarioFormMessage"
+                        class="user-form-message"
+                        aria-live="polite">
+                    </div>
+
+
+                    <!-- =================================================
+                         BOTONES
+                    ================================================== -->
+
+                    <div class="user-modal-actions">
+
+                        <button
+                            type="button"
+                            class="modal-button secondary"
+                            id="cancelarUsuario">
+
+                            Cancelar
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="modal-button primary"
+                            id="guardarUsuario">
+
+                            Crear usuario
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <script src="js/usuarios.js?v=2"></script>
+
+</body>
+
+</html>

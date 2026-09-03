@@ -45,8 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 require_once "../Config/database.php";
 
-$database = new Database();
-$conn = $database->getConnection();
+$conn = Database::connect();
 
 /* =====================================================
    RECIBIR JSON

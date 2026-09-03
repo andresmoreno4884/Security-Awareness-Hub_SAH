@@ -139,7 +139,7 @@ if ($method === "GET") {
                 estado,
                 fecha_registro
             FROM usuarios
-            WHERE 1 = 1
+            WHERE rol = 'usuario'
         ";
 
         $params = [];
@@ -180,18 +180,6 @@ if ($method === "GET") {
         /**
          * FILTRO ROL
          */
-
-        if (
-            $rol !== "" &&
-            in_array($rol, ["usuario", "admin"], true)
-        ) {
-
-            $sql .= "
-                AND rol = :rol
-            ";
-
-            $params[":rol"] = $rol;
-        }
 
         $sql .= "
             ORDER BY id DESC

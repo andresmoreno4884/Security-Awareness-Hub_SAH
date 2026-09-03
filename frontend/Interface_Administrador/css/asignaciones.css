@@ -320,7 +320,8 @@ body {
    BARRA DE FILTROS
    ========================================================= */
 
-.assignments-toolbar {
+.assignments-toolbar,
+.users-toolbar {
     display: grid;
 
     grid-template-columns:
@@ -416,7 +417,8 @@ body {
    SELECTORES
    ========================================================= */
 
-.assignments-filter {
+.assignments-filter,
+.users-filter {
     width: 100%;
 
     height: 40px;
@@ -444,18 +446,21 @@ body {
         box-shadow 0.2s ease;
 }
 
-.assignments-filter:hover {
+.assignments-filter:hover,
+.users-filter:hover {
     border-color: rgba(0, 255, 115, 0.25);
 }
 
-.assignments-filter:focus {
+.assignments-filter:focus,
+.users-filter:focus {
     border-color: rgba(0, 255, 115, 0.55);
 
     box-shadow:
         0 0 0 2px rgba(0, 255, 115, 0.05);
 }
 
-.assignments-filter option {
+.assignments-filter option,
+.users-filter option {
     background: #0a1510;
 
     color: var(--text-main);
@@ -466,7 +471,8 @@ body {
    PANEL DE TABLA
    ========================================================= */
 
-.assignments-table-card {
+.assignments-table-card,
+.users-table-card {
     overflow: hidden;
 
     border: 1px solid var(--green-border);
@@ -555,7 +561,8 @@ body {
     overflow-x: auto;
 }
 
-.assignments-table {
+.assignments-table,
+.users-table {
     width: 100%;
 
     min-width: 800px;
@@ -568,7 +575,8 @@ body {
 
 /* CABECERAS */
 
-.assignments-table th {
+.assignments-table th,
+.users-table th {
     height: 48px;
 
     padding: 0 12px;
@@ -589,7 +597,8 @@ body {
 
 /* CELDAS */
 
-.assignments-table td {
+.assignments-table td,
+.users-table td {
     height: 52px;
 
     padding: 0 12px;
@@ -601,11 +610,13 @@ body {
     font-size: 11px;
 }
 
-.assignments-table tbody tr {
+.assignments-table tbody tr,
+.users-table tbody tr {
     transition: background 0.2s ease;
 }
 
-.assignments-table tbody tr:hover {
+.assignments-table tbody tr:hover,
+.users-table tbody tr:hover {
     background: rgba(0, 255, 115, 0.018);
 }
 
@@ -614,7 +625,8 @@ body {
    CARGANDO
    ========================================================= */
 
-.loading-assignments {
+.loading-assignments,
+.loading-users {
     height: 150px !important;
 
     text-align: center !important;
@@ -718,7 +730,8 @@ body {
    MODAL
    ========================================================= */
 
-.assignment-modal {
+.assignment-modal,
+.user-modal {
     position: fixed;
 
     inset: 0;
@@ -734,21 +747,26 @@ body {
     padding: 20px;
 }
 
-.assignment-modal[hidden] {
+.assignment-modal[hidden],
+.user-modal[hidden] {
     display: none;
 }
 
-.assignment-modal-overlay {
+.assignment-modal-overlay,
+.user-modal-overlay {
     position: absolute;
 
     inset: 0;
 
     background: rgba(0, 0, 0, 0.78);
 
+    -webkit-backdrop-filter: blur(5px);
+
     backdrop-filter: blur(5px);
 }
 
-.assignment-modal-content {
+.assignment-modal-content,
+.user-modal-content {
     position: relative;
 
     z-index: 2;
@@ -781,7 +799,8 @@ body {
    HEADER MODAL
    ========================================================= */
 
-.assignment-modal-header {
+.assignment-modal-header,
+.user-modal-header {
     display: flex;
 
     align-items: flex-start;
@@ -793,7 +812,8 @@ body {
     margin-bottom: 23px;
 }
 
-.assignment-modal-header h3 {
+.assignment-modal-header h3,
+.user-modal-header h3 {
     margin: 0;
 
     color: var(--text-main);
@@ -934,7 +954,8 @@ body {
    BOTONES MODAL
    ========================================================= */
 
-.assignment-modal-actions {
+.assignment-modal-actions,
+.user-modal-actions {
     display: flex;
 
     align-items: center;

@@ -6,6 +6,8 @@ require_once __DIR__ . "/../Config/database.php";
 
 try {
 
+    $pdo = Database::connect();
+
     // =====================================================
     // DATOS DEL ADMINISTRADOR
     // =====================================================

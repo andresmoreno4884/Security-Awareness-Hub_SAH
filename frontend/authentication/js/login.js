@@ -184,7 +184,7 @@ if (loginForm) {
                    ========================================= */
 
                 const response = await fetch(
-                    "http://localhost/Security/Security-Awareness-Hub_SAH/backend/Api/login.php",
+                    "../../backend/Api/login.php",
                     {
                         method: "POST",
 

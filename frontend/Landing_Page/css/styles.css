@@ -175,8 +175,8 @@ button {
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.18);
 
-    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
 }
 
 
@@ -2462,7 +2462,7 @@ a:focus-visible {
 
     .navbar-custom {
 
-        min-height: auto;
+        min-height: 0;
 
         padding-top: 15px;
         padding-bottom: 15px;
@@ -2514,7 +2514,6 @@ a:focus-visible {
 
         overflow-x: auto;
 
-        scrollbar-width: none;
     }
 
 
