@@ -4,7 +4,7 @@
    usuarios.js
    ============================================================ */
 
-document.addEventListener("DOMContentLoaded", () => {
+function inicializarUsuarios() {
 
     /* ========================================================
        CONFIGURACIÓN
@@ -103,10 +103,26 @@ document.addEventListener("DOMContentLoaded", () => {
         !filtroRol ||
         !btnNuevoUsuario ||
         !usuarioModal ||
-        !formUsuario
+        !cerrarUsuarioModal ||
+        !cancelarUsuario ||
+        !formUsuario ||
+        !usuarioId ||
+        !usuarioNombres ||
+        !usuarioApellidos ||
+        !usuarioCorreo ||
+        !usuarioPassword ||
+        !usuarioRol ||
+        !usuarioEstado ||
+        !usuarioFormMessage ||
+        !modalUsuarioTitulo ||
+        !guardarUsuario ||
+        !paginaAnterior ||
+        !paginaActual ||
+        !paginaSiguiente
     ) {
+
         console.error(
-            "usuarios.js: No se encontraron todos los elementos necesarios."
+            "usuarios.js: No se encontraron todos los elementos necesarios de la vista Usuarios."
         );
 
         return;
@@ -124,6 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let pagina = 1;
 
     const usuariosPorPagina = 8;
+
+    let temporizadorBusqueda = null;
 
 
     /* ========================================================
@@ -159,7 +177,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function escapeHTML(valor) {
 
-        if (valor === null || valor === undefined) {
+        if (
+            valor === null ||
+            valor === undefined
+        ) {
+
             return "";
         }
 
@@ -256,7 +278,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     {
                         method: "GET",
 
-                        credentials: "same-origin",
+                        credentials:
+                            "same-origin",
 
                         headers: {
                             "Accept":
@@ -402,7 +425,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td
                         colspan="5"
                         class="empty-users">
+
                         <div class="empty-state">
+
                             <div class="empty-icon">
                                 ◉
                             </div>
@@ -415,7 +440,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 No existen usuarios que coincidan
                                 con los filtros seleccionados.
                             </p>
+
                         </div>
+
                     </td>
                 </tr>
             `;
@@ -433,7 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 const rol =
-                    usuario.rol || "Usuario";
+                    usuario.rol || "usuario";
 
 
                 const estado =
@@ -623,7 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
             )
         ) {
 
-            return fecha;
+            return String(fecha);
         }
 
 
@@ -713,7 +740,8 @@ document.addEventListener("DOMContentLoaded", () => {
         formUsuario.reset();
 
 
-        usuarioId.value = "";
+        usuarioId.value =
+            "";
 
 
         usuarioRol.value =
@@ -1385,14 +1413,19 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    usuarioModal
-        .querySelector(
+    const modalOverlay =
+        usuarioModal.querySelector(
             ".user-modal-overlay"
-        )
-        .addEventListener(
+        );
+
+
+    if (modalOverlay) {
+
+        modalOverlay.addEventListener(
             "click",
             cerrarModalUsuario
         );
+    }
 
 
     /* ========================================================
@@ -1490,10 +1523,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ========================================================
        BUSCADOR
     ======================================================== */
-
-    let temporizadorBusqueda =
-        null;
-
 
     buscarUsuario.addEventListener(
         "input",
@@ -1619,4 +1648,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cargarUsuarios();
 
-});
+}
+
+
+/* ============================================================
+   INICIALIZACIÓN
+   COMPATIBLE CON CARGA DINÁMICA DEL PANEL
+============================================================ */
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        inicializarUsuarios
+    );
+
+} else {
+
+    inicializarUsuarios();
+
+}

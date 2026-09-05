@@ -1,24 +1,148 @@
 /* ============================================================
    SECURITY AWARENESS HUB
-   COURSES ADMIN
-   Gestión de cursos
-   PHP + MySQL + JSON
-============================================================ */
+   GESTIÓN DE CURSOS
+   courses_admin.js
+   ============================================================ */
 
-(() => {
-
-    "use strict";
-
+function inicializarCursos() {
 
     /* ========================================================
        CONFIGURACIÓN
     ======================================================== */
 
-    const API_URL =
-        "../../backend/Api/courses.php";
+    const API_URL = "../../backend/Api/courses.php";
 
 
-    const COURSES_PER_PAGE = 6;
+    /* ========================================================
+       ELEMENTOS DEL DOM
+    ======================================================== */
+
+    const tablaBody =
+        document.getElementById("cursosTableBody");
+
+    const totalCursos =
+        document.getElementById("totalCursos");
+
+    const cursosActivos =
+        document.getElementById("cursosActivos");
+
+    const cursosInactivos =
+        document.getElementById("cursosInactivos");
+
+    const contadorCursos =
+        document.getElementById("contadorCursos");
+
+    const cursosMostrados =
+        document.getElementById("cursosMostrados");
+
+    const buscarCurso =
+        document.getElementById("buscarCurso");
+
+    const filtroEstadoCurso =
+        document.getElementById("filtroEstadoCurso");
+
+    const filtroNivelCurso =
+        document.getElementById("filtroNivelCurso");
+
+    const btnNuevoCurso =
+        document.getElementById("btnNuevoCurso");
+
+    const cursoModal =
+        document.getElementById("cursoModal");
+
+    const cerrarCursoModal =
+        document.getElementById("cerrarCursoModal");
+
+    const cancelarCurso =
+        document.getElementById("cancelarCurso");
+
+    const formCurso =
+        document.getElementById("formCurso");
+
+    const cursoId =
+        document.getElementById("cursoId");
+
+    const cursoNombre =
+        document.getElementById("cursoNombre");
+
+    const cursoDescripcion =
+        document.getElementById("cursoDescripcion");
+
+    const cursoNivel =
+        document.getElementById("cursoNivel");
+
+    const cursoDuracion =
+        document.getElementById("cursoDuracion");
+
+    const cursoModulos =
+        document.getElementById("cursoModulos");
+
+    const cursoAprobacion =
+        document.getElementById("cursoAprobacion");
+
+    const cursoEstado =
+        document.getElementById("cursoEstado");
+
+    const cursoFormMessage =
+        document.getElementById("cursoFormMessage");
+
+    const modalCursoTitulo =
+        document.getElementById("modalCursoTitulo");
+
+    const guardarCurso =
+        document.getElementById("guardarCurso");
+
+    const paginaAnteriorCurso =
+        document.getElementById("paginaAnteriorCurso");
+
+    const paginaActualCurso =
+        document.getElementById("paginaActualCurso");
+
+    const paginaSiguienteCurso =
+        document.getElementById("paginaSiguienteCurso");
+
+
+    /* ========================================================
+       VALIDAR ELEMENTOS
+    ======================================================== */
+
+    if (
+        !tablaBody ||
+        !totalCursos ||
+        !cursosActivos ||
+        !cursosInactivos ||
+        !contadorCursos ||
+        !cursosMostrados ||
+        !buscarCurso ||
+        !filtroEstadoCurso ||
+        !filtroNivelCurso ||
+        !btnNuevoCurso ||
+        !cursoModal ||
+        !cerrarCursoModal ||
+        !cancelarCurso ||
+        !formCurso ||
+        !cursoId ||
+        !cursoNombre ||
+        !cursoDescripcion ||
+        !cursoNivel ||
+        !cursoDuracion ||
+        !cursoModulos ||
+        !cursoAprobacion ||
+        !cursoEstado ||
+        !cursoFormMessage ||
+        !modalCursoTitulo ||
+        !guardarCurso ||
+        !paginaAnteriorCurso ||
+        !paginaActualCurso ||
+        !paginaSiguienteCurso
+    ) {
+
+        console.error(
+            "courses_admin.js: No se encontraron todos los elementos necesarios."
+        );
+
+        return;
+    }
 
 
     /* ========================================================
@@ -29,87 +153,20 @@
 
     let cursosFiltrados = [];
 
-    let paginaActual = 1;
+    let pagina = 1;
+
+    const cursosPorPagina = 8;
+
+    let temporizadorBusqueda = null;
 
 
     /* ========================================================
-       ELEMENTOS
+       OBTENER JSON
     ======================================================== */
 
-    let courseList;
-    let courseSearch;
-    let courseStatus;
+    async function obtenerRespuestaJSON(response) {
 
-    let courseLoadingStatus;
-    let coursesShown;
-
-    let previousPage;
-    let currentPage;
-    let nextPage;
-
-
-    /* ========================================================
-       OBTENER ELEMENTOS
-    ======================================================== */
-
-    function obtenerElementos() {
-
-        courseList =
-            document.getElementById("courseList");
-
-        courseSearch =
-            document.getElementById("courseSearch");
-
-        courseStatus =
-            document.getElementById("courseStatus");
-
-        courseLoadingStatus =
-            document.getElementById(
-                "courseLoadingStatus"
-            );
-
-        coursesShown =
-            document.getElementById("coursesShown");
-
-        previousPage =
-            document.getElementById("previousPage");
-
-        currentPage =
-            document.getElementById("currentPage");
-
-        nextPage =
-            document.getElementById("nextPage");
-
-    }
-
-
-    /* ========================================================
-       VALIDAR ELEMENTOS
-    ======================================================== */
-
-    function validarElementos() {
-
-        if (!courseList) {
-
-            console.error(
-                "courses_admin.js: No se encontró #courseList."
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-
-    /* ========================================================
-       RESPUESTA JSON
-    ======================================================== */
-
-    async function obtenerJSON(response) {
-
-        const texto =
-            await response.text();
+        const texto = await response.text();
 
         try {
 
@@ -118,12 +175,12 @@
         } catch (error) {
 
             console.error(
-                "Respuesta recibida del servidor:",
+                "Respuesta del servidor:",
                 texto
             );
 
             throw new Error(
-                "El servidor no devolvió JSON válido."
+                "El servidor no devolvió una respuesta JSON válida."
             );
         }
     }
@@ -141,7 +198,6 @@
         ) {
 
             return "";
-
         }
 
         return String(valor)
@@ -154,23 +210,36 @@
 
 
     /* ========================================================
-       NORMALIZAR ESTADO
+       FORMATEAR NIVEL
     ======================================================== */
 
-    function normalizarEstado(estado) {
+    function formatearNivel(nivel) {
 
-        if (
-            estado === 1 ||
-            estado === "1" ||
-            estado === true ||
-            estado === "activo"
-        ) {
+        const niveles = {
 
-            return "activo";
+            basico: "Básico",
 
-        }
+            intermedio: "Intermedio",
 
-        return "inactivo";
+            avanzado: "Avanzado"
+        };
+
+
+        return niveles[nivel] ||
+            nivel ||
+            "Sin nivel";
+    }
+
+
+    /* ========================================================
+       FORMATEAR ESTADO
+    ======================================================== */
+
+    function formatearEstado(estado) {
+
+        return estado === "activo"
+            ? "Activo"
+            : "Inactivo";
     }
 
 
@@ -182,26 +251,28 @@
 
         if (!fecha) {
 
-            return "-";
-
+            return "Sin fecha";
         }
 
-        const fechaObjeto =
+
+        const fechaObj =
             new Date(
-                String(fecha).replace(" ", "T")
+                String(fecha)
+                    .replace(" ", "T")
             );
+
 
         if (
             Number.isNaN(
-                fechaObjeto.getTime()
+                fechaObj.getTime()
             )
         ) {
 
-            return fecha;
-
+            return String(fecha);
         }
 
-        return fechaObjeto.toLocaleDateString(
+
+        return fechaObj.toLocaleDateString(
             "es-CO",
             {
                 day: "2-digit",
@@ -218,71 +289,25 @@
 
     function mostrarCargando() {
 
-        courseList.innerHTML = `
+        tablaBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="9"
+                    class="loading-users">
 
-            <div class="course-loading">
-
-                <span>
                     Cargando cursos...
-                </span>
 
-            </div>
-
+                </td>
+            </tr>
         `;
 
 
-        if (courseLoadingStatus) {
-
-            courseLoadingStatus.textContent =
-                "Cargando...";
-
-        }
+        contadorCursos.textContent =
+            "Cargando...";
 
 
-        if (coursesShown) {
-
-            coursesShown.textContent =
-                "Cargando cursos...";
-
-        }
-
-    }
-
-
-    /* ========================================================
-       MOSTRAR ERROR
-    ======================================================== */
-
-    function mostrarError(mensaje) {
-
-        courseList.innerHTML = `
-
-            <div class="course-loading">
-
-                <span>
-                    ${escapeHTML(mensaje)}
-                </span>
-
-            </div>
-
-        `;
-
-
-        if (courseLoadingStatus) {
-
-            courseLoadingStatus.textContent =
-                "Error";
-
-        }
-
-
-        if (coursesShown) {
-
-            coursesShown.textContent =
-                "No se pudieron cargar los cursos.";
-
-        }
-
+        cursosMostrados.textContent =
+            "Cargando cursos...";
     }
 
 
@@ -297,9 +322,58 @@
 
         try {
 
+            const params =
+                new URLSearchParams();
+
+
+            const search =
+                buscarCurso.value.trim();
+
+
+            const estado =
+                filtroEstadoCurso.value;
+
+
+            const nivel =
+                filtroNivelCurso.value;
+
+
+            if (search !== "") {
+
+                params.append(
+                    "search",
+                    search
+                );
+            }
+
+
+            if (estado !== "todos") {
+
+                params.append(
+                    "estado",
+                    estado
+                );
+            }
+
+
+            if (nivel !== "todos") {
+
+                params.append(
+                    "nivel_dificultad",
+                    nivel
+                );
+            }
+
+
+            const url =
+                params.toString()
+                    ? `${API_URL}?${params.toString()}`
+                    : API_URL;
+
+
             const response =
                 await fetch(
-                    API_URL,
+                    url,
                     {
                         method: "GET",
 
@@ -307,1329 +381,15 @@
                             "same-origin",
 
                         headers: {
-
                             "Accept":
                                 "application/json"
-
                         }
-
                     }
                 );
 
 
             const data =
-                await obtenerJSON(response);
-
-
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-
-                throw new Error(
-                    data.message ||
-                    "No fue posible cargar los cursos."
-                );
-
-            }
-
-
-            cursos =
-                Array.isArray(data.cursos)
-                    ? data.cursos
-                    : [];
-
-
-            paginaActual = 1;
-
-
-            aplicarFiltros();
-
-
-            console.log(
-                "Cursos cargados:",
-                cursos
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Error cargando cursos:",
-                error
-            );
-
-
-            mostrarError(
-                error.message
-            );
-
-        }
-
-    }
-
-
-    /* ========================================================
-       FILTRAR CURSOS
-    ======================================================== */
-
-    function aplicarFiltros() {
-
-        const texto =
-            courseSearch
-                ? courseSearch.value
-                    .trim()
-                    .toLowerCase()
-                : "";
-
-
-        const estado =
-            courseStatus
-                ? courseStatus.value
-                : "todos";
-
-
-        cursosFiltrados =
-            cursos.filter(
-                curso => {
-
-                    const titulo =
-                        String(
-                            curso.titulo || ""
-                        ).toLowerCase();
-
-
-                    const descripcion =
-                        String(
-                            curso.descripcion || ""
-                        ).toLowerCase();
-
-
-                    const coincideTexto =
-                        texto === "" ||
-                        titulo.includes(texto) ||
-                        descripcion.includes(texto);
-
-
-                    const estadoCurso =
-                        normalizarEstado(
-                            curso.estado
-                        );
-
-
-                    const coincideEstado =
-                        estado === "todos" ||
-                        estado === estadoCurso;
-
-
-                    return (
-                        coincideTexto &&
-                        coincideEstado
-                    );
-
-                }
-            );
-
-
-        paginaActual = 1;
-
-
-        renderizarCursos();
-
-    }
-
-
-    /* ========================================================
-       RENDERIZAR CURSOS
-    ======================================================== */
-
-    function renderizarCursos() {
-
-        const total =
-            cursosFiltrados.length;
-
-
-        const totalPaginas =
-            Math.max(
-                1,
-                Math.ceil(
-                    total /
-                    COURSES_PER_PAGE
-                )
-            );
-
-
-        if (
-            paginaActual >
-            totalPaginas
-        ) {
-
-            paginaActual =
-                totalPaginas;
-
-        }
-
-
-        const inicio =
-            (
-                paginaActual - 1
-            ) *
-            COURSES_PER_PAGE;
-
-
-        const fin =
-            inicio +
-            COURSES_PER_PAGE;
-
-
-        const cursosPagina =
-            cursosFiltrados.slice(
-                inicio,
-                fin
-            );
-
-
-        if (cursosPagina.length === 0) {
-
-            courseList.innerHTML = `
-
-                <div class="course-loading">
-
-                    <span>
-                        No hay cursos para mostrar.
-                    </span>
-
-                </div>
-
-            `;
-
-        } else {
-
-            courseList.innerHTML =
-                cursosPagina
-                    .map(
-                        (
-                            curso,
-                            indice
-                        ) =>
-                            crearCursoHTML(
-                                curso,
-                                inicio +
-                                indice
-                            )
-                    )
-                    .join("");
-
-        }
-
-
-        actualizarPaginacion(
-            total,
-            totalPaginas,
-            inicio,
-            cursosPagina.length
-        );
-
-    }
-
-
-    /* ========================================================
-       CREAR HTML DE CURSO
-    ======================================================== */
-
-    function crearCursoHTML(
-        curso,
-        indice
-    ) {
-
-        const estado =
-            normalizarEstado(
-                curso.estado
-            );
-
-
-        const numero =
-            String(
-                indice + 1
-            ).padStart(
-                2,
-                "0"
-            );
-
-
-        const titulo =
-            escapeHTML(
-                curso.titulo
-            );
-
-
-        const descripcion =
-            escapeHTML(
-                curso.descripcion ||
-                "Sin descripción."
-            );
-
-
-        const nivel =
-            escapeHTML(
-                curso.nivel_dificultad ||
-                "Básico"
-            );
-
-
-        const duracion =
-            escapeHTML(
-                curso.duracion ||
-                "-"
-            );
-
-
-        const modulos =
-            Number(
-                curso.numero_modulos || 0
-            );
-
-
-        const aprobacion =
-            Number(
-                curso.porcentaje_aprobacion || 0
-            );
-
-
-        const fecha =
-            formatearFecha(
-                curso.fecha_creacion
-            );
-
-
-        const textoEstado =
-            estado === "activo"
-                ? "ACTIVO"
-                : "INACTIVO";
-
-
-        const textoBotonEstado =
-            estado === "activo"
-                ? "Desactivar"
-                : "Activar";
-
-
-        return `
-
-            <article
-                class="admin-course-item"
-                data-id="${Number(curso.id)}"
-                data-status="${estado}"
-                data-name="${titulo}"
-            >
-
-                <div class="admin-course-number">
-                    ${numero}
-                </div>
-
-
-                <div class="admin-course-info">
-
-                    <span
-                        class="course-status ${
-                            estado === "activo"
-                                ? "active"
-                                : "inactive"
-                        }"
-                    >
-                        ${textoEstado}
-                    </span>
-
-
-                    <h4>
-                        ${titulo}
-                    </h4>
-
-
-                    <p>
-                        ${descripcion}
-                    </p>
-
-
-                    <span class="course-meta">
-
-                        ${nivel}
-
-                        ·
-
-                        ${duracion}
-
-                        ·
-
-                        ${modulos} módulos
-
-                        ·
-
-                        ${aprobacion}% aprobación
-
-                    </span>
-
-
-                    <span class="course-meta">
-
-                        Creado:
-                        ${fecha}
-
-                    </span>
-
-                </div>
-
-
-                <div class="course-actions">
-
-                    <button
-                        type="button"
-                        class="course-action-button edit"
-                        data-action="editar"
-                        data-id="${Number(curso.id)}"
-                    >
-                        Editar
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="course-action-button status"
-                        data-action="estado"
-                        data-id="${Number(curso.id)}"
-                    >
-                        ${textoBotonEstado}
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="course-action-button delete"
-                        data-action="eliminar"
-                        data-id="${Number(curso.id)}"
-                    >
-                        Eliminar
-                    </button>
-
-                </div>
-
-            </article>
-
-        `;
-
-    }
-
-
-    /* ========================================================
-       PAGINACIÓN
-    ======================================================== */
-
-    function actualizarPaginacion(
-        total,
-        totalPaginas,
-        inicio,
-        cantidadPagina
-    ) {
-
-        if (coursesShown) {
-
-            if (total === 0) {
-
-                coursesShown.textContent =
-                    "Mostrando 0 cursos";
-
-            } else {
-
-                coursesShown.textContent =
-                    `Mostrando ${
-                        inicio + 1
-                    }-${
-                        inicio +
-                        cantidadPagina
-                    } de ${
-                        total
-                    } cursos`;
-
-            }
-
-        }
-
-
-        if (currentPage) {
-
-            currentPage.textContent =
-                paginaActual;
-
-        }
-
-
-        if (previousPage) {
-
-            previousPage.disabled =
-                paginaActual <= 1;
-
-        }
-
-
-        if (nextPage) {
-
-            nextPage.disabled =
-                paginaActual >=
-                totalPaginas;
-
-        }
-
-
-        if (courseLoadingStatus) {
-
-            courseLoadingStatus.textContent =
-                `${total} ${
-                    total === 1
-                        ? "curso"
-                        : "cursos"
-                }`;
-
-        }
-
-    }
-
-
-    /* ========================================================
-       OBTENER CURSO
-    ======================================================== */
-
-    function obtenerCursoPorId(id) {
-
-        return cursos.find(
-            curso =>
-                Number(curso.id) ===
-                Number(id)
-        );
-
-    }
-
-
-    /* ========================================================
-       CREAR MODAL
-    ======================================================== */
-
-    function crearModalCurso() {
-
-        let modal =
-            document.getElementById(
-                "courseModal"
-            );
-
-
-        if (modal) {
-
-            return modal;
-
-        }
-
-
-        modal =
-            document.createElement(
-                "div"
-            );
-
-
-        modal.id =
-            "courseModal";
-
-
-        modal.className =
-            "user-modal";
-
-
-        modal.hidden =
-            true;
-
-
-        modal.innerHTML = `
-
-            <div
-                class="user-modal-overlay"
-                id="courseModalOverlay"
-            ></div>
-
-
-            <div
-                class="user-modal-content"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="courseModalTitle"
-            >
-
-                <div class="user-modal-header">
-
-                    <div>
-
-                        <span class="section-label">
-                            ADMINISTRACIÓN
-                        </span>
-
-                        <h3 id="courseModalTitle">
-                            Nuevo curso
-                        </h3>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="modal-close"
-                        id="closeCourseModal"
-                        aria-label="Cerrar"
-                    >
-                        ×
-                    </button>
-
-                </div>
-
-
-                <form id="courseForm">
-
-                    <input
-                        type="hidden"
-                        id="courseId"
-                    >
-
-
-                    <div class="form-group">
-
-                        <label for="courseTitle">
-                            Título del curso
-                        </label>
-
-                        <input
-                            type="text"
-                            id="courseTitle"
-                            maxlength="150"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="courseDescription">
-                            Descripción
-                        </label>
-
-                        <textarea
-                            id="courseDescription"
-                            rows="4"
-                            required
-                        ></textarea>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="courseLevel">
-                            Nivel de dificultad
-                        </label>
-
-                        <select
-                            id="courseLevel"
-                            required
-                        >
-
-                            <option value="Básico">
-                                Básico
-                            </option>
-
-                            <option value="Intermedio">
-                                Intermedio
-                            </option>
-
-                            <option value="Avanzado">
-                                Avanzado
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="courseDuration">
-                            Duración
-                        </label>
-
-                        <input
-                            type="text"
-                            id="courseDuration"
-                            placeholder="Ej: 2 horas"
-                            maxlength="50"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="courseModules">
-                            Número de módulos
-                        </label>
-
-                        <input
-                            type="number"
-                            id="courseModules"
-                            min="1"
-                            value="1"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="courseApproval">
-                            Porcentaje de aprobación
-                        </label>
-
-                        <input
-                            type="number"
-                            id="courseApproval"
-                            min="0"
-                            max="100"
-                            value="70"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="courseFormStatus">
-                            Estado
-                        </label>
-
-                        <select
-                            id="courseFormStatus"
-                            required
-                        >
-
-                            <option value="1">
-                                Activo
-                            </option>
-
-                            <option value="0">
-                                Inactivo
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div
-                        id="courseFormMessage"
-                        class="user-form-message"
-                        aria-live="polite"
-                    ></div>
-
-
-                    <div class="user-modal-actions">
-
-                        <button
-                            type="button"
-                            class="modal-button secondary"
-                            id="cancelCourse"
-                        >
-                            Cancelar
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="modal-button primary"
-                            id="saveCourse"
-                        >
-                            Crear curso
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        `;
-
-
-        document.body.appendChild(
-            modal
-        );
-
-
-        document
-            .getElementById(
-                "closeCourseModal"
-            )
-            .addEventListener(
-                "click",
-                cerrarModalCurso
-            );
-
-
-        document
-            .getElementById(
-                "cancelCourse"
-            )
-            .addEventListener(
-                "click",
-                cerrarModalCurso
-            );
-
-
-        document
-            .getElementById(
-                "courseModalOverlay"
-            )
-            .addEventListener(
-                "click",
-                cerrarModalCurso
-            );
-
-
-        document
-            .getElementById(
-                "courseForm"
-            )
-            .addEventListener(
-                "submit",
-                guardarCurso
-            );
-
-
-        return modal;
-
-    }
-
-
-    /* ========================================================
-       ABRIR MODAL NUEVO
-    ======================================================== */
-
-    function abrirNuevoCurso() {
-
-        const modal =
-            crearModalCurso();
-
-
-        limpiarFormularioCurso();
-
-
-        document
-            .getElementById(
-                "courseModalTitle"
-            )
-            .textContent =
-                "Nuevo curso";
-
-
-        document
-            .getElementById(
-                "saveCourse"
-            )
-            .textContent =
-                "Crear curso";
-
-
-        modal.hidden =
-            false;
-
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-
-    /* ========================================================
-       ABRIR MODAL EDITAR
-    ======================================================== */
-
-    function abrirEditarCurso(id) {
-
-        const curso =
-            obtenerCursoPorId(id);
-
-
-        if (!curso) {
-
-            alert(
-                "No se encontró el curso."
-            );
-
-            return;
-
-        }
-
-
-        const modal =
-            crearModalCurso();
-
-
-        document
-            .getElementById(
-                "courseModalTitle"
-            )
-            .textContent =
-                "Editar curso";
-
-
-        document
-            .getElementById(
-                "saveCourse"
-            )
-            .textContent =
-                "Guardar cambios";
-
-
-        document
-            .getElementById(
-                "courseId"
-            )
-            .value =
-                curso.id;
-
-
-        document
-            .getElementById(
-                "courseTitle"
-            )
-            .value =
-                curso.titulo || "";
-
-
-        document
-            .getElementById(
-                "courseDescription"
-            )
-            .value =
-                curso.descripcion || "";
-
-
-        document
-            .getElementById(
-                "courseLevel"
-            )
-            .value =
-                curso.nivel_dificultad ||
-                "Básico";
-
-
-        document
-            .getElementById(
-                "courseDuration"
-            )
-            .value =
-                curso.duracion || "";
-
-
-        document
-            .getElementById(
-                "courseModules"
-            )
-            .value =
-                curso.numero_modulos || 1;
-
-
-        document
-            .getElementById(
-                "courseApproval"
-            )
-            .value =
-                curso.porcentaje_aprobacion ||
-                70;
-
-
-        document
-            .getElementById(
-                "courseFormStatus"
-            )
-            .value =
-                normalizarEstado(
-                    curso.estado
-                ) === "activo"
-                    ? "1"
-                    : "0";
-
-
-        mostrarMensajeFormulario(
-            "",
-            ""
-        );
-
-
-        modal.hidden =
-            false;
-
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-
-    /* ========================================================
-       LIMPIAR FORMULARIO
-    ======================================================== */
-
-    function limpiarFormularioCurso() {
-
-        const form =
-            document.getElementById(
-                "courseForm"
-            );
-
-
-        if (form) {
-
-            form.reset();
-
-        }
-
-
-        document
-            .getElementById(
-                "courseId"
-            )
-            .value =
-                "";
-
-
-        document
-            .getElementById(
-                "courseModules"
-            )
-            .value =
-                "1";
-
-
-        document
-            .getElementById(
-                "courseApproval"
-            )
-            .value =
-                "70";
-
-
-        document
-            .getElementById(
-                "courseFormStatus"
-            )
-            .value =
-                "1";
-
-
-        mostrarMensajeFormulario(
-            "",
-            ""
-        );
-
-    }
-
-
-    /* ========================================================
-       CERRAR MODAL
-    ======================================================== */
-
-    function cerrarModalCurso() {
-
-        const modal =
-            document.getElementById(
-                "courseModal"
-            );
-
-
-        if (modal) {
-
-            modal.hidden =
-                true;
-
-        }
-
-
-        document.body.style.overflow =
-            "";
-
-    }
-
-
-    /* ========================================================
-       MENSAJE FORMULARIO
-    ======================================================== */
-
-    function mostrarMensajeFormulario(
-        mensaje,
-        tipo
-    ) {
-
-        const elemento =
-            document.getElementById(
-                "courseFormMessage"
-            );
-
-
-        if (!elemento) {
-
-            return;
-
-        }
-
-
-        elemento.textContent =
-            mensaje || "";
-
-
-        elemento.className =
-            "user-form-message";
-
-
-        if (tipo) {
-
-            elemento.classList.add(
-                tipo
-            );
-
-        }
-
-    }
-
-
-    /* ========================================================
-       OBTENER DATOS FORMULARIO
-    ======================================================== */
-
-    function obtenerDatosFormulario() {
-
-        return {
-
-            titulo:
-                document
-                    .getElementById(
-                        "courseTitle"
-                    )
-                    .value
-                    .trim(),
-
-            descripcion:
-                document
-                    .getElementById(
-                        "courseDescription"
-                    )
-                    .value
-                    .trim(),
-
-            nivel_dificultad:
-                document
-                    .getElementById(
-                        "courseLevel"
-                    )
-                    .value,
-
-            duracion:
-                document
-                    .getElementById(
-                        "courseDuration"
-                    )
-                    .value
-                    .trim(),
-
-            numero_modulos:
-                Number(
-                    document
-                        .getElementById(
-                            "courseModules"
-                        )
-                        .value
-                ),
-
-            porcentaje_aprobacion:
-                Number(
-                    document
-                        .getElementById(
-                            "courseApproval"
-                        )
-                        .value
-                ),
-
-            estado:
-                Number(
-                    document
-                        .getElementById(
-                            "courseFormStatus"
-                        )
-                        .value
-                )
-
-        };
-
-    }
-
-
-    /* ========================================================
-       VALIDAR DATOS
-    ======================================================== */
-
-    function validarDatosCurso(datos) {
-
-        if (!datos.titulo) {
-
-            return "El título del curso es obligatorio.";
-
-        }
-
-
-        if (!datos.descripcion) {
-
-            return "La descripción es obligatoria.";
-
-        }
-
-
-        if (!datos.duracion) {
-
-            return "La duración es obligatoria.";
-
-        }
-
-
-        if (
-            !Number.isInteger(
-                datos.numero_modulos
-            ) ||
-            datos.numero_modulos < 1
-        ) {
-
-            return "El número de módulos debe ser mayor que 0.";
-
-        }
-
-
-        if (
-            datos.porcentaje_aprobacion < 0 ||
-            datos.porcentaje_aprobacion > 100
-        ) {
-
-            return "El porcentaje de aprobación debe estar entre 0 y 100.";
-
-        }
-
-
-        return null;
-
-    }
-
-
-    /* ========================================================
-       CREAR / EDITAR CURSO
-    ======================================================== */
-
-    async function guardarCurso(event) {
-
-        event.preventDefault();
-
-
-        const id =
-            document
-                .getElementById(
-                    "courseId"
-                )
-                .value;
-
-
-        const datos =
-            obtenerDatosFormulario();
-
-
-        const error =
-            validarDatosCurso(
-                datos
-            );
-
-
-        if (error) {
-
-            mostrarMensajeFormulario(
-                error,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const boton =
-            document.getElementById(
-                "saveCourse"
-            );
-
-
-        boton.disabled =
-            true;
-
-
-        boton.textContent =
-            id
-                ? "Guardando..."
-                : "Creando...";
-
-
-        try {
-
-            const response =
-                await fetch(
-                    API_URL,
-                    {
-
-                        method:
-                            id
-                                ? "PUT"
-                                : "POST",
-
-                        credentials:
-                            "same-origin",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json",
-
-                            "Accept":
-                                "application/json"
-
-                        },
-
-                        body:
-                            JSON.stringify(
-                                id
-                                    ? {
-                                        id:
-                                            Number(id),
-                                        ...datos
-                                    }
-                                    : datos
-                            )
-
-                    }
-                );
-
-
-            const data =
-                await obtenerJSON(
+                await obtenerRespuestaJSON(
                     response
                 );
 
@@ -1641,19 +401,714 @@
 
                 throw new Error(
                     data.message ||
-                    "No fue posible guardar el curso."
+                    "No fue posible cargar los cursos."
+                );
+            }
+
+
+            cursos =
+                Array.isArray(data.cursos)
+                    ? data.cursos
+                    : [];
+
+
+            pagina = 1;
+
+
+            actualizarIndicadores();
+
+
+            aplicarPaginacion();
+
+
+        } catch (error) {
+
+            console.error(
+                "Error al cargar cursos:",
+                error
+            );
+
+
+            tablaBody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="9"
+                        class="users-error">
+
+                        ${escapeHTML(error.message)}
+
+                    </td>
+                </tr>
+            `;
+
+
+            contadorCursos.textContent =
+                "Error";
+
+
+            cursosMostrados.textContent =
+                "No se pudieron cargar los cursos.";
+        }
+    }
+
+
+    /* ========================================================
+       INDICADORES
+    ======================================================== */
+
+    function actualizarIndicadores() {
+
+        const total =
+            cursos.length;
+
+
+        const activos =
+            cursos.filter(
+                curso =>
+                    curso.estado === "activo"
+            ).length;
+
+
+        const inactivos =
+            cursos.filter(
+                curso =>
+                    curso.estado === "inactivo"
+            ).length;
+
+
+        totalCursos.textContent =
+            total;
+
+
+        cursosActivos.textContent =
+            activos;
+
+
+        cursosInactivos.textContent =
+            inactivos;
+
+
+        contadorCursos.textContent =
+            `${total} ${
+                total === 1
+                    ? "curso"
+                    : "cursos"
+            }`;
+    }
+
+
+    /* ========================================================
+       PAGINACIÓN
+    ======================================================== */
+
+    function aplicarPaginacion() {
+
+        cursosFiltrados =
+            [...cursos];
+
+
+        const total =
+            cursosFiltrados.length;
+
+
+        const totalPaginas =
+            Math.max(
+                1,
+                Math.ceil(
+                    total /
+                    cursosPorPagina
+                )
+            );
+
+
+        if (
+            pagina >
+            totalPaginas
+        ) {
+
+            pagina =
+                totalPaginas;
+        }
+
+
+        const inicio =
+            (pagina - 1) *
+            cursosPorPagina;
+
+
+        const fin =
+            inicio +
+            cursosPorPagina;
+
+
+        const cursosPagina =
+            cursosFiltrados.slice(
+                inicio,
+                fin
+            );
+
+
+        renderizarCursos(
+            cursosPagina
+        );
+
+
+        actualizarFooter(
+            total,
+            cursosPagina.length,
+            inicio
+        );
+
+
+        actualizarBotonesPaginacion(
+            totalPaginas
+        );
+    }
+
+
+    /* ========================================================
+       RENDERIZAR CURSOS
+    ======================================================== */
+
+    function renderizarCursos(lista) {
+
+        if (!lista.length) {
+
+            tablaBody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="9"
+                        class="empty-users">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                ▣
+                            </div>
+
+                            <h3>
+                                No hay cursos registrados
+                            </h3>
+
+                            <p>
+                                No existen cursos que coincidan
+                                con los filtros seleccionados.
+                            </p>
+
+                        </div>
+
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        tablaBody.innerHTML =
+            lista.map(curso => {
+
+                const estado =
+                    curso.estado ||
+                    "activo";
+
+
+                return `
+                    <tr>
+
+                        <!-- CURSO -->
+
+                        <td>
+
+                            <div class="user-cell">
+
+                                <div class="user-avatar">
+                                    ▣
+                                </div>
+
+                                <div class="user-info">
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            curso.titulo
+                                        )}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- DESCRIPCIÓN -->
+
+                        <td>
+
+                            <span
+                                class="course-description"
+                                title="${escapeHTML(
+                                    curso.descripcion || ""
+                                )}">
+
+                                ${escapeHTML(
+                                    curso.descripcion ||
+                                    "Sin descripción"
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- NIVEL -->
+
+                        <td>
+
+                            <span class="role-badge">
+
+                                ${escapeHTML(
+                                    formatearNivel(
+                                        curso.nivel_dificultad
+                                    )
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- DURACIÓN -->
+
+                        <td>
+
+                            ${escapeHTML(
+                                curso.duracion
+                            )} h
+
+                        </td>
+
+
+                        <!-- MÓDULOS -->
+
+                        <td>
+
+                            ${escapeHTML(
+                                curso.numero_modulos
+                            )}
+
+                        </td>
+
+
+                        <!-- APROBACIÓN -->
+
+                        <td>
+
+                            ${escapeHTML(
+                                curso.porcentaje_aprobacion
+                            )}%
+
+                        </td>
+
+
+                        <!-- ESTADO -->
+
+                        <td>
+
+                            <span
+                                class="status-badge ${
+                                    estado === "activo"
+                                        ? "active"
+                                        : "inactive"
+                                }">
+
+                                ${escapeHTML(
+                                    formatearEstado(
+                                        estado
+                                    )
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- FECHA -->
+
+                        <td>
+
+                            ${escapeHTML(
+                                formatearFecha(
+                                    curso.fecha_creacion
+                                )
+                            )}
+
+                        </td>
+
+
+                        <!-- ACCIONES -->
+
+                        <td>
+
+                            <div class="table-actions">
+
+                                <button
+                                    type="button"
+                                    class="table-action edit"
+                                    data-action="editar"
+                                    data-id="${Number(curso.id)}">
+
+                                    Editar
+
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="table-action toggle"
+                                    data-action="estado"
+                                    data-id="${Number(curso.id)}">
+
+                                    ${
+                                        estado === "activo"
+                                            ? "Desactivar"
+                                            : "Activar"
+                                    }
+
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="table-action delete"
+                                    data-action="eliminar"
+                                    data-id="${Number(curso.id)}">
+
+                                    Eliminar
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+    }
+
+
+    /* ========================================================
+       FOOTER
+    ======================================================== */
+
+    function actualizarFooter(
+        total,
+        cantidadPagina,
+        inicio
+    ) {
+
+        if (total === 0) {
+
+            cursosMostrados.textContent =
+                "No hay cursos para mostrar.";
+
+            return;
+        }
+
+
+        const desde =
+            inicio + 1;
+
+
+        const hasta =
+            inicio +
+            cantidadPagina;
+
+
+        cursosMostrados.textContent =
+            `Mostrando ${desde}-${hasta} de ${total} cursos`;
+    }
+
+
+    /* ========================================================
+       BOTONES PAGINACIÓN
+    ======================================================== */
+
+    function actualizarBotonesPaginacion(
+        totalPaginas
+    ) {
+
+        paginaActualCurso.textContent =
+            pagina;
+
+
+        paginaAnteriorCurso.disabled =
+            pagina <= 1;
+
+
+        paginaSiguienteCurso.disabled =
+            pagina >= totalPaginas;
+    }
+
+
+    /* ========================================================
+       ABRIR MODAL NUEVO
+    ======================================================== */
+
+    function abrirModalNuevoCurso() {
+
+        formCurso.reset();
+
+
+        cursoId.value =
+            "";
+
+
+        cursoNivel.value =
+            "";
+
+
+        cursoEstado.value =
+            "activo";
+
+
+       
+
+        modalCursoTitulo.textContent =
+            "Nuevo curso";
+
+
+        guardarCurso.textContent =
+            "Crear curso";
+
+
+        limpiarMensajeFormulario();
+
+
+        cursoModal.hidden =
+            false;
+
+
+        document.body.classList.add(
+            "modal-open"
+        );
+
+
+        setTimeout(() => {
+
+            cursoNombre.focus();
+
+        }, 100);
+    }
+
+
+    /* ========================================================
+       ABRIR MODAL EDITAR
+    ======================================================== */
+
+    function abrirModalEditarCurso(
+        curso
+    ) {
+
+        cursoId.value =
+            curso.id;
+
+
+        cursoNombre.value =
+            curso.titulo || "";
+
+
+        cursoDescripcion.value =
+            curso.descripcion || "";
+
+
+        cursoNivel.value =
+            curso.nivel_dificultad || "";
+
+
+        cursoDuracion.value =
+            curso.duracion || "";
+
+
+        cursoModulos.value =
+            curso.numero_modulos || "";
+
+
+        cursoAprobacion.value =
+            curso.porcentaje_aprobacion || "";
+
+
+        cursoEstado.value =
+            curso.estado || "activo";
+
+
+        modalCursoTitulo.textContent =
+            "Editar curso";
+
+
+        guardarCurso.textContent =
+            "Guardar cambios";
+
+
+        limpiarMensajeFormulario();
+
+
+        cursoModal.hidden =
+            false;
+
+
+        document.body.classList.add(
+            "modal-open"
+        );
+
+
+        setTimeout(() => {
+
+            cursoNombre.focus();
+
+        }, 100);
+    }
+
+
+    /* ========================================================
+       CERRAR MODAL
+    ======================================================== */
+
+    function cerrarModalCurso() {
+
+        cursoModal.hidden =
+            true;
+
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
+
+        limpiarMensajeFormulario();
+    }
+
+
+    /* ========================================================
+       MENSAJES
+    ======================================================== */
+
+    function mostrarMensajeFormulario(
+        mensaje,
+        tipo
+    ) {
+
+        cursoFormMessage.textContent =
+            mensaje;
+
+
+        cursoFormMessage.className =
+            `user-form-message ${tipo}`;
+    }
+
+
+    function limpiarMensajeFormulario() {
+
+        cursoFormMessage.textContent =
+            "";
+
+
+        cursoFormMessage.className =
+            "user-form-message";
+    }
+
+
+    /* ========================================================
+       BLOQUEAR FORMULARIO
+    ======================================================== */
+
+    function bloquearFormulario(
+        bloquear
+    ) {
+
+        const controles =
+            formCurso.querySelectorAll(
+                "input, textarea, select, button"
+            );
+
+
+        controles.forEach(control => {
+
+            control.disabled =
+                bloquear;
+
+        });
+
+
+        if (!bloquear) {
+
+            guardarCurso.disabled =
+                false;
+        }
+    }
+
+
+    /* ========================================================
+       CREAR CURSO
+    ======================================================== */
+
+    async function crearCurso(
+        datos
+    ) {
+
+        bloquearFormulario(true);
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "POST",
+
+                        credentials:
+                            "same-origin",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                datos
+                            )
+                    }
                 );
 
+
+            const data =
+                await obtenerRespuestaJSON(
+                    response
+                );
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "No fue posible crear el curso."
+                );
             }
 
 
             mostrarMensajeFormulario(
                 data.message ||
-                (
-                    id
-                        ? "Curso actualizado correctamente."
-                        : "Curso creado correctamente."
-                ),
+                "Curso creado correctamente.",
                 "success"
             );
 
@@ -1661,20 +1116,17 @@
             await cargarCursos();
 
 
-            setTimeout(
-                () => {
+            setTimeout(() => {
 
-                    cerrarModalCurso();
+                cerrarModalCurso();
 
-                },
-                700
-            );
+            }, 700);
 
 
         } catch (error) {
 
             console.error(
-                "Error guardando curso:",
+                "Error al crear curso:",
                 error
             );
 
@@ -1684,18 +1136,107 @@
                 "error"
             );
 
+
         } finally {
 
-            boton.disabled =
-                false;
-
-            boton.textContent =
-                id
-                    ? "Guardar cambios"
-                    : "Crear curso";
-
+            bloquearFormulario(false);
         }
+    }
 
+
+    /* ========================================================
+       EDITAR CURSO
+    ======================================================== */
+
+    async function editarCurso(
+        id,
+        datos
+    ) {
+
+        bloquearFormulario(true);
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "PUT",
+
+                        credentials:
+                            "same-origin",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                id,
+                                ...datos
+                            })
+                    }
+                );
+
+
+            const data =
+                await obtenerRespuestaJSON(
+                    response
+                );
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "No fue posible actualizar el curso."
+                );
+            }
+
+
+            mostrarMensajeFormulario(
+                data.message ||
+                "Curso actualizado correctamente.",
+                "success"
+            );
+
+
+            await cargarCursos();
+
+
+            setTimeout(() => {
+
+                cerrarModalCurso();
+
+            }, 700);
+
+
+        } catch (error) {
+
+            console.error(
+                "Error al actualizar curso:",
+                error
+            );
+
+
+            mostrarMensajeFormulario(
+                error.message,
+                "error"
+            );
+
+
+        } finally {
+
+            bloquearFormulario(false);
+        }
     }
 
 
@@ -1703,33 +1244,18 @@
        CAMBIAR ESTADO
     ======================================================== */
 
-    async function cambiarEstadoCurso(id) {
-
-        const curso =
-            obtenerCursoPorId(id);
-
-
-        if (!curso) {
-
-            return;
-
-        }
-
-
-        const estadoActual =
-            normalizarEstado(
-                curso.estado
-            );
-
+    async function cambiarEstado(
+        curso
+    ) {
 
         const nuevoEstado =
-            estadoActual === "activo"
-                ? 0
-                : 1;
+            curso.estado === "activo"
+                ? "inactivo"
+                : "activo";
 
 
         const accion =
-            nuevoEstado === 1
+            nuevoEstado === "activo"
                 ? "activar"
                 : "desactivar";
 
@@ -1743,7 +1269,6 @@
         if (!confirmado) {
 
             return;
-
         }
 
 
@@ -1753,40 +1278,35 @@
                 await fetch(
                     API_URL,
                     {
-
-                        method:
-                            "PATCH",
+                        method: "PATCH",
 
                         credentials:
                             "same-origin",
 
                         headers: {
-
                             "Content-Type":
                                 "application/json",
 
                             "Accept":
                                 "application/json"
-
                         },
 
                         body:
                             JSON.stringify({
-
                                 id:
-                                    Number(id),
+                                    Number(
+                                        curso.id
+                                    ),
 
                                 estado:
                                     nuevoEstado
-
                             })
-
                     }
                 );
 
 
             const data =
-                await obtenerJSON(
+                await obtenerRespuestaJSON(
                     response
                 );
 
@@ -1800,7 +1320,6 @@
                     data.message ||
                     "No fue posible cambiar el estado."
                 );
-
             }
 
 
@@ -1810,7 +1329,7 @@
         } catch (error) {
 
             console.error(
-                "Error cambiando estado:",
+                "Error al cambiar estado:",
                 error
             );
 
@@ -1818,9 +1337,7 @@
             alert(
                 error.message
             );
-
         }
-
     }
 
 
@@ -1828,29 +1345,19 @@
        ELIMINAR CURSO
     ======================================================== */
 
-    async function eliminarCurso(id) {
-
-        const curso =
-            obtenerCursoPorId(id);
-
-
-        if (!curso) {
-
-            return;
-
-        }
-
+    async function eliminarCurso(
+        curso
+    ) {
 
         const confirmado =
             confirm(
-                `¿Estás seguro de eliminar el curso "${curso.titulo}"?`
+                `¿Estás seguro de eliminar el curso "${curso.titulo}"?\n\nEsta acción no se puede deshacer.`
             );
 
 
         if (!confirmado) {
 
             return;
-
         }
 
 
@@ -1860,37 +1367,32 @@
                 await fetch(
                     API_URL,
                     {
-
-                        method:
-                            "DELETE",
+                        method: "DELETE",
 
                         credentials:
                             "same-origin",
 
                         headers: {
-
                             "Content-Type":
                                 "application/json",
 
                             "Accept":
                                 "application/json"
-
                         },
 
                         body:
                             JSON.stringify({
-
                                 id:
-                                    Number(id)
-
+                                    Number(
+                                        curso.id
+                                    )
                             })
+                    }
+                );
 
-                        }
-
-                    );
 
             const data =
-                await obtenerJSON(
+                await obtenerRespuestaJSON(
                     response
                 );
 
@@ -1904,7 +1406,6 @@
                     data.message ||
                     "No fue posible eliminar el curso."
                 );
-
             }
 
 
@@ -1914,7 +1415,7 @@
         } catch (error) {
 
             console.error(
-                "Error eliminando curso:",
+                "Error al eliminar curso:",
                 error
             );
 
@@ -1922,314 +1423,438 @@
             alert(
                 error.message
             );
-
         }
-
     }
 
 
     /* ========================================================
-       EVENTOS LISTA
+       EVENTOS DE TABLA
     ======================================================== */
 
-    function configurarEventosLista() {
+    tablaBody.addEventListener(
+        "click",
+        event => {
 
-        if (!courseList) {
+            const button =
+                event.target.closest(
+                    "button[data-action]"
+                );
 
-            return;
 
+            if (!button) {
+
+                return;
+            }
+
+
+            const id =
+                Number(
+                    button.dataset.id
+                );
+
+
+            const curso =
+                cursos.find(
+                    item =>
+                        Number(item.id) === id
+                );
+
+
+            if (!curso) {
+
+                return;
+            }
+
+
+            const action =
+                button.dataset.action;
+
+
+            if (
+                action === "editar"
+            ) {
+
+                abrirModalEditarCurso(
+                    curso
+                );
+            }
+
+
+            if (
+                action === "estado"
+            ) {
+
+                cambiarEstado(
+                    curso
+                );
+            }
+
+
+            if (
+                action === "eliminar"
+            ) {
+
+                eliminarCurso(
+                    curso
+                );
+            }
         }
+    );
 
 
-        courseList.addEventListener(
+    /* ========================================================
+       NUEVO CURSO
+    ======================================================== */
+
+    btnNuevoCurso.addEventListener(
+        "click",
+        abrirModalNuevoCurso
+    );
+
+
+    /* ========================================================
+       CERRAR MODAL
+    ======================================================== */
+
+    cerrarCursoModal.addEventListener(
+        "click",
+        cerrarModalCurso
+    );
+
+
+    cancelarCurso.addEventListener(
+        "click",
+        cerrarModalCurso
+    );
+
+
+    const modalOverlay =
+        cursoModal.querySelector(
+            ".user-modal-overlay"
+        );
+
+
+    if (modalOverlay) {
+
+        modalOverlay.addEventListener(
             "click",
-            event => {
-
-                const boton =
-                    event.target.closest(
-                        "[data-action]"
-                    );
+            cerrarModalCurso
+        );
+    }
 
 
-                if (!boton) {
+    /* ========================================================
+       FORMULARIO
+    ======================================================== */
 
-                    return;
+    formCurso.addEventListener(
+        "submit",
+        async event => {
 
-                }
-
-
-                const accion =
-                    boton.dataset.action;
+            event.preventDefault();
 
 
-                const id =
+            limpiarMensajeFormulario();
+
+
+            const id =
+                cursoId.value.trim();
+
+
+            const datos = {
+
+                titulo:
+                    cursoNombre.value.trim(),
+
+                descripcion:
+                    cursoDescripcion.value.trim(),
+
+                nivel_dificultad:
+                    cursoNivel.value,
+
+                duracion:
                     Number(
-                        boton.dataset.id
-                    );
+                        cursoDuracion.value
+                    ),
+
+                numero_modulos:
+                    Number(
+                        cursoModulos.value
+                    ),
+
+                porcentaje_aprobacion:
+                    Number(
+                        cursoAprobacion.value
+                    ),
+
+                estado:
+                    cursoEstado.value
+            };
 
 
-                if (!id) {
+            /* ================================================
+               VALIDACIONES FRONTEND
+            ================================================= */
 
-                    return;
+            if (
+                !datos.titulo
+            ) {
 
-                }
+                mostrarMensajeFormulario(
+                    "El nombre del curso es obligatorio.",
+                    "error"
+                );
 
+                cursoNombre.focus();
 
-                if (
-                    accion ===
-                    "editar"
-                ) {
-
-                    abrirEditarCurso(
-                        id
-                    );
-
-                }
-
-
-                if (
-                    accion ===
-                    "estado"
-                ) {
-
-                    cambiarEstadoCurso(
-                        id
-                    );
-
-                }
-
-
-                if (
-                    accion ===
-                    "eliminar"
-                ) {
-
-                    eliminarCurso(
-                        id
-                    );
-
-                }
-
+                return;
             }
-        );
-
-    }
 
 
-    /* ========================================================
-       PAGINACIÓN
-    ======================================================== */
+            if (
+                datos.titulo.length < 3
+            ) {
 
-    function configurarPaginacion() {
+                mostrarMensajeFormulario(
+                    "El nombre del curso debe tener al menos 3 caracteres.",
+                    "error"
+                );
 
-        if (previousPage) {
+                cursoNombre.focus();
 
-            previousPage.addEventListener(
-                "click",
-                () => {
-
-                    if (
-                        paginaActual <= 1
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    paginaActual--;
-
-                    renderizarCursos();
-
-                }
-            );
-
-        }
-
-
-        if (nextPage) {
-
-            nextPage.addEventListener(
-                "click",
-                () => {
-
-                    const totalPaginas =
-                        Math.max(
-                            1,
-                            Math.ceil(
-                                cursosFiltrados.length /
-                                COURSES_PER_PAGE
-                            )
-                        );
-
-
-                    if (
-                        paginaActual >=
-                        totalPaginas
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    paginaActual++;
-
-                    renderizarCursos();
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* ========================================================
-       BOTÓN NUEVO CURSO
-    ======================================================== */
-
-    function configurarNuevoCurso() {
-
-        const boton =
-            document.getElementById(
-                "newCourseButton"
-            );
-
-
-        if (!boton) {
-
-            console.warn(
-                "No se encontró #newCourseButton."
-            );
-
-            return;
-
-        }
-
-
-        boton.addEventListener(
-            "click",
-            abrirNuevoCurso
-        );
-
-    }
-
-
-    /* ========================================================
-       FILTROS
-    ======================================================== */
-
-    function configurarFiltros() {
-
-        if (courseSearch) {
-
-            courseSearch.addEventListener(
-                "input",
-                aplicarFiltros
-            );
-
-        }
-
-
-        if (courseStatus) {
-
-            courseStatus.addEventListener(
-                "change",
-                aplicarFiltros
-            );
-
-        }
-
-    }
-
-
-    /* ========================================================
-       ESCAPE PARA CERRAR MODAL
-    ======================================================== */
-
-    function configurarTeclaEscape() {
-
-        document.addEventListener(
-            "keydown",
-            event => {
-
-                if (
-                    event.key ===
-                    "Escape"
-                ) {
-
-                    cerrarModalCurso();
-
-                }
-
+                return;
             }
-        );
-
-    }
 
 
-    /* ========================================================
-       INICIALIZAR
-    ======================================================== */
+            if (
+                !datos.nivel_dificultad
+            ) {
 
-    function inicializarCursos() {
+                mostrarMensajeFormulario(
+                    "Selecciona el nivel de dificultad.",
+                    "error"
+                );
 
-        obtenerElementos();
+                cursoNivel.focus();
+
+                return;
+            }
 
 
-        if (
-            !validarElementos()
-        ) {
+            if (
+                !Number.isInteger(
+                    datos.duracion
+                ) ||
+                datos.duracion < 1
+            ) {
 
-            return;
+                mostrarMensajeFormulario(
+                    "La duración debe ser un número entero mayor que 0.",
+                    "error"
+                );
+
+                cursoDuracion.focus();
+
+                return;
+            }
+
+
+            if (
+                !Number.isInteger(
+                    datos.numero_modulos
+                ) ||
+                datos.numero_modulos < 1
+            ) {
+
+                mostrarMensajeFormulario(
+                    "El número de módulos debe ser un número entero mayor que 0.",
+                    "error"
+                );
+
+                cursoModulos.focus();
+
+                return;
+            }
+
+
+            if (
+                !Number.isInteger(
+                    datos.porcentaje_aprobacion
+                ) ||
+                datos.porcentaje_aprobacion < 1 ||
+                datos.porcentaje_aprobacion > 100
+            ) {
+
+                mostrarMensajeFormulario(
+                    "El porcentaje de aprobación debe estar entre 1 y 100.",
+                    "error"
+                );
+
+                cursoAprobacion.focus();
+
+                return;
+            }
+
+
+            /* ================================================
+               GUARDAR
+            ================================================= */
+
+            if (id) {
+
+                await editarCurso(
+                    Number(id),
+                    datos
+                );
+
+            } else {
+
+                await crearCurso(
+                    datos
+                );
+            }
 
         }
-
-
-        configurarNuevoCurso();
-
-        configurarFiltros();
-
-        configurarEventosLista();
-
-        configurarPaginacion();
-
-        configurarTeclaEscape();
-
-
-        crearModalCurso();
-
-
-        cargarCursos();
-
-
-        console.log(
-            "courses_admin.js iniciado correctamente."
-        );
-
-    }
+    );
 
 
     /* ========================================================
-       CONTROL DE CARGA
+       BUSCADOR
     ======================================================== */
 
-    if (
-        document.readyState ===
-        "loading"
-    ) {
+    buscarCurso.addEventListener(
+        "input",
+        () => {
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            inicializarCursos
-        );
-
-    } else {
-
-        inicializarCursos();
-
-    }
+            clearTimeout(
+                temporizadorBusqueda
+            );
 
 
-})();
+            temporizadorBusqueda =
+                setTimeout(
+                    () => {
+
+                        cargarCursos();
+
+                    },
+                    350
+                );
+        }
+    );
+
+
+    /* ========================================================
+       FILTRO ESTADO
+    ======================================================== */
+
+    filtroEstadoCurso.addEventListener(
+        "change",
+        cargarCursos
+    );
+
+
+    /* ========================================================
+       FILTRO NIVEL
+    ======================================================== */
+
+    filtroNivelCurso.addEventListener(
+        "change",
+        cargarCursos
+    );
+
+
+    /* ========================================================
+       PÁGINA ANTERIOR
+    ======================================================== */
+
+    paginaAnteriorCurso.addEventListener(
+        "click",
+        () => {
+
+            if (pagina > 1) {
+
+                pagina--;
+
+                aplicarPaginacion();
+            }
+        }
+    );
+
+
+    /* ========================================================
+       PÁGINA SIGUIENTE
+    ======================================================== */
+
+    paginaSiguienteCurso.addEventListener(
+        "click",
+        () => {
+
+            const totalPaginas =
+                Math.max(
+                    1,
+                    Math.ceil(
+                        cursosFiltrados.length /
+                        cursosPorPagina
+                    )
+                );
+
+
+            if (
+                pagina <
+                totalPaginas
+            ) {
+
+                pagina++;
+
+                aplicarPaginacion();
+            }
+        }
+    );
+
+
+    /* ========================================================
+       ESCAPE
+    ======================================================== */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape" &&
+                !cursoModal.hidden
+            ) {
+
+                cerrarModalCurso();
+            }
+        }
+    );
+
+
+    /* ========================================================
+       INICIO
+    ======================================================== */
+
+    cargarCursos();
+
+}
+
+
+/* ============================================================
+   INICIALIZACIÓN
+   COMPATIBLE CON CARGA DINÁMICA DEL PANEL
+============================================================ */
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        inicializarCursos
+    );
+
+} else {
+
+    inicializarCursos();
+
+}

@@ -9,28 +9,36 @@
    ELEMENTOS
    ========================================================= */
 
-const loginForm = document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
 
-const emailInput = document.getElementById("email");
+const emailInput =
+    document.getElementById("email");
 
-const passwordInput = document.getElementById("password");
+const passwordInput =
+    document.getElementById("password");
 
-const rememberInput = document.getElementById("remember");
+const rememberInput =
+    document.getElementById("remember");
 
 
 /* =========================================================
    CREAR MENSAJE
    ========================================================= */
 
-let loginMessage = document.getElementById("loginMessage");
+let loginMessage =
+    document.getElementById("loginMessage");
 
 if (!loginMessage && loginForm) {
 
-    loginMessage = document.createElement("div");
+    loginMessage =
+        document.createElement("div");
 
-    loginMessage.id = "loginMessage";
+    loginMessage.id =
+        "loginMessage";
 
-    loginMessage.className = "login-message";
+    loginMessage.className =
+        "login-message";
 
     const loginButton =
         loginForm.querySelector(".login-button");
@@ -44,8 +52,12 @@ if (!loginMessage && loginForm) {
 
     } else {
 
-        loginForm.appendChild(loginMessage);
+        loginForm.appendChild(
+            loginMessage
+        );
+
     }
+
 }
 
 
@@ -59,10 +71,12 @@ function showMessage(message, type) {
         return;
     }
 
-    loginMessage.textContent = message;
+    loginMessage.textContent =
+        message;
 
     loginMessage.className =
         "login-message " + type;
+
 }
 
 
@@ -72,10 +86,12 @@ function clearMessage() {
         return;
     }
 
-    loginMessage.textContent = "";
+    loginMessage.textContent =
+        "";
 
     loginMessage.className =
         "login-message";
+
 }
 
 
@@ -89,6 +105,7 @@ function validEmail(email) {
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return emailRegex.test(email);
+
 }
 
 
@@ -107,9 +124,9 @@ if (loginForm) {
             clearMessage();
 
 
-            /* =============================================
+            /* =================================================
                OBTENER DATOS
-               ============================================= */
+            ================================================= */
 
             const email =
                 emailInput.value
@@ -120,9 +137,9 @@ if (loginForm) {
                 passwordInput.value;
 
 
-            /* =============================================
+            /* =================================================
                VALIDACIONES
-               ============================================= */
+            ================================================= */
 
             if (!email || !password) {
 
@@ -132,6 +149,7 @@ if (loginForm) {
                 );
 
                 return;
+
             }
 
 
@@ -145,6 +163,7 @@ if (loginForm) {
                 emailInput.focus();
 
                 return;
+
             }
 
 
@@ -158,54 +177,60 @@ if (loginForm) {
                 passwordInput.focus();
 
                 return;
+
             }
 
 
-            /* =============================================
+            /* =================================================
                BOTÓN
-               ============================================= */
+            ================================================= */
 
             const loginButton =
                 loginForm.querySelector(".login-button");
 
             if (loginButton) {
 
-                loginButton.disabled = true;
+                loginButton.disabled =
+                    true;
 
                 loginButton.textContent =
                     "Iniciando sesión...";
+
             }
 
 
             try {
 
-                /* =========================================
+
+                /* =================================================
                    PETICIÓN POST A PHP
-                   ========================================= */
+                ================================================= */
 
-                const response = await fetch(
-                    "../../backend/Api/login.php",
-                    {
-                        method: "POST",
+                const response =
+                    await fetch(
+                        "../../backend/Api/login.php",
+                        {
+                            method: "POST",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-                        credentials: "include",
+                            credentials: "include",
 
-                        body: JSON.stringify({
-                            email: email,
-                            password: password
-                        })
-                    }
-                );
+                            body:
+                                JSON.stringify({
+                                    email: email,
+                                    password: password
+                                })
+                        }
+                    );
 
 
-                /* =========================================
+                /* =================================================
                    LEER RESPUESTA
-                   ========================================= */
+                ================================================= */
 
                 const responseText =
                     await response.text();
@@ -215,7 +240,9 @@ if (loginForm) {
                 try {
 
                     data =
-                        JSON.parse(responseText);
+                        JSON.parse(
+                            responseText
+                        );
 
                 } catch (jsonError) {
 
@@ -227,14 +254,18 @@ if (loginForm) {
                     throw new Error(
                         "El servidor no devolvió una respuesta JSON válida."
                     );
+
                 }
 
 
-                /* =========================================
+                /* =================================================
                    ERROR DE LOGIN
-                   ========================================= */
+                ================================================= */
 
-                if (!response.ok || !data.success) {
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
 
                     showMessage(
                         data.message ||
@@ -244,51 +275,81 @@ if (loginForm) {
 
                     if (loginButton) {
 
-                        loginButton.disabled = false;
+                        loginButton.disabled =
+                            false;
 
                         loginButton.textContent =
                             "Iniciar sesión";
+
                     }
 
                     return;
+
                 }
 
 
-                /* =========================================
+                /* =================================================
                    USUARIO AUTENTICADO
-                   ========================================= */
+                ================================================= */
 
-                const user = data.user;
+                const user =
+                    data.user;
 
 
-                /* =========================================
+                /* =================================================
+                   VERIFICAR INFORMACIÓN RECIBIDA
+                ================================================= */
+
+                if (!user || !user.rol) {
+
+                    console.error(
+                        "Respuesta de login sin información de usuario:",
+                        data
+                    );
+
+                    throw new Error(
+                        "El servidor no devolvió correctamente la información del usuario."
+                    );
+
+                }
+
+
+                /* =================================================
                    INFORMACIÓN PARA FRONTEND
-                   ========================================= */
+                ================================================= */
 
                 const sessionUser = {
 
-                    id: user.id,
+                    id:
+                        user.id,
 
-                    nombres: user.nombres,
+                    nombres:
+                        user.nombres,
 
-                    apellidos: user.apellidos,
+                    apellidos:
+                        user.apellidos,
 
-                    email: user.correo,
+                    email:
+                        user.correo,
 
-                    role: user.rol,
+                    role:
+                        user.rol,
 
                     loginDate:
                         new Date().toISOString()
+
                 };
 
 
                 const sessionData =
-                    JSON.stringify(sessionUser);
+                    JSON.stringify(
+                        sessionUser
+                    );
 
 
-                /* =========================================
+                /* =================================================
                    RECORDAR SESIÓN
-                   ========================================= */
+                ================================================= */
 
                 if (
                     rememberInput &&
@@ -314,12 +375,13 @@ if (loginForm) {
                     localStorage.removeItem(
                         "sah_user"
                     );
+
                 }
 
 
-                /* =========================================
+                /* =================================================
                    MENSAJE ÉXITO
-                   ========================================= */
+                ================================================= */
 
                 showMessage(
                     "Inicio de sesión correcto. Entrando...",
@@ -327,24 +389,41 @@ if (loginForm) {
                 );
 
 
-                /* =========================================
+                /* =================================================
                    REDIRECCIÓN
-                   ========================================= */
+                ================================================= */
 
-                setTimeout(function () {
+                setTimeout(
+                    function () {
 
-                    if (user.rol === "admin") {
 
-                        window.location.href =
-                            "../Interface_Administrador/dashboard.html";
+                        /* =========================================
+                           ADMINISTRADOR
+                        ========================================= */
 
-                    } else {
+                        if (
+                            user.rol === "admin"
+                        ) {
+
+                            window.location.href =
+                                "../Interface_Administrador/panel.html";
+
+                            return;
+
+                        }
+
+
+                        /* =========================================
+                           USUARIO NORMAL
+                        ========================================= */
 
                         window.location.href =
                             "../Interface_User/Curse/course.html";
-                    }
 
-                }, 700);
+
+                    },
+                    700
+                );
 
 
             } catch (error) {
@@ -364,12 +443,17 @@ if (loginForm) {
 
                 if (loginButton) {
 
-                    loginButton.disabled = false;
+                    loginButton.disabled =
+                        false;
 
                     loginButton.textContent =
                         "Iniciar sesión";
+
                 }
+
             }
+
         }
     );
+
 }

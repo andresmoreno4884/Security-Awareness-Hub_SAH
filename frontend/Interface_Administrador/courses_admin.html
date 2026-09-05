@@ -290,6 +290,18 @@
                             </th>
 
                             <th>
+                                DURACIÓN
+                            </th>
+
+                            <th>
+                                MÓDULOS
+                            </th>
+
+                            <th>
+                                APROBACIÓN
+                            </th>
+
+                            <th>
                                 ESTADO
                             </th>
 
@@ -307,10 +319,6 @@
 
 
                     <!--
-                        IMPORTANTE:
-
-                        Este tbody comienza vacío.
-
                         Los cursos serán cargados posteriormente
                         desde MySQL mediante PHP + JSON.
                     -->
@@ -320,7 +328,7 @@
                         <tr>
 
                             <td
-                                colspan="6"
+                                colspan="9"
                                 class="loading-users">
 
                                 Cargando cursos...
@@ -452,7 +460,7 @@
                         id="cursoId">
 
 
-                    <!-- NOMBRE -->
+                    <!-- NOMBRE DEL CURSO -->
 
                     <div class="form-group">
 
@@ -494,12 +502,12 @@
                     <div class="form-group">
 
                         <label for="cursoNivel">
-                            Nivel
+                            Nivel de dificultad
                         </label>
 
                         <select
                             id="cursoNivel"
-                            name="nivel"
+                            name="nivel_dificultad"
                             title="Seleccionar nivel del curso"
                             required>
 
@@ -544,6 +552,50 @@
                     </div>
 
 
+                    <!-- NÚMERO DE MÓDULOS -->
+
+                    <div class="form-group">
+
+                        <label for="cursoModulos">
+                            Número de módulos
+                        </label>
+
+                        <input
+                            type="number"
+                            id="cursoModulos"
+                            name="numero_modulos"
+                            placeholder="Ejemplo: 5"
+                            min="1"
+                            max="999"
+                            required>
+
+                    </div>
+
+
+                    <!-- PORCENTAJE DE APROBACIÓN -->
+
+                    <div class="form-group">
+
+                        <label for="cursoAprobacion">
+                            Porcentaje de aprobación
+                        </label>
+
+                        <input
+                            type="number"
+                            id="cursoAprobacion"
+                            name="porcentaje_aprobacion"
+                            placeholder="Ejemplo: 70"
+                            min="1"
+                            max="100"
+                            required>
+
+                        <small>
+                            Porcentaje mínimo necesario para aprobar el curso.
+                        </small>
+
+                    </div>
+
+
                     <!-- ESTADO -->
 
                     <div class="form-group">
@@ -584,28 +636,23 @@
                          BOTONES
                     ================================================== -->
 
-                    <div class="user-modal-actions">
+                    <div class="admin-modal-actions">
 
-                        <button
-                            type="button"
-                            class="modal-button secondary"
-                            id="cancelarCurso">
+    <button
+        type="button"
+        id="cancelarCurso"
+        class="admin-secondary-button">
+        Cancelar
+    </button>
 
-                            Cancelar
+    <button
+        type="submit"
+        id="guardarCurso"
+        class="admin-primary-button">
+        Crear curso
+    </button>
 
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="modal-button primary"
-                            id="guardarCurso">
-
-                            Crear curso
-
-                        </button>
-
-                    </div>
+</div>
 
                 </form>
 
