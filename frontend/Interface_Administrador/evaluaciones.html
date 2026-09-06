@@ -529,7 +529,7 @@
                     </div>
 
 
-                    <!-- NÚMERO DE PREGUNTAS -->
+                    <!-- NÚMERO DE PREGUNTAS (informativo, se recalcula solo) -->
 
                     <div class="form-group">
 
@@ -541,9 +541,67 @@
                             type="number"
                             id="evaluacionPreguntas"
                             name="preguntas"
-                            placeholder="Ingrese el número de preguntas"
+                            placeholder="Se calcula automáticamente"
                             min="1"
-                            required>
+                            readonly>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PREGUNTAS Y OPCIONES
+                         (bloques generados dinámicamente por JS)
+                    ================================================== -->
+
+                    <div class="form-group preguntas-section">
+
+                        <div class="preguntas-section-header">
+
+                            <label>
+                                Preguntas de la evaluación
+                            </label>
+
+                            <button
+                                type="button"
+                                class="modal-button secondary"
+                                id="btnAgregarPregunta">
+
+                                + Agregar pregunta
+
+                            </button>
+
+                        </div>
+
+
+                        <p class="preguntas-section-hint">
+                            Cada pregunta necesita mínimo 2 opciones,
+                            con exactamente una marcada como correcta.
+                        </p>
+
+
+                        <!--
+                            IMPORTANTE:
+
+                            Este contenedor comienza vacío.
+
+                            Los bloques de pregunta/opción son
+                            generados e insertados aquí mediante
+                            evaluaciones.js
+                        -->
+
+                        <div
+                            id="preguntasContainer"
+                            class="preguntas-container">
+                        </div>
+
+
+                        <p
+                            id="preguntasEmptyHint"
+                            class="preguntas-empty-hint">
+
+                            Aún no has agregado ninguna pregunta.
+
+                        </p>
 
                     </div>
 
@@ -619,6 +677,8 @@
 
 
     </section>
+
+<script src="js/evaluaciones.js"></script>
 
 </body>
 

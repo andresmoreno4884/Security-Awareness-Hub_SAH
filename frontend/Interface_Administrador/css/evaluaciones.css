@@ -1181,3 +1181,294 @@ body {
     background: var(--green-bright);
     color: #00150c;
 }
+
+
+
+/* ============================================================
+   PREGUNTAS Y OPCIONES (dentro del modal de evaluación)
+   ============================================================ */
+
+   .preguntas-section {
+    padding: 14px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: rgba(0, 255, 136, 0.02);
+}
+
+.preguntas-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 6px;
+}
+
+.preguntas-section-header label {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.preguntas-section-header .modal-button {
+    min-width: unset;
+    min-height: 30px;
+    padding: 0 12px;
+
+    font-size: 10px;
+}
+
+.preguntas-section-hint {
+    margin-bottom: 12px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+.preguntas-empty-hint {
+    padding: 14px 0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    text-align: center;
+}
+
+.preguntas-container:not(:empty) + .preguntas-empty-hint,
+.preguntas-container.has-preguntas + .preguntas-empty-hint {
+    display: none;
+}
+
+.preguntas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* ============================================================
+   BLOQUE DE UNA PREGUNTA
+   ============================================================ */
+
+.pregunta-block {
+    padding: 12px;
+
+    border: 1px solid var(--green-border);
+    border-radius: var(--radius-sm);
+
+    background: var(--bg-card);
+}
+
+.pregunta-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+.pregunta-numero {
+    color: var(--green);
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn-eliminar-pregunta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 26px;
+    height: 26px;
+
+    border: 1px solid rgba(255, 92, 108, 0.3);
+    border-radius: 7px;
+
+    background: transparent;
+    color: var(--danger);
+
+    font-size: 13px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-eliminar-pregunta:hover {
+    border-color: var(--danger);
+
+    background: rgba(255, 92, 108, 0.08);
+}
+
+.pregunta-enunciado {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 9px 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    outline: none;
+
+    background: var(--bg-input);
+    color: var(--text-main);
+
+    font-family: inherit;
+    font-size: 11px;
+
+    transition: border-color 0.2s ease;
+}
+
+.pregunta-enunciado:focus {
+    border-color: var(--green);
+}
+
+.pregunta-enunciado::placeholder {
+    color: #587068;
+}
+
+
+/* ============================================================
+   OPCIONES DE UNA PREGUNTA
+   ============================================================ */
+
+.opciones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    margin-bottom: 9px;
+}
+
+.opcion-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.opcion-row input[type="radio"] {
+    flex-shrink: 0;
+
+    width: 15px;
+    height: 15px;
+
+    accent-color: var(--green);
+
+    cursor: pointer;
+}
+
+.opcion-texto {
+    flex: 1;
+    min-width: 0;
+
+    padding: 7px 10px;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    outline: none;
+
+    background: var(--bg-input);
+    color: var(--text-main);
+
+    font-family: inherit;
+    font-size: 10px;
+
+    transition: border-color 0.2s ease;
+}
+
+.opcion-texto:focus {
+    border-color: var(--green);
+}
+
+.opcion-texto::placeholder {
+    color: #587068;
+}
+
+.btn-eliminar-opcion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 24px;
+    height: 24px;
+
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+
+    background: transparent;
+    color: var(--text-secondary);
+
+    font-size: 11px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-eliminar-opcion:hover {
+    border-color: var(--danger);
+
+    color: var(--danger);
+}
+
+.btn-agregar-opcion {
+    align-self: flex-start;
+
+    display: inline-flex;
+    align-items: center;
+
+    height: 26px;
+    padding: 0 11px;
+
+    border: 1px dashed var(--green-border);
+    border-radius: 6px;
+
+    background: transparent;
+    color: var(--green);
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-agregar-opcion:hover {
+    border-color: var(--green);
+    border-style: solid;
+
+    background: var(--green-soft);
+}
+
+
+/* ============================================================
+   ERROR DE VALIDACIÓN (por pregunta)
+   ============================================================ */
+
+.pregunta-error {
+    margin-top: 7px;
+
+    color: var(--danger);
+
+    font-size: 9px;
+}

@@ -8,7 +8,9 @@
 
 header("Content-Type: application/json; charset=UTF-8");
 
-require_once __DIR__ . "/../Config/Database.php";
+session_start();
+
+require_once __DIR__ . "/../Config/database.php";
 
 
 /* ============================================================
@@ -31,6 +33,44 @@ function respuesta($success, $message = "", $data = [], $status = 200)
     );
 
     exit;
+}
+
+
+/* ============================================================
+   VERIFICAR SESIÓN
+============================================================ */
+
+if (
+    !isset($_SESSION["authenticated"]) ||
+    $_SESSION["authenticated"] !== true
+) {
+
+    respuesta(
+        false,
+        "No hay una sesión activa.",
+        [],
+        401
+    );
+
+}
+
+
+/* ============================================================
+   VERIFICAR ROL ADMINISTRADOR
+============================================================ */
+
+if (
+    !isset($_SESSION["rol"]) ||
+    $_SESSION["rol"] !== "admin"
+) {
+
+    respuesta(
+        false,
+        "No tienes permisos para administrar cursos.",
+        [],
+        403
+    );
+
 }
 
 
