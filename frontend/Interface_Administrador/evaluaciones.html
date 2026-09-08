@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Evaluaciones | Security Awareness Hub
+    </title>
+
+    <!-- CSS específico de evaluaciones -->
+    <link
+        rel="stylesheet"
+        href="css/evaluaciones.css?v=2">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         EVALUACIONES
+         SECURITY AWARENESS HUB
+    ====================================================== -->
+
+    <section class="admin-view">
+
+
+        <!-- =================================================
+             ENCABEZADO
+        ================================================== -->
+
+        <div class="dashboard-heading">
+
+            <div>
+
+                <span class="section-label">
+                    EVALUACIONES
+                </span>
+
+                <h2>
+                    Evaluaciones
+                </h2>
+
+                <p>
+                    Gestiona las evaluaciones asociadas a los
+                    cursos de seguridad digital.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="admin-button"
+                id="btnNuevaEvaluacion">
+
+                + Crear evaluación
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             INDICADORES
+        ================================================== -->
+
+        <div class="dashboard-cards">
+
+
+            <!-- TOTAL EVALUACIONES -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        EVALUACIONES
+                    </span>
+
+                    <strong id="totalEvaluaciones">
+                        0
+                    </strong>
+
+                    <small>
+                        Evaluaciones creadas
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL PREGUNTAS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <span>
+                        PREGUNTAS
+                    </span>
+
+                    <strong id="totalPreguntas">
+                        0
+                    </strong>
+
+                    <small>
+                        Preguntas registradas
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVALUACIONES ACTIVAS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <span>
+                        ACTIVAS
+                    </span>
+
+                    <strong id="evaluacionesActivas">
+                        0
+                    </strong>
+
+                    <small>
+                        Evaluaciones activas
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FILTROS
+        ================================================== -->
+
+        <div class="users-toolbar">
+
+
+            <!-- BUSCADOR -->
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="search"
+                    id="buscarEvaluacion"
+                    placeholder="Buscar evaluación..."
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <select
+                class="users-filter"
+                id="filtroEstadoEvaluacion"
+                title="Filtrar evaluaciones por estado">
+
+                <option value="todos">
+                    Todos los estados
+                </option>
+
+                <option value="activo">
+                    Activas
+                </option>
+
+                <option value="inactivo">
+                    Inactivas
+                </option>
+
+            </select>
+
+
+            <!-- CURSO -->
+
+            <select
+                class="users-filter"
+                id="filtroCursoEvaluacion"
+                title="Filtrar evaluaciones por curso">
+
+                <option value="todos">
+                    Todos los cursos
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             DIRECTORIO DE EVALUACIONES
+        ================================================== -->
+
+        <div class="dashboard-card users-table-card">
+
+
+            <!-- HEADER -->
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="section-label">
+                        DIRECTORIO
+                    </span>
+
+                    <h3>
+                        Evaluaciones disponibles
+                    </h3>
+
+                </div>
+
+
+                <span
+                    class="card-period"
+                    id="contadorEvaluaciones">
+
+                    Cargando...
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLA
+            ================================================== -->
+
+            <div class="table-wrapper">
+
+                <table class="users-table evaluations-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EVALUACIÓN
+                            </th>
+
+                            <th>
+                                CURSO
+                            </th>
+
+                            <th>
+                                PREGUNTAS
+                            </th>
+
+                            <th>
+                                ESTADO
+                            </th>
+
+                            <th>
+                                FECHA DE REGISTRO
+                            </th>
+
+                            <th>
+                                ACCIONES
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!--
+                        IMPORTANTE:
+
+                        Este tbody comienza vacío.
+
+                        Las evaluaciones serán cargadas posteriormente
+                        desde MySQL mediante PHP + JSON.
+                    -->
+
+                    <tbody id="evaluacionesTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="loading-users">
+
+                                Cargando evaluaciones...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER DE TABLA
+            ================================================== -->
+
+            <div class="table-footer">
+
+                <span id="evaluacionesMostradas">
+                    Cargando evaluaciones...
+                </span>
+
+
+                <div class="pagination">
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaAnteriorEvaluacion"
+                        disabled>
+
+                        ←
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button active"
+                        id="paginaActualEvaluacion">
+
+                        1
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaSiguienteEvaluacion"
+                        disabled>
+
+                        →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ESTADO VACÍO
+        ================================================== -->
+
+        <div
+            class="dashboard-panel"
+            id="evaluacionesEmptyState"
+            hidden>
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    No hay evaluaciones creadas
+                </h3>
+
+                <p>
+                    Las evaluaciones creadas por el administrador
+                    aparecerán en esta sección.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MODAL NUEVA / EDITAR EVALUACIÓN
+        ================================================== -->
+
+        <div
+            class="user-modal"
+            id="evaluacionModal"
+            hidden>
+
+            <div class="user-modal-overlay"></div>
+
+
+            <div
+                class="user-modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalEvaluacionTitulo">
+
+
+                <!-- =================================================
+                     HEADER MODAL
+                ================================================== -->
+
+                <div class="user-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <h3 id="modalEvaluacionTitulo">
+                            Nueva evaluación
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="cerrarEvaluacionModal"
+                        aria-label="Cerrar">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORMULARIO
+                ================================================== -->
+
+                <form id="formEvaluacion">
+
+
+                    <!-- ID OCULTO -->
+
+                    <input
+                        type="hidden"
+                        id="evaluacionId">
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionNombre">
+                            Nombre de la evaluación
+                        </label>
+
+                        <input
+                            type="text"
+                            id="evaluacionNombre"
+                            name="nombre"
+                            placeholder="Ingrese el nombre de la evaluación"
+                            maxlength="150"
+                            required>
+
+                    </div>
+
+
+                    <!-- CURSO -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionCurso">
+                            Curso asociado
+                        </label>
+
+                        <select
+                            id="evaluacionCurso"
+                            name="curso"
+                            title="Seleccionar curso"
+                            required>
+
+                            <option value="">
+                                Seleccione un curso
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESCRIPCIÓN -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionDescripcion">
+                            Descripción
+                        </label>
+
+                        <textarea
+                            id="evaluacionDescripcion"
+                            name="descripcion"
+                            placeholder="Ingrese una descripción"
+                            maxlength="500"
+                            rows="4"></textarea>
+
+                    </div>
+
+
+                    <!-- NÚMERO DE PREGUNTAS (informativo, se recalcula solo) -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionPreguntas">
+                            Número de preguntas
+                        </label>
+
+                        <input
+                            type="number"
+                            id="evaluacionPreguntas"
+                            name="preguntas"
+                            placeholder="Se calcula automáticamente"
+                            min="1"
+                            readonly>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PREGUNTAS Y OPCIONES
+                         (bloques generados dinámicamente por JS)
+                    ================================================== -->
+
+                    <div class="form-group preguntas-section">
+
+                        <div class="preguntas-section-header">
+
+                            <label>
+                                Preguntas de la evaluación
+                            </label>
+
+                            <button
+                                type="button"
+                                class="modal-button secondary"
+                                id="btnAgregarPregunta">
+
+                                + Agregar pregunta
+
+                            </button>
+
+                        </div>
+
+
+                        <p class="preguntas-section-hint">
+                            Cada pregunta necesita mínimo 2 opciones,
+                            con exactamente una marcada como correcta.
+                        </p>
+
+
+                        <!--
+                            IMPORTANTE:
+
+                            Este contenedor comienza vacío.
+
+                            Los bloques de pregunta/opción son
+                            generados e insertados aquí mediante
+                            evaluaciones.js
+                        -->
+
+                        <div
+                            id="preguntasContainer"
+                            class="preguntas-container">
+                        </div>
+
+
+                        <p
+                            id="preguntasEmptyHint"
+                            class="preguntas-empty-hint">
+
+                            Aún no has agregado ninguna pregunta.
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+
+                    <div class="form-group">
+
+                        <label for="evaluacionEstado">
+                            Estado
+                        </label>
+
+                        <select
+                            id="evaluacionEstado"
+                            name="estado"
+                            title="Seleccionar estado"
+                            required>
+
+                            <option value="activo">
+                                Activa
+                            </option>
+
+                            <option value="inactivo">
+                                Inactiva
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MENSAJE -->
+
+                    <div
+                        id="evaluacionFormMessage"
+                        class="user-form-message"
+                        aria-live="polite">
+                    </div>
+
+
+                    <!-- =================================================
+                         BOTONES
+                    ================================================== -->
+
+                    <div class="user-modal-actions">
+
+                        <button
+                            type="button"
+                            class="modal-button secondary"
+                            id="cancelarEvaluacion">
+
+                            Cancelar
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="modal-button primary"
+                            id="guardarEvaluacion">
+
+                            Crear evaluación
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+<script src="js/evaluaciones.js"></script>
+
+</body>
+
+</html>

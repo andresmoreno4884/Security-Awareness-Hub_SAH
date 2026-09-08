@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Reportes | Security Awareness Hub
+    </title>
+
+    <!-- CSS específico de reportes -->
+    <link
+        rel="stylesheet"
+        href="css/reportes.css">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         REPORTES
+         SECURITY AWARENESS HUB
+    ====================================================== -->
+
+    <section class="admin-view">
+
+        <!-- =================================================
+             ENCABEZADO
+        ================================================== -->
+
+        <div class="dashboard-heading">
+
+            <span class="section-label">
+                ANALÍTICA
+            </span>
+
+            <h2>
+                Reportes
+            </h2>
+
+            <p>
+                Consulta información general sobre usuarios,
+                cursos, evaluaciones y resultados.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             FILTROS
+        ================================================== -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="section-label">
+                        FILTROS
+                    </span>
+
+                    <h3>
+                        Generar reporte
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-filters">
+
+                <!-- TIPO DE REPORTE -->
+
+                <div class="form-group">
+
+                    <label for="reportType">
+                        Tipo de reporte
+                    </label>
+
+                    <select
+                        id="reportType"
+                        name="reportType">
+
+                        <option value="">
+                            Selecciona un reporte
+                        </option>
+
+                        <option value="usuarios">
+                            Usuarios
+                        </option>
+
+                        <option value="cursos">
+                            Cursos
+                        </option>
+
+                        <option value="evaluaciones">
+                            Evaluaciones
+                        </option>
+
+                        <option value="resultados">
+                            Resultados
+                        </option>
+
+                        <option value="capacitacion">
+                            Progreso de capacitación
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PERIODO -->
+
+                <div class="form-group">
+
+                    <label for="reportPeriod">
+                        Periodo
+                    </label>
+
+                    <select
+                        id="reportPeriod"
+                        name="reportPeriod">
+
+                        <option value="all">
+                            Todo el periodo
+                        </option>
+
+                        <option value="month">
+                            Este mes
+                        </option>
+
+                        <option value="quarter">
+                            Últimos 3 meses
+                        </option>
+
+                        <option value="year">
+                            Este año
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BOTÓN -->
+
+                <button
+                    type="button"
+                    class="admin-button"
+                    id="btnGenerarReporte">
+
+                    Generar reporte
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INDICADORES
+        ================================================== -->
+
+        <div class="dashboard-cards">
+
+
+            <!-- USUARIOS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ♙
+                </div>
+
+                <div>
+
+                    <span>
+                        USUARIOS
+                    </span>
+
+                    <strong id="reporteTotalUsuarios">
+                        0
+                    </strong>
+
+                    <small>
+                        Usuarios registrados
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- CURSOS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <span>
+                        CURSOS
+                    </span>
+
+                    <strong id="reporteTotalCursos">
+                        0
+                    </strong>
+
+                    <small>
+                        Cursos disponibles
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROMEDIO -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    %
+                </div>
+
+                <div>
+
+                    <span>
+                        PROMEDIO
+                    </span>
+
+                    <strong id="reportePromedio">
+                        0%
+                    </strong>
+
+                    <small>
+                        Promedio de resultados
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RESULTADO DEL REPORTE
+        ================================================== -->
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="section-label">
+                        REPORTE
+                    </span>
+
+                    <h3>
+                        Información generada
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ESTADO INICIAL
+            ================================================== -->
+
+            <div
+                class="empty-state"
+                id="reportEmptyState">
+
+                <div class="empty-icon">
+                    ▥
+                </div>
+
+                <h3>
+                    No hay información para mostrar
+                </h3>
+
+                <p>
+                    Selecciona el tipo de reporte y genera la
+                    información correspondiente.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULTADOS
+            ================================================== -->
+
+            <div
+                class="report-results"
+                id="reportResults"
+                hidden>
+
+                <div class="table-wrapper">
+
+                    <table class="users-table reports-table">
+
+                        <thead id="reportTableHead">
+                        </thead>
+
+                        <tbody id="reportTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>

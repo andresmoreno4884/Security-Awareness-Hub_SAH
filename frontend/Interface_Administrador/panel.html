@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Panel Administrador | Security Awareness Hub
+    </title>
+
+    <!-- Estilos generales del panel -->
+    <link
+        rel="stylesheet"
+        href="css/Dashboard.css">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         PANEL ADMINISTRATIVO
+         SECURITY AWARENESS HUB
+    ====================================================== -->
+
+    <div class="admin-layout">
+
+
+        <!-- =================================================
+             BARRA LATERAL
+        ================================================== -->
+
+        <aside class="admin-sidebar">
+
+
+            <!-- LOGO / IDENTIDAD -->
+
+            <div class="admin-brand">
+
+                <div class="admin-brand-icon">
+                    SAH
+                </div>
+
+                <div>
+
+                    <strong>
+                        Security
+                    </strong>
+
+                    <span>
+                        Awareness Hub
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFIL ADMINISTRADOR -->
+
+            <div class="admin-profile">
+
+                <div class="profile-avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        Administrador
+                    </strong>
+
+                    <span>
+                        Panel administrativo
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 NAVEGACIÓN
+            ================================================== -->
+
+            <nav class="admin-navigation">
+
+                <span class="navigation-title">
+                    PRINCIPAL
+                </span>
+
+
+                <!-- DASHBOARD -->
+
+                <a
+                    href="#dashboard"
+                    class="nav-item active"
+                    data-view="dashboard">
+
+                    <span class="nav-icon">
+                        ▦
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <span class="navigation-title">
+                    ADMINISTRACIÓN
+                </span>
+
+
+                <!-- USUARIOS -->
+
+                <a
+                    href="#usuarios"
+                    class="nav-item"
+                    data-view="usuarios">
+
+                    <span class="nav-icon">
+                        ♙
+                    </span>
+
+                    <span>
+                        Usuarios
+                    </span>
+
+                </a>
+
+
+                <!-- EMPRESAS -->
+
+                <a
+                    href="#empresas"
+                    class="nav-item"
+                    data-view="empresas">
+
+                    <span class="nav-icon">
+                        ▤
+                    </span>
+
+                    <span>
+                        Empresas
+                    </span>
+
+                </a>
+
+
+                <!-- CURSOS -->
+
+                <a
+                    href="#courses_admin"
+                    class="nav-item"
+                    data-view="courses_admin">
+
+                    <span class="nav-icon">
+                        ▣
+                    </span>
+
+                    <span>
+                        Cursos
+                    </span>
+
+                </a>
+
+
+                <!-- EVALUACIONES -->
+
+                <a
+                    href="#evaluaciones"
+                    class="nav-item"
+                    data-view="evaluaciones">
+
+                    <span class="nav-icon">
+                        ✓
+                    </span>
+
+                    <span>
+                        Evaluaciones
+                    </span>
+
+                </a>
+
+
+                <!-- ASIGNACIONES -->
+
+                <a
+                    href="#asignaciones"
+                    class="nav-item"
+                    data-view="asignaciones">
+
+                    <span class="nav-icon">
+                        ⇄
+                    </span>
+
+                    <span>
+                        Asignaciones
+                    </span>
+
+                </a>
+
+
+                <!-- RESULTADOS -->
+
+                <a
+                    href="#resultados"
+                    class="nav-item"
+                    data-view="resultados">
+
+                    <span class="nav-icon">
+                        %
+                    </span>
+
+                    <span>
+                        Resultados
+                    </span>
+
+                </a>
+
+
+                <!-- REPORTES -->
+
+                <a
+                    href="#reportes"
+                    class="nav-item"
+                    data-view="reportes">
+
+                    <span class="nav-icon">
+                        ▤
+                    </span>
+
+                    <span>
+                        Reportes
+                    </span>
+
+                </a>
+
+            </nav>
+
+
+            <!-- =================================================
+                 PARTE INFERIOR
+            ================================================== -->
+
+            <div class="sidebar-footer">
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                    class="logout-button">
+
+                    <span>
+                        ⇥
+                    </span>
+
+                    <span>
+                        Cerrar sesión
+                    </span>
+
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             CONTENIDO PRINCIPAL
+        ================================================== -->
+
+        <main class="admin-main">
+
+
+            <!-- HEADER -->
+
+            <header class="admin-topbar">
+
+                <div>
+
+                    <span class="topbar-label">
+                        ADMINISTRACIÓN
+                    </span>
+
+                    <h1>
+                        Security Awareness Hub
+                    </h1>
+
+                </div>
+
+
+                <div class="topbar-status">
+
+                    <span class="status-dot"></span>
+
+                    <span>
+                        Administrador
+                    </span>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 CONTENIDO DINÁMICO
+            ================================================== -->
+
+            <section
+                id="admin-content"
+                class="admin-content">
+
+                <!-- El dashboard se carga inicialmente -->
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT PRINCIPAL
+    ====================================================== -->
+
+    <script
+        src="js/dashboard.js">
+    </script>
+
+</body>
+
+</html>

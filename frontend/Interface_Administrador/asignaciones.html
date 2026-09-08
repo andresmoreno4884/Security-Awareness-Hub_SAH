@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Asignaciones | Security Awareness Hub</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/asignaciones.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         ASIGNACIONES
+         SECURITY AWARENESS HUB
+         ===================================================== -->
+
+    <section class="admin-view">
+
+        <!-- =================================================
+             ENCABEZADO
+             ================================================= -->
+
+        <div class="dashboard-heading">
+
+            <div>
+
+                <span class="section-label">
+                    GESTIÓN DE CAPACITACIÓN
+                </span>
+
+                <h2>
+                    Asignaciones
+                </h2>
+
+                <p>
+                    Asigna cursos y evaluaciones a los usuarios
+                    de la plataforma.
+                </p>
+
+            </div>
+
+            <div class="admin-actions">
+
+                <button
+                    type="button"
+                    class="admin-button"
+                    id="btnNuevaAsignacion">
+
+                    + Nueva asignación
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INDICADORES
+             ================================================= -->
+
+        <div class="dashboard-cards">
+
+            <!-- ASIGNACIONES -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        ASIGNACIONES
+                    </span>
+
+                    <strong id="totalAsignaciones">
+                        0
+                    </strong>
+
+                    <small>
+                        Asignaciones registradas
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVAS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <span>
+                        ACTIVAS
+                    </span>
+
+                    <strong id="asignacionesActivas">
+                        0
+                    </strong>
+
+                    <small>
+                        Asignaciones activas
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETADAS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ★
+                </div>
+
+                <div>
+
+                    <span>
+                        COMPLETADAS
+                    </span>
+
+                    <strong id="asignacionesCompletadas">
+                        0
+                    </strong>
+
+                    <small>
+                        Capacitaciones completadas
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FILTROS
+             ================================================= -->
+
+        <div class="users-toolbar">
+
+            <!-- BUSCADOR -->
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="search"
+                    id="buscarAsignacion"
+                    placeholder="Buscar usuario o curso..."
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <select
+                class="users-filter"
+                id="filtroEstadoAsignacion"
+                title="Filtrar por estado">
+
+                <option value="todos">
+                    Todos los estados
+                </option>
+
+                <option value="pendiente">
+                    Pendientes
+                </option>
+
+                <option value="progreso">
+                    En progreso
+                </option>
+
+                <option value="completado">
+                    Completadas
+                </option>
+
+            </select>
+
+
+            <!-- TIPO -->
+
+            <select
+                class="users-filter"
+                id="filtroTipoAsignacion"
+                title="Filtrar por tipo">
+
+                <option value="todos">
+                    Todos los tipos
+                </option>
+
+                <option value="curso">
+                    Cursos
+                </option>
+
+                <option value="evaluacion">
+                    Evaluaciones
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             DIRECTORIO DE ASIGNACIONES
+             ================================================= -->
+
+        <div class="dashboard-card users-table-card">
+
+            <!-- HEADER -->
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="section-label">
+                        DIRECTORIO
+                    </span>
+
+                    <h3>
+                        Asignaciones registradas
+                    </h3>
+
+                </div>
+
+                <span
+                    class="card-period"
+                    id="contadorAsignaciones">
+
+                    Cargando...
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLA
+                 ================================================= -->
+
+            <div class="table-wrapper">
+
+                <table class="users-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                USUARIO
+                            </th>
+
+                            <th>
+                                CURSO
+                            </th>
+
+                            <th>
+                                TIPO
+                            </th>
+
+                            <th>
+                                ESTADO
+                            </th>
+
+                            <th>
+                                FECHA DE ASIGNACIÓN
+                            </th>
+
+                            <th>
+                                ACCIONES
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!--
+                        IMPORTANTE:
+
+                        Este tbody comienza vacío.
+
+                        Los datos serán cargados posteriormente
+                        mediante JavaScript + PHP + JSON + MySQL.
+                    -->
+
+                    <tbody id="asignacionesTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="loading-users">
+
+                                Cargando asignaciones...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER TABLA
+                 ================================================= -->
+
+            <div class="table-footer">
+
+                <span id="asignacionesMostradas">
+
+                    Cargando asignaciones...
+
+                </span>
+
+
+                <div class="pagination">
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaAnteriorAsignaciones"
+                        disabled>
+
+                        ←
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button active"
+                        id="paginaActualAsignaciones">
+
+                        1
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="pagination-button"
+                        id="paginaSiguienteAsignaciones"
+                        disabled>
+
+                        →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MODAL NUEVA ASIGNACIÓN
+             ================================================= -->
+
+        <div
+            class="user-modal"
+            id="asignacionModal"
+            hidden>
+
+            <!-- OVERLAY -->
+
+            <div
+                class="user-modal-overlay"
+                id="asignacionModalOverlay">
+            </div>
+
+
+            <!-- CONTENIDO -->
+
+            <div
+                class="user-modal-content"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalAsignacionTitulo">
+
+
+                <!-- =================================================
+                     HEADER MODAL
+                     ================================================= -->
+
+                <div class="user-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <h3 id="modalAsignacionTitulo">
+                            Nueva asignación
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="cerrarAsignacionModal"
+                        aria-label="Cerrar">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORMULARIO
+                     ================================================= -->
+
+                <form id="formAsignacion">
+
+                    <!-- ID OCULTO -->
+
+                    <input
+                        type="hidden"
+                        id="asignacionId">
+
+
+                    <!-- USUARIO -->
+
+                    <div class="form-group">
+
+                        <label for="asignacionUsuario">
+                            Usuario
+                        </label>
+
+                        <select
+                            id="asignacionUsuario"
+                            name="usuario_id"
+                            title="Seleccionar usuario"
+                            required>
+
+                            <option value="">
+                                Seleccione un usuario
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CURSO -->
+
+                    <div class="form-group">
+
+                        <label for="asignacionCurso">
+                            Curso
+                        </label>
+
+                        <select
+                            id="asignacionCurso"
+                            name="curso_id"
+                            title="Seleccionar curso"
+                            required>
+
+                            <option value="">
+                                Seleccione un curso
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- TIPO -->
+
+                    <div class="form-group">
+
+                        <label for="asignacionTipo">
+                            Tipo de asignación
+                        </label>
+
+                        <select
+                            id="asignacionTipo"
+                            name="tipo"
+                            title="Seleccionar tipo de asignación"
+                            required>
+
+                            <option value="curso">
+                                Curso
+                            </option>
+
+                            <option value="evaluacion">
+                                Evaluación
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- FECHA -->
+
+                    <div class="form-group">
+
+                        <label for="asignacionFecha">
+                            Fecha de asignación
+                        </label>
+
+                        <input
+                            type="date"
+                            id="asignacionFecha"
+                            name="fecha_asignacion"
+                            required>
+
+                    </div>
+
+
+                    <!-- ESTADO -->
+
+                    <div class="form-group">
+
+                        <label for="asignacionEstado">
+                            Estado
+                        </label>
+
+                        <select
+                            id="asignacionEstado"
+                            name="estado"
+                            title="Seleccionar estado"
+                            required>
+
+                            <option value="pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="progreso">
+                                En progreso
+                            </option>
+
+                            <option value="completado">
+                                Completado
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MENSAJE -->
+
+                    <div
+                        id="asignacionFormMessage"
+                        class="user-form-message"
+                        aria-live="polite">
+                    </div>
+
+
+                    <!-- =================================================
+                         BOTONES
+                         ================================================= -->
+
+                    <div class="user-modal-actions">
+
+                        <button
+                            type="button"
+                            class="modal-button secondary"
+                            id="cancelarAsignacion">
+
+                            Cancelar
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="modal-button primary"
+                            id="guardarAsignacion">
+
+                            Crear asignación
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</body>
+
+</html>

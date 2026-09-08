@@ -1,0 +1,1051 @@
+/* ============================================================
+   SECURITY AWARENESS HUB
+   EMPRESAS - ESTILOS DEL PANEL ADMINISTRADOR
+   ============================================================ */
+
+
+/* ============================================================
+   VARIABLES
+   ============================================================ */
+
+   :root {
+    --bg-main: #020605;
+    --bg-panel: #04100b;
+    --bg-card: #06150e;
+    --bg-input: #071710;
+
+    --green: #00ff88;
+    --green-main: #18e879;
+    --green-soft: #43e27c;
+
+    --green-border: rgba(0, 255, 136, 0.28);
+    --green-border-soft: rgba(0, 255, 136, 0.14);
+
+    --text-main: #f4f7f5;
+    --text-secondary: #9aa8a1;
+    --text-muted: #64736b;
+
+    --danger: #ff5c5c;
+    --warning: #ffc857;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+
+    --shadow-panel:
+        0 18px 45px rgba(0, 0, 0, 0.35);
+
+    --transition: 0.2s ease;
+}
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(0, 255, 136, 0.035),
+            transparent 38%
+        ),
+        var(--bg-main);
+
+    color: var(--text-main);
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    min-height: 100vh;
+}
+
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
+
+.admin-view {
+    width: min(100% - 48px, 1020px);
+
+    margin: 0 auto;
+
+    padding:
+        46px 0
+        70px;
+}
+
+
+/* ============================================================
+   ENCABEZADO
+   ============================================================ */
+
+.dashboard-heading {
+    position: relative;
+
+    margin-bottom: 28px;
+}
+
+.section-label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--green);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.dashboard-heading h2 {
+    margin: 0;
+
+    color: var(--text-main);
+
+    font-size: clamp(34px, 4vw, 46px);
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    letter-spacing: -1.5px;
+}
+
+.dashboard-heading p {
+    max-width: 650px;
+
+    margin: 12px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   ACCIONES
+   ============================================================ */
+
+.admin-actions {
+    display: flex;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    margin-top: -68px;
+    margin-bottom: 30px;
+}
+
+.admin-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding: 0 20px;
+
+    border: 1px solid var(--green-main);
+    border-radius: 9px;
+
+    background: var(--green-main);
+    color: #001b0e;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+.admin-button:hover {
+    background: #31f08a;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 255, 136, 0.16);
+}
+
+.admin-button:active {
+    transform: translateY(0);
+}
+
+
+/* ============================================================
+   TARJETAS DE ESTADÍSTICAS
+   ============================================================ */
+
+.dashboard-cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+
+/*
+   Si Empresas utiliza solamente 4 estadísticas,
+   las cuatro quedan perfectamente distribuidas.
+*/
+
+.dashboard-card {
+    position: relative;
+
+    min-height: 108px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(6, 21, 14, 0.98),
+            rgba(3, 13, 9, 0.98)
+        );
+
+    border: 1px solid var(--green-border);
+
+    border-radius: var(--radius-md);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.015);
+
+    transition:
+        border-color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.dashboard-card:hover {
+    border-color: rgba(0, 255, 136, 0.48);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ============================================================
+   ICONOS DE ESTADÍSTICAS
+   ============================================================ */
+
+.card-icon {
+    flex: 0 0 42px;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(0, 255, 136, 0.35);
+
+    border-radius: 10px;
+
+    background:
+        rgba(0, 255, 136, 0.035);
+
+    color: var(--green);
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   TEXTO DE LAS ESTADÍSTICAS
+   ============================================================ */
+
+.dashboard-card > div:last-child {
+    min-width: 0;
+}
+
+.dashboard-card span {
+    display: block;
+}
+
+.dashboard-card span:first-child {
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 3px;
+}
+
+.dashboard-card strong {
+    display: block;
+
+    color: var(--text-main);
+
+    font-size: 24px;
+    line-height: 1.1;
+
+    font-weight: 800;
+}
+
+.dashboard-card small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--text-secondary);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   FILTROS
+   ============================================================ */
+
+.admin-filters {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        160px;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+}
+
+
+/* BUSCADOR */
+
+.search-box {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+}
+
+.search-box::before {
+    content: "⌕";
+
+    position: absolute;
+
+    left: 14px;
+
+    color: var(--green);
+
+    font-size: 14px;
+
+    pointer-events: none;
+}
+
+.search-box input {
+    width: 100%;
+
+    height: 46px;
+
+    padding:
+        0 15px 0 40px;
+
+    border:
+        1px solid var(--green-border-soft);
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: var(--bg-input);
+
+    color: var(--text-main);
+
+    font-family: inherit;
+    font-size: 12px;
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.search-box input::placeholder {
+    color: #597066;
+}
+
+.search-box input:hover {
+    border-color: rgba(0, 255, 136, 0.28);
+}
+
+.search-box input:focus {
+    border-color: var(--green);
+
+    background: #081b13;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 255, 136, 0.06);
+}
+
+
+/* SELECT */
+
+.admin-filters select,
+.filter-select,
+select {
+    height: 46px;
+
+    width: 100%;
+
+    padding:
+        0 35px 0 13px;
+
+    border:
+        1px solid var(--green-border-soft);
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background-color: var(--bg-input);
+
+    color: var(--text-secondary);
+
+    font-family: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.admin-filters select:hover,
+.filter-select:hover,
+select:hover {
+    border-color: rgba(0, 255, 136, 0.32);
+
+    color: var(--text-main);
+}
+
+.admin-filters select:focus,
+.filter-select:focus,
+select:focus {
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 3px rgba(0, 255, 136, 0.06);
+}
+
+select option {
+    background: #07120d;
+    color: var(--text-main);
+}
+
+
+/* ============================================================
+   PANEL PRINCIPAL
+   ============================================================ */
+
+.dashboard-panel {
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(5, 18, 12, 0.98),
+            rgba(2, 10, 7, 0.98)
+        );
+
+    border:
+        1px solid var(--green-border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-panel);
+}
+
+
+/* ============================================================
+   CABECERA DEL PANEL
+   ============================================================ */
+
+.panel-header {
+    min-height: 88px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 22px;
+
+    border-bottom:
+        1px solid var(--green-border-soft);
+}
+
+.panel-header h3 {
+    margin: 4px 0 0;
+
+    color: var(--text-main);
+
+    font-size: 17px;
+    font-weight: 800;
+
+    letter-spacing: -0.3px;
+}
+
+
+/* ============================================================
+   ESTADO DE CARGA
+   ============================================================ */
+
+.loading-status {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 26px;
+
+    padding: 0 11px;
+
+    border:
+        1px solid rgba(0, 255, 136, 0.3);
+
+    border-radius: 20px;
+
+    background:
+        rgba(0, 255, 136, 0.035);
+
+    color: var(--green);
+
+    font-size: 8px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   TABLA
+   ============================================================ */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.dashboard-panel table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+.dashboard-panel thead {
+    background:
+        rgba(0, 255, 136, 0.018);
+}
+
+.dashboard-panel th {
+    padding:
+        13px 15px;
+
+    border-bottom:
+        1px solid var(--green-border-soft);
+
+    color: #71847a;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.dashboard-panel td {
+    padding:
+        15px;
+
+    border-bottom:
+        1px solid rgba(0, 255, 136, 0.07);
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    vertical-align: middle;
+}
+
+.dashboard-panel tbody tr {
+    transition:
+        background var(--transition);
+}
+
+.dashboard-panel tbody tr:hover {
+    background:
+        rgba(0, 255, 136, 0.025);
+}
+
+.dashboard-panel tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ============================================================
+   ESTADO VACÍO
+   ============================================================ */
+
+.empty-state {
+    min-height: 290px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 20px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    border:
+        1px solid rgba(0, 255, 136, 0.32);
+
+    border-radius: 12px;
+
+    background:
+        rgba(0, 255, 136, 0.025);
+
+    color: var(--green);
+
+    font-size: 20px;
+}
+
+.empty-state h3 {
+    margin: 0;
+
+    color: var(--text-main);
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.empty-state p {
+    max-width: 390px;
+
+    margin: 8px 0 18px;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   BOTÓN DEL ESTADO VACÍO
+   ============================================================ */
+
+.empty-state .admin-button {
+    min-height: 38px;
+
+    padding: 0 17px;
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   PAGINACIÓN
+   ============================================================ */
+
+.pagination {
+    min-height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    padding:
+        10px 18px;
+
+    border-top:
+        1px solid rgba(0, 255, 136, 0.07);
+}
+
+.pagination button {
+    min-width: 30px;
+    height: 30px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(0, 255, 136, 0.10);
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #718078;
+
+    font-family: inherit;
+    font-size: 10px;
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition),
+        color var(--transition),
+        background var(--transition);
+}
+
+.pagination button:hover:not(:disabled) {
+    border-color:
+        rgba(0, 255, 136, 0.35);
+
+    color: var(--green);
+
+    background:
+        rgba(0, 255, 136, 0.035);
+}
+
+.pagination button.active {
+    border-color: var(--green);
+
+    color: var(--green);
+
+    background:
+        rgba(0, 255, 136, 0.035);
+}
+
+.pagination button:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   BADGES DE ESTADO
+   ============================================================ */
+
+.status-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 23px;
+
+    padding: 0 9px;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.status-active,
+.status-activa {
+    border:
+        1px solid rgba(0, 255, 136, 0.28);
+
+    background:
+        rgba(0, 255, 136, 0.045);
+
+    color: var(--green);
+}
+
+.status-inactive,
+.status-inactiva {
+    border:
+        1px solid rgba(255, 92, 92, 0.25);
+
+    background:
+        rgba(255, 92, 92, 0.04);
+
+    color: var(--danger);
+}
+
+
+/* ============================================================
+   PROGRESO
+   ============================================================ */
+
+.progress-wrapper {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.progress-bar {
+    width: 75px;
+    height: 5px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+}
+
+.progress-bar span {
+    display: block;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--green);
+
+    transition: width 0.4s ease;
+}
+
+.progress-value {
+    color: var(--text-main);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   ACCIONES DE TABLA
+   ============================================================ */
+
+.table-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+.table-action {
+    width: 29px;
+    height: 29px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(0, 255, 136, 0.12);
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #738279;
+
+    cursor: pointer;
+
+    transition:
+        color var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+}
+
+.table-action:hover {
+    border-color:
+        rgba(0, 255, 136, 0.35);
+
+    color: var(--green);
+
+    background:
+        rgba(0, 255, 136, 0.035);
+}
+
+
+/* ============================================================
+   RESPONSIVE - TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .admin-view {
+        width: min(100% - 32px, 760px);
+
+        padding-top: 35px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-filters {
+        grid-template-columns:
+            1fr 150px;
+    }
+
+    .admin-actions {
+        margin-top: 20px;
+
+        justify-content: flex-start;
+    }
+
+    .dashboard-heading h2 {
+        font-size: 36px;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE - CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .admin-view {
+        width: min(100% - 24px, 500px);
+
+        padding:
+            28px 0
+            45px;
+    }
+
+    .dashboard-heading {
+        margin-bottom: 20px;
+    }
+
+    .dashboard-heading h2 {
+        font-size: 31px;
+    }
+
+    .dashboard-heading p {
+        font-size: 12px;
+    }
+
+    .admin-actions {
+        margin-top: 0;
+
+        margin-bottom: 20px;
+    }
+
+    .admin-button {
+        width: 100%;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .dashboard-card {
+        min-height: 92px;
+    }
+
+    .admin-filters {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
+
+    .panel-header {
+        min-height: 0;
+
+        padding: 17px;
+    }
+
+    .panel-header h3 {
+        font-size: 15px;
+    }
+
+    .loading-status {
+        display: none;
+    }
+
+    .dashboard-panel table {
+        min-width: 720px;
+    }
+
+    .dashboard-panel {
+        overflow-x: auto;
+    }
+
+    .empty-state {
+        min-height: 250px;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}
