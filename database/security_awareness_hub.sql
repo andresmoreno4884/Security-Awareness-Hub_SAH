@@ -264,3 +264,21 @@ CREATE TABLE IF NOT EXISTS empresas (
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+-- Asignaciones
+-- ============================================================
+
+CREATE TABLE asignaciones (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    usuario_id INT(11) NOT NULL,
+    curso_id INT(11) NOT NULL,
+    estado ENUM('asignado','en_progreso','completado','cancelado') NOT NULL DEFAULT 'asignado',
+    fecha_asignacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_finalizacion TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_usuario_curso (usuario_id, curso_id),
+    KEY idx_usuario_id (usuario_id),
+    KEY idx_curso_id (curso_id),
+    KEY idx_estado (estado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
