@@ -1,82 +1,73 @@
--- ============================================================
--- SECURITY AWARENESS HUB (SAH)
--- BASE DE DATOS
--- SENA ADSO
--- ============================================================
-
-DROP DATABASE IF EXISTS security_awareness_hub;
-
-CREATE DATABASE security_awareness_hub
+CREATE DATABASE IF NOT EXISTS security_awareness_hub
 CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_general_ci;
 
 USE security_awareness_hub;
 
 
--- ============================================================
--- TABLA: USUARIOS
--- ============================================================
+-- =========================================================
+-- 1. EMPRESAS
+-- =========================================================
 
-CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombres VARCHAR(100) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    correo VARCHAR(150) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    rol ENUM('usuario', 'admin')
-        NOT NULL DEFAULT 'usuario',
-    estado ENUM('activo', 'inactivo')
-        NOT NULL DEFAULT 'activo',
-    fecha_registro TIMESTAMP
-        DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE empresas (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(150) NOT NULL,
+    nit VARCHAR(30) NOT NULL,
+    correo VARCHAR(150) NOT NULL,
+    telefono VARCHAR(30) DEFAULT NULL,
+    direccion VARCHAR(200) DEFAULT NULL,
+    tipo ENUM('privada','publica','mixta') NOT NULL DEFAULT 'privada',
+    estado ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
+    fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY nit (nit)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+COLLATE=utf8mb4_general_ci;
 
 
--- ============================================================
--- USUARIO ADMINISTRADOR INICIAL
--- ============================================================
+-- =========================================================
+-- 2. USUARIOS
+-- =========================================================
 
-INSERT INTO usuarios (
-    nombres,
-    apellidos,
-    correo,
-    password,
-    rol,
-    estado
-)
-VALUES (
-    'Administrador',
-    'SAH',
-    'admin@sah.com',
-    '$2y$12$awlzns0sJO9ICU3Y.SfiXe4Ia3PhyHVLMsuOgw4rmfMv3ivoR/lcS',
-    'admin',
-    'activo'
-);
+CREATE TABLE usuarios (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    nombres VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    correo VARCHAR(150) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+
+    rol ENUM(
+        'admin',
+        'admin_empresa',
+        'empleado'
+    ) NOT NULL DEFAULT 'empleado',
+
+    empresa_id INT(11) DEFAULT NULL,
+
+    estado ENUM(
+        'activo',
+        'inactivo'
+    ) NOT NULL DEFAULT 'activo',
+
+    fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY correo (correo),
+    KEY idx_empresa_id (empresa_id)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
 
 
--- ============================================================
--- VERIFICACIÓN
--- ============================================================
+-- =========================================================
+-- 3. CURSOS
+-- =========================================================
 
-SELECT
-    id,
-    nombres,
-    apellidos,
-    correo,
-    rol,
-    estado,
-    fecha_registro
-FROM usuarios;
-
-USE security_awareness_hub;
-
-CREATE TABLE IF NOT EXISTS cursos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-
+CREATE TABLE cursos (
+    id INT(11) NOT NULL AUTO_INCREMENT,
     titulo VARCHAR(150) NOT NULL,
-
     descripcion TEXT NOT NULL,
 
     nivel_dificultad ENUM(
@@ -85,200 +76,199 @@ CREATE TABLE IF NOT EXISTS cursos (
         'avanzado'
     ) NOT NULL DEFAULT 'basico',
 
-    duracion INT NOT NULL,
-
-    numero_modulos INT NOT NULL DEFAULT 1,
-
-    porcentaje_aprobacion INT NOT NULL DEFAULT 70,
+    duracion INT(11) NOT NULL,
+    numero_modulos INT(11) NOT NULL DEFAULT 1,
+    porcentaje_aprobacion INT(11) NOT NULL DEFAULT 70,
 
     estado ENUM(
         'activo',
         'inactivo'
     ) NOT NULL DEFAULT 'activo',
 
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+COLLATE=utf8mb4_general_ci;
 
 
-USE security_awareness_hub;
+-- =========================================================
+-- 4. EVALUACIONES
+-- =========================================================
 
-INSERT INTO cursos (
-    titulo,
-    descripcion,
-    nivel_dificultad,
-    duracion,
-    numero_modulos,
-    porcentaje_aprobacion,
-    estado
-)
-VALUES (
-    'Fundamentos de Ciberseguridad',
-    'Introducción a los conceptos básicos de seguridad digital.',
-    'basico',
-    5,
-    5,
-    70,
-    'activo'
-);
-
-
-INSERT INTO cursos (
-    titulo,
-    descripcion,
-    nivel_dificultad,
-    duracion,
-    numero_modulos,
-    porcentaje_aprobacion,
-    estado
-)
-VALUES (
-    'Seguridad de Contraseñas',
-    'Aprende a crear, gestionar y proteger contraseñas seguras para evitar accesos no autorizados.',
-    'basico',
-    4,
-    4,
-    70,
-    'activo'
-);
-
--- ============================================================
--- TABLA: EVALUACIONES
--- ============================================================
-
-CREATE TABLE IF NOT EXISTS evaluaciones (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-
-    curso_id INT NOT NULL,
-
+CREATE TABLE evaluaciones (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    curso_id INT(11) NOT NULL,
     titulo VARCHAR(150) NOT NULL,
-
     descripcion TEXT NOT NULL,
-
-    porcentaje_aprobacion INT NOT NULL DEFAULT 70,
+    porcentaje_aprobacion INT(11) NOT NULL DEFAULT 70,
 
     estado ENUM(
         'activo',
         'inactivo'
     ) NOT NULL DEFAULT 'activo',
 
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_evaluaciones_curso
-        FOREIGN KEY (curso_id)
-        REFERENCES cursos(id)
-
+    PRIMARY KEY (id),
+    KEY idx_curso_id (curso_id)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+COLLATE=utf8mb4_general_ci;
 
 
--- ============================================================
--- TABLA: PREGUNTAS
--- ============================================================
+-- =========================================================
+-- 5. PREGUNTAS
+-- =========================================================
 
-CREATE TABLE IF NOT EXISTS preguntas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-
-    evaluacion_id INT NOT NULL,
-
+CREATE TABLE preguntas (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    evaluacion_id INT(11) NOT NULL,
     enunciado TEXT NOT NULL,
+    orden INT(11) NOT NULL DEFAULT 1,
+    fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    orden INT NOT NULL DEFAULT 1,
-
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_preguntas_evaluacion
-        FOREIGN KEY (evaluacion_id)
-        REFERENCES evaluaciones(id)
-        ON DELETE CASCADE
-
+    PRIMARY KEY (id),
+    KEY idx_evaluacion_id (evaluacion_id)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+COLLATE=utf8mb4_general_ci;
 
 
--- ============================================================
--- TABLA: OPCIONES
--- ============================================================
+-- =========================================================
+-- 6. OPCIONES
+-- =========================================================
 
-CREATE TABLE IF NOT EXISTS opciones (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-
-    pregunta_id INT NOT NULL,
-
+CREATE TABLE opciones (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    pregunta_id INT(11) NOT NULL,
     texto VARCHAR(255) NOT NULL,
-
     es_correcta TINYINT(1) NOT NULL DEFAULT 0,
+    orden INT(11) NOT NULL DEFAULT 1,
 
-    orden INT NOT NULL DEFAULT 1,
-
-    CONSTRAINT fk_opciones_pregunta
-        FOREIGN KEY (pregunta_id)
-        REFERENCES preguntas(id)
-        ON DELETE CASCADE
-
+    PRIMARY KEY (id),
+    KEY idx_pregunta_id (pregunta_id)
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+COLLATE=utf8mb4_general_ci;
 
 
--- ============================================================
--- ÍNDICES DE APOYO (mejoran el rendimiento de consultas frecuentes)
--- ============================================================
-
-CREATE INDEX idx_evaluaciones_curso ON evaluaciones(curso_id);
-CREATE INDEX idx_preguntas_evaluacion ON preguntas(evaluacion_id);
-CREATE INDEX idx_opciones_pregunta ON opciones(pregunta_id);
-
-USE security_awareness_hub;
-
-CREATE TABLE IF NOT EXISTS empresas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-
-    nombre VARCHAR(150) NOT NULL,
-
-    nit VARCHAR(30) NOT NULL UNIQUE,
-
-    correo VARCHAR(150) NOT NULL,
-
-    telefono VARCHAR(30) DEFAULT NULL,
-
-    direccion VARCHAR(200) DEFAULT NULL,
-
-    tipo ENUM(
-        'privada',
-        'publica',
-        'mixta'
-    ) NOT NULL DEFAULT 'privada',
-
-    estado ENUM(
-        'activo',
-        'inactivo'
-    ) NOT NULL DEFAULT 'activo',
-
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
-
--- ============================================================
--- Asignaciones
--- ============================================================
+-- =========================================================
+-- 7. ASIGNACIONES
+-- =========================================================
 
 CREATE TABLE asignaciones (
     id INT(11) NOT NULL AUTO_INCREMENT,
     usuario_id INT(11) NOT NULL,
     curso_id INT(11) NOT NULL,
-    estado ENUM('asignado','en_progreso','completado','cancelado') NOT NULL DEFAULT 'asignado',
+
+    estado ENUM(
+        'asignado',
+        'en_progreso',
+        'completado',
+        'cancelado'
+    ) NOT NULL DEFAULT 'asignado',
+
     fecha_asignacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_finalizacion TIMESTAMP NULL DEFAULT NULL,
+
     PRIMARY KEY (id),
-    UNIQUE KEY unique_usuario_curso (usuario_id, curso_id),
+
+    UNIQUE KEY unique_usuario_curso (
+        usuario_id,
+        curso_id
+    ),
+
     KEY idx_usuario_id (usuario_id),
     KEY idx_curso_id (curso_id),
     KEY idx_estado (estado)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+-- =========================================================
+-- 8. PROGRESO
+-- =========================================================
+
+CREATE TABLE progreso (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    asignacion_id INT(11) NOT NULL,
+
+    porcentaje INT(11) NOT NULL DEFAULT 0,
+    modulos_completados INT(11) NOT NULL DEFAULT 0,
+
+    ultima_actividad TIMESTAMP NULL DEFAULT NULL,
+
+    fecha_actualizacion TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    UNIQUE KEY unique_asignacion (
+        asignacion_id
+    ),
+
+    KEY idx_asignacion_id (asignacion_id),
+    KEY idx_porcentaje (porcentaje)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+-- =========================================================
+-- 9. RESULTADOS DE EVALUACIONES
+-- =========================================================
+
+CREATE TABLE resultados_evaluaciones (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+
+    asignacion_id INT(11) NOT NULL,
+    evaluacion_id INT(11) NOT NULL,
+
+    puntaje INT(11) NOT NULL DEFAULT 0,
+    aprobado TINYINT(1) NOT NULL DEFAULT 0,
+
+    intento INT(11) NOT NULL DEFAULT 1,
+
+    fecha_presentacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    KEY idx_asignacion_id (asignacion_id),
+    KEY idx_evaluacion_id (evaluacion_id),
+    KEY idx_aprobado (aprobado),
+    KEY idx_fecha_presentacion (fecha_presentacion)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+-- =========================================================
+-- 10. ACTIVIDAD DE ACCESO
+-- =========================================================
+
+CREATE TABLE actividad_acceso (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+
+    usuario_id INT(11) NOT NULL,
+
+    tipo ENUM(
+        'login',
+        'logout'
+    ) NOT NULL,
+
+    fecha_acceso TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    ip VARCHAR(45) DEFAULT NULL,
+
+    PRIMARY KEY (id),
+
+    KEY idx_usuario_id (usuario_id),
+    KEY idx_tipo (tipo),
+    KEY idx_fecha_acceso (fecha_acceso)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
